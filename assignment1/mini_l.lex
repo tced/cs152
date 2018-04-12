@@ -5,6 +5,7 @@
 		     list of tokens identified from an
 		     inputted Mini_L program.
   [a-zA-Z0-9_]*([a-zA-Z0-9])+
+  ""#"*[ \t]*" "*(" "*[a-z]|[A-Z]|[0-9])*
 */
 
  
@@ -19,7 +20,8 @@ identifier ([a-z]|[A-Z])+?"_"*[a-zA-Z0-9]+
 
 endsw_ ([a-z]|[A-Z])+"_"
 beginsw ("_"|[0-9])+
-comment "##""#"*" "*(" "*[a-z]|[A-Z]|[0-9])*
+comment "##""#"*[ \t]*" "*(" "*[a-z]|[A-Z]|[0-9])*
+commentb ^"##".*
 
 %%
 "function"			{cout << "FUNCTION " << endl; col += yyleng;}
@@ -74,7 +76,7 @@ comment "##""#"*" "*(" "*[a-z]|[A-Z]|[0-9])*
 "]"				{cout << "R_SQUARE_BRACKET " << endl; col += yyleng;}
 ":="				{cout << "ASSIGN " << endl; col += yyleng;}
 
-
+{commentb}			{/* ignore comment block*/ col = 0; linenum++;}
 {comment}			{/*ignore comment----add blank spaces*/ col = 0; linenum++;}
 [ \t]+				{ /*ignore tabs*/ col += yyleng;}
 "\n"				{linenum++; col = 0;}
