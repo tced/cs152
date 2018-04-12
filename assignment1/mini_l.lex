@@ -4,6 +4,7 @@
 	Description: This lexical analyzer outputs the
 		     list of tokens identified from an
 		     inputted Mini_L program.
+  [a-zA-Z0-9_]*([a-zA-Z0-9])+
 */
 
  
@@ -14,7 +15,11 @@
 %}
 number	[0-9]
 alphabet [a-z]|[A-Z]
-identifier ([a-z]|[A-Z])+?"_"*?[0-9]*([a-z]|[A-Z])*
+identifier ([a-z]|[A-Z])+?"_"*[a-zA-Z0-9]+
+
+endsw_ ([a-z]|[A-Z])+"_"
+beginsw ("_"|[0-9])+
+comment "##""#"*" "*(" "*[a-z]|[A-Z]|[0-9])*
 
 %%
 "function"			{cout << "FUNCTION " << endl; col += yyleng;}
@@ -70,12 +75,11 @@ identifier ([a-z]|[A-Z])+?"_"*?[0-9]*([a-z]|[A-Z])*
 ":="				{cout << "ASSIGN " << endl; col += yyleng;}
 
 
-"##""#"+			{/*ignore comment----add blank spaces*/ linenum++;}
+{comment}			{/*ignore comment----add blank spaces*/ col = 0; linenum++;}
 [ \t]+				{ /*ignore tabs*/ col += yyleng;}
-"\n"				{linenum++; col = 1;}
-"_"{number}*?{alphabet}+	{cout << "Error at line " << linenum << ", column " << col << ": identifier " << yytext << " must begin with a letter" << endl; exit(0);}
-{alphabet}+"_"			{cout << "Error at line " << linenum << ", column " << col << ": identifier " << yytext << " cannot end with an underscore" << endl; exit(0);}
-{number}+?"_"?{alphabet}+	{cout << "Error at line " << linenum << ", column " << col << ": identifier " << yytext << " must begin with a letter" << endl; exit(0);}
+"\n"				{linenum++; col = 0;}
+{beginsw}            		{cout << "Error at line " << linenum << ", column " << col << ": identifer " <<  yytext << " must begin with a letter\n"; exit(0);}
+{endsw_}			{cout << "Error at line " << linenum << ", column " << col << ": identifier " << yytext << " cannot end with an underscore" << endl; exit(0);}
 .				{cout << "Error at line " << linenum << ", column " << col << ": unrecognized symbol " << yytext << endl; exit(0);}
 
 
