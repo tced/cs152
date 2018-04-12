@@ -14,7 +14,7 @@
 %}
 number	[0-9]
 alphabet [a-z]|[A-Z]
-identifier alphabet?"_"?number
+identifier alphabet[a-z][A-Z]?"_"?number[0-9]
 
 %%
 "function"			{cout << "FUNCTION " << endl; col += yyleng;}
@@ -74,6 +74,7 @@ identifier alphabet?"_"?number
 [ \t]+				{ /*ignore tabs*/ col += yyleng;}
 "\n"				{linenum++; col = 1;}
 "_"{number}?{alphabet}+		{cout << "Error at line " << linenum << ", column " << col << ": identifier " << yytext << " must begin with a letter" << endl; exit(0);}
+{number}+{alphabet}+            {cout << "Error at line " << linenum << ", column " << col << ": identifer " <<  yytext << " must begin with a letter\n"; exit(0);}
 {alphabet}+"_"			{cout << "Error at line " << linenum << ", column " << col << ": identifier " << yytext << " cannot end with an underscore" << endl; exit(0);}
 .				{cout << "Error at line " << linenum << ", column " << col << ": unrecognized symbol " << yytext << endl; exit(0);}
 
