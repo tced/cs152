@@ -16,12 +16,9 @@
 %}
 number	[0-9]
 alphabet [a-z]|[A-Z]
-identifier ([a-z]|[A-Z])+?"_"*[a-zA-Z0-9]+
-
-endsw_ ([a-z]|[A-Z])+"_"
-beginsw ("_"|[0-9])+
-comment "##""#"*[ \t]*" "*(" "*[a-z]|[A-Z]|[0-9])*
-commentb ^"##".*
+underscore "_"
+identifier   {alphabet}+(({underscore}|{number})+({alphabet}|{number}))*
+comment "##"+.*
 
 %%
 "function"			{cout << "FUNCTION " << endl; col += yyleng;}
@@ -76,12 +73,11 @@ commentb ^"##".*
 "]"				{cout << "R_SQUARE_BRACKET " << endl; col += yyleng;}
 ":="				{cout << "ASSIGN " << endl; col += yyleng;}
 
-{commentb}			{/* ignore comment block*/ col = 0; linenum++;}
 {comment}			{/*ignore comment----add blank spaces*/ col = 0; linenum++;}
 [ \t]+				{ /*ignore tabs*/ col += yyleng;}
 "\n"				{linenum++; col = 0;}
-{beginsw}            		{cout << "Error at line " << linenum << ", column " << col << ": identifer " <<  yytext << " must begin with a letter\n"; exit(0);}
-{endsw_}			{cout << "Error at line " << linenum << ", column " << col << ": identifier " << yytext << " cannot end with an underscore" << endl; exit(0);}
+({number}|{underscore})+{identifier}*   	{cout << "Error at line " << linenum << ", column " << col << ": identifer " <<  yytext << " must begin with a letter\n"; exit(0);}
+{identifier}{underscore}+		{cout << "Error at line " << linenum << ", column " << col << ": identifier " << yytext << " cannot end with an underscore" << endl; exit(0);}
 .				{cout << "Error at line " << linenum << ", column " << col << ": unrecognized symbol " << yytext << endl; exit(0);}
 
 
