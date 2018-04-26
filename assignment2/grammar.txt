@@ -1,0 +1,7 @@
+List of grammar rules
+
+Program -> Functions
+
+Functions -> function Functions | epsilon
+
+Function ->
