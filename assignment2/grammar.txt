@@ -2,6 +2,37 @@ List of grammar rules
 
 Program -> Functions
 
-Functions -> function Functions | epsilon
+Functions -> Function Functions | epsilon
 
-Function ->
+Function -> function identifier semicolon beginparams Declaration1 endparams beginlocals Declaration2 endlocals beginbody Statement1 semicolon endbody
+
+Declaration1 -> Declaration semicolon Declaration1 | epsilon
+
+Declaration2 -> Declaration semicolon Declaration2 | epsilon
+
+Statement1 -> Statement semicolon Statement1 | Statement semicolon
+
+Declaration -> identifier comma Declaration 
+		| identifier colon integer 
+		| identifier colon array left_sqr_bracket number right_sqr_bracker of integer
+
+Statement -> Var1 assign Expression1 
+		| if Bool-Exp1 then Statement2 endif
+		| while Bool-Exp1 beginloop Statement3 endloop
+		| do beginloop Statement3 endloop while Bool-Exp1
+		| read Var1
+		| write Var1
+		| continue
+		| return Expression1
+
+Var1 ->
+
+Expression1 ->
+
+Statement2 -> Statement semicolon | else Statement2
+
+Statement3 -> Statement semicolon Statement3 | Statement semicolon
+
+Bool-Exp1 -> Relation-And-Expr | Relation-And-Expr or Relation-And-Expr
+
+
