@@ -46,4 +46,16 @@ Declaration: IDENTIFIERS COMMA Declaration {cout << "IDENT " <<*($1) << " COMMA 
             | IDENTIFIERS COLON INTEGER
             | IDENTIFIERS COLON array L_SQUARE_BRACKET number R_SQUARE_BRACKET OF INTEGER 
             
-
+%%
+int yyerror(string s)
+{
+   extern int row, column; 
+   extern char *yytext;
+   
+   cerr << "SYNTAX(PARSER) Error at line ""<<row<<", column "<<column<<" : Unexpected Symbol \"" << yytext << "\" Encountered." << endl; 
+   exit(1); 
+}
+int yyerror(char *s)
+{
+  return yyerror(string(s)); 
+ }
