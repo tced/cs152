@@ -3,7 +3,7 @@
 #include <stdlib.h>
 int yylex(void);
 void yyerror(const char *s); 
-extern int currLine, currPos;
+extern int linenum, col;
 FILE *yyin;  
 %}
 
@@ -123,7 +123,7 @@ Var: identifier {printf("Var->identifier\n";)}
 %%
 void yyerror(const char* s)
 {
-   printf("** Line %d, position %d: %s\n", currLine, currPos, s); 
+   printf("** Line %d, position %d: %s\n", linenum, col, s); 
 }
 
 int main(int argc, char **argv) {
