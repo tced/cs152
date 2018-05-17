@@ -2,17 +2,16 @@ Program -> Functions
 
 Functions -> Function Functions | epsilon
 
-Function -> function identifier SEMICOLON BEGIN_PARAMS Declaration1 END_PARAMS BEGIN_LOCALS Declaration2 END_LOCALS BEGIN_BODY Statement1 SEMICOLON END_BODY
+Function -> FUNCTION identifier SEMICOLON BEGIN_PARAMS Declaration1 END_PARAMS BEGIN_LOCALS Declaration2 END_LOCALS BEGIN_BODY Statement1 END_BODY
 
 Declaration1 -> Declaration SEMICOLON Declaration1 | epsilon
 
-Declaration2 -> Declaration SEMICOLON Declaration2 | epsilon
+Declaration -> Identifier COMMA Declaration
+                        | Identifier COLON TYPE
+                        | identifier COLON array L_SQUARE_BRACKET number                      R_SQUARE_BRACKET OF integer
+
 
 Statement1 -> Statement SEMICOLON Statement1 | Statement SEMICOLON
-
-Declaration -> identifier COMMA Declaration
-                        | identifier COLON integer
-                        | identifier COLON array L_SQUARE_BRACKET number                      R_SQUARE_BRACKET OF integer
 
 Statement -> Var1 ASSIGN Expression
                        | IF Bool-Expr THEN Statement2 ENDIF
