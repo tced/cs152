@@ -4,10 +4,13 @@
 */
 
 %{
-	#include "y.tab.h"
+	#include <stdio.h>
+ 	#include <stdlib.h>
+        int yylex(void); 
+        #include "y.tab.h"
+        int yyerror(char *s); 
+%}  
 	int linenum = 1, col = 1;
-%}
-
 number [0-9]
 underscore "_"
 identifier [a-zA-Z]+([_0-9]+[a-zA-Z0-9])*
@@ -56,8 +59,8 @@ comment "##"+.*
 "<="				{col += yyleng; return LTE;}
 ">="				{col += yyleng; return GTE;}
 
-{number}+			{col += yyleng; yylval.num_val = atof(yytext); return NUMBER;}
-{identifier}			{col += yyleng; yylval.sval = atof(yytext); return IDENT;}
+{number}+			{col += yyleng; yylval.sval = yytext; return NUMBER;}
+{identifier}			{col += yyleng; yylval.sval = yytext; return IDENT;}
 ";"				{col += yyleng; return SEMICOLON;}
 ":"				{col += yyleng; return COLON;}
 ","				{col += yyleng; return COMMA;}
@@ -68,13 +71,10 @@ comment "##"+.*
 ":="				{col += yyleng; return ASSIGN;}
 
 {comment}			{/*ignore comment*/ col = 1; linenum++;}
-"\n"				{linenum++; col = 1; return END;}
+"\n"				{linenum++; col = 1;}
 ({number}|{underscore})+{identifier}*   {printf("Error at line %d, column %d: identifer \"%s\" must begin with a letter\n", linenum, col, yytext); exit(0);}
-{identifier}{underscore}+	{printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore", linenum, col, yytext); exit(0);
+{identifier}{underscore}+	{printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore", linenum, col, yytext); exit(0);}
 [ \t]+	{/*ignore spaces*/ col += yyleng;}
 .	{printf("Error at line %d column %d: unrecognied symbol \"%s\"\n", linenum, col, yytext); exit(0);}
 
 %%
-int yyparse();
-
-	
