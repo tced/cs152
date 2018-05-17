@@ -4,7 +4,8 @@
 #include <string.h>
 int yylex(void);
 void yyerror(const char *s); 
-extern int linenum, col;
+extern int linenum;
+extern int col;
 FILE *yyin;  
 %}
 

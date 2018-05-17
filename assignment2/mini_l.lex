@@ -70,10 +70,10 @@ comment "##"+.*
 "]"				{col += yyleng; return R_SQUARE_BRACKET;}
 ":="				{col += yyleng; return ASSIGN;}
 
-{comment}			{/*ignore comment*/ col = 1; linenum++;}
-"\n"				{linenum++; col = 1;}
+{comment}			{/*ignore comment*/ col = 1;}
+"\n"				{ linenum++; col = 1;}
 ({number}|{underscore})+{identifier}*   {printf("Error at line %d, column %d: identifer \"%s\" must begin with a letter\n", linenum, col, yytext); exit(0);}
-{identifier}{underscore}+	{printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore", linenum, col, yytext); exit(0);}
+{identifier}{underscore}+	{printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore\n", linenum, col, yytext); exit(0);}
 [ \t]+	{/*ignore spaces*/ col += yyleng;}
 .	{printf("Error at line %d column %d: unrecognied symbol \"%s\"\n", linenum, col, yytext); exit(0);}
 

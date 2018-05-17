@@ -1135,13 +1135,13 @@ YY_RULE_SETUP
 case 49:
 YY_RULE_SETUP
 #line 73 "mini_l.lex"
-{/*ignore comment*/ col = 1; linenum++;}
+{/*ignore comment*/ col = 1;}
 	YY_BREAK
 case 50:
 /* rule 50 can match eol */
 YY_RULE_SETUP
 #line 74 "mini_l.lex"
-{linenum++; col = 1;}
+{ linenum++; col = 1;}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
@@ -1151,7 +1151,7 @@ YY_RULE_SETUP
 case 52:
 YY_RULE_SETUP
 #line 76 "mini_l.lex"
-{printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore", linenum, col, yytext); exit(0);}
+{printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore\n", linenum, col, yytext); exit(0);}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
