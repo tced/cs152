@@ -1,38 +1,60 @@
-List of grammar rules
-
 Program -> Functions
 
 Functions -> Function Functions | epsilon
 
-Function -> function identifier semicolon beginparams Declaration1 endparams beginlocals Declaration2 endlocals beginbody Statement1 semicolon endbody
+Function -> function identifier SEMICOLON BEGIN_PARAMS Declaration1 END_PARAMS BEGIN_LOCALS Declaration2 END_LOCALS BEGIN_BODY Statement1 SEMICOLON END_BODY
 
-Declaration1 -> Declaration semicolon Declaration1 | epsilon
+Declaration1 -> Declaration SEMICOLON Declaration1 | epsilon
 
-Declaration2 -> Declaration semicolon Declaration2 | epsilon
+Declaration2 -> Declaration SEMICOLON Declaration2 | epsilon
 
-Statement1 -> Statement semicolon Statement1 | Statement semicolon
+Statement1 -> Statement SEMICOLON Statement1 | Statement SEMICOLON
 
-Declaration -> identifier comma Declaration 
-		| identifier colon integer 
-		| identifier colon array left_sqr_bracket number right_sqr_bracker of integer
+Declaration -> identifier COMMA Declaration
+                        | identifier COLON integer
+                        | identifier COLON array L_SQUARE_BRACKET number                      R_SQUARE_BRACKET OF integer
 
-Statement -> Var1 assign Expression1 
-		| if Bool-Exp1 then Statement2 endif
-		| while Bool-Exp1 beginloop Statement3 endloop
-		| do beginloop Statement3 endloop while Bool-Exp1
-		| read Var1
-		| write Var1
-		| continue
-		| return Expression1
+Statement -> Var1 ASSIGN Expression
+                       | IF Bool-Expr THEN Statement2 ENDIF
+                       | WHILE Bool-Expr BEGINLOOP Statement3 ENDLOOP
+                       | do BEGINLOOP Statement3 ENDLOOP while Bool-Expr 
+                       | READ Var1
+                       | WRITE Var1
+                       | CONTINUE
+                       | RETURN Expression
 
-Var1 ->
+Statement2 -> Statement SEMICOLON | ELSE Statement2
+Statement3 -> Statement SEMICOLON Statement3 | Statement SEMICOLON
 
-Expression1 ->
+Var1 -> Var COMMA Var1 | Var 
 
-Statement2 -> Statement semicolon | else Statement2
+Bool-Expr -> Relation-And-Expr | Relation-And-Expr OR Relation-And-Expr
 
-Statement3 -> Statement semicolon Statement3 | Statement semicolon
+Relation-And-Expr -> Relation-Expr | Relation-Expr AND Relation-Expr
 
-Bool-Exp1 -> Relation-And-Expr | Relation-And-Expr or Relation-And-Expr
+Relation-Expr -> NOT Relation-Expr | Expression Comp Expression | TRUE | FALSE |  L_PAREN Bool-Expr R_PAREN 
 
+Comp-> EQ | NEQ |  LT | GT | LTE | GTE 
+Expression -> Multiplicative-Expr 
+                          | SUB Multiplicative-Expr 
+                          | ADD Multiplicative-Expr 
+                          | SUB ADD Multiplicative-Expr  
+
+Multiplicative-Expr-> Term 
+|  Term MULT Term 
+| Term MULT Term DIV Term 
+| Term MULT Term DIV Term MOD Term
+			| Term DIV Term
+			| Term DIV Term MOD Term
+			| Term MOD Term
+			| Term MULT Term MOD Term
+			| Term DIV Term
+
+Term -> SUB Term 
+               | Var1 | number | L_PAREN Expression R_PAREN 
+               | identifier L_PAREN Expression1 R_PAREN 
+
+Expression1 - > Expression COMMA Expression1 | Expression COMMA |  epsilon
+
+Var -> identifier | identifier L_SQUARE_BRACKET Expression R_SQUARE_BRACKET
 

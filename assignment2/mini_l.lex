@@ -4,11 +4,8 @@
 */
 
 %{
-	#include <iostream>
 	#include "y.tab.h"
-	using namespace std;
 	int linenum = 1, col = 1;
-	/*add as needed*/
 %}
 
 number [0-9]
@@ -59,8 +56,8 @@ comment "##"+.*
 "<="				{col += yyleng; return LTE;}
 ">="				{col += yyleng; return GTE;}
 
-{number}+			{col += yyleng; yylval.dval = atof(yytext); return NUMBER;}
-{identifier}			{col += yyleng; yylval.dval = atof(yytext); return IDENT;}
+{number}+			{col += yyleng; yylval.num_val = atof(yytext); return NUMBER;}
+{identifier}			{col += yyleng; yylval.sval = atof(yytext); return IDENT;}
 ";"				{col += yyleng; return SEMICOLON;}
 ":"				{col += yyleng; return COLON;}
 ","				{col += yyleng; return COMMA;}
@@ -70,13 +67,14 @@ comment "##"+.*
 "]"				{col += yyleng; return R_SQUARE_BRACKET;}
 ":="				{col += yyleng; return ASSIGN;}
 
-{comment}			{/*ignore comment*/ col = 0; linenum++;}
+{comment}			{/*ignore comment*/ col = 1; linenum++;}
 "\n"				{linenum++; col = 1; return END;}
-({number}|{underscore})+{identifier}*   {cout << "Error at line " << linenum << ", column " << col << ": identifer " <<  yytext << " must begin with a letter\n"; exit(0);}
-{identifier}{underscore}+	{cout << "Error at line " << linenum << ", column " << col << ": identifier " << yytext << " cannot end with an underscore" << endl; exit(0);
-[ \t]+	{/*ignore spaces*/ currPos += yyleng;}
-.	{cout << "Error at line " << currLine << " column " << currPos << ": unrecognied symbol " << yytext << endl; exit(0);}
+({number}|{underscore})+{identifier}*   {printf("Error at line %d, column %d: identifer \"%s\" must begin with a letter\n", linenum, col, yytext); exit(0);}
+{identifier}{underscore}+	{printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore", linenum, col, yytext); exit(0);
+[ \t]+	{/*ignore spaces*/ col += yyleng;}
+.	{printf("Error at line %d column %d: unrecognied symbol \"%s\"\n", linenum, col, yytext); exit(0);}
 
 %%
+int yyparse();
 
 	
