@@ -1,59 +1,88 @@
+List of grammar rules
+
 Program -> Functions
 
 Functions -> Function Functions | epsilon
 
-Function -> FUNCTION identifier SEMICOLON BEGIN_PARAMS Declaration1 END_PARAMS BEGIN_LOCALS Declaration2 END_LOCALS BEGIN_BODY Statement1 END_BODY
+Function -> FUNCTION identifier SEMICOLON BEGIN_PARAMS Declaration1 END_PARAMS BEGIN_LOCALS Declaration1 END_LOCALS BEGIN_BODY Statement1 END_BODY
 
 Declaration1 -> Declaration SEMICOLON Declaration1 | epsilon
 
-Declaration -> Identifier COMMA Declaration
-                        | Identifier COLON TYPE
-                        | identifier COLON array L_SQUARE_BRACKET number                      R_SQUARE_BRACKET OF integer
+Declaration ->identifier COLON TYPE
 
+Statement1 -> Statement SEMICOLON Statement1 | Statement SEMICOLON                   
 
-Statement1 -> Statement SEMICOLON Statement1 | Statement SEMICOLON
+Identifier -> identifier | identifier COMMA Identifier 
 
-Statement -> Var1 ASSIGN Expression
-                       | IF Bool-Expr THEN Statement2 ENDIF
-                       | WHILE Bool-Expr BEGINLOOP Statement3 ENDLOOP
-                       | do BEGINLOOP Statement3 ENDLOOP while Bool-Expr 
-                       | READ Var1
-                       | WRITE Var1
-                       | CONTINUE
-                       | RETURN Expression
+Identifier -> IDENT 
 
-Statement2 -> Statement SEMICOLON | ELSE Statement2
-Statement3 -> Statement SEMICOLON Statement3 | Statement SEMICOLON
+Type-> INTEGER
+| ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER 
 
-Var1 -> Var COMMA Var1 | Var 
+Statement -> Var1 ASSIGN Expression 
+               | IF-STMT 
+               | WHILE Bool-Expr BEGINLOOP Statement1 ENDLOOP     
+               | DO BEGINLOOP Statement1 ENDLOOP WHILE Bool-Expr     
+               | READ Var1 
+               | WRITE Var1    
+               | CONTINUE    
+               | RETURN Expression
 
-Bool-Expr -> Relation-And-Expr | Relation-And-Expr OR Relation-And-Expr
+IF-STMT -> IF Bool-Expr THEN Statement1 ENDIF            
+       | IF Bool-Expr THEN Statement1 ELSE Statement1 ENDIF
 
-Relation-And-Expr -> Relation-Expr | Relation-Expr AND Relation-Expr
+Var1 -> Var COMMA Var1 
+| Var 
 
-Relation-Expr -> NOT Relation-Expr | Expression Comp Expression | TRUE | FALSE |  L_PAREN Bool-Expr R_PAREN 
+Bool-Expr -> Relation-And-Expr 
+| Relation-And-Expr OR Bool-Expr 
+
+Relation_And_Expr -> Relation-Exprs
+       | Relation-Expr AND Relation_And_Expr
+
+Relation-Exprs -> NOT Relation-Expr
+             | Relation_Expr 
+
+Relation_Expr -> Expression Comp Expression 
+| TRUE 
+| FALSE 
+|  L_PAREN Bool-Expr R_PAREN 
 
 Comp-> EQ | NEQ |  LT | GT | LTE | GTE 
-Expression -> Multiplicative-Expr 
-                          | SUB Multiplicative-Expr 
-                          | ADD Multiplicative-Expr 
-                          | SUB ADD Multiplicative-Expr  
 
-Multiplicative-Expr-> Term 
+Expression -> Multiplicative-Expr ADD Expression 
+                          | Multiplicative-Expr SUB Expression
+                          | Multiplicative-Expr 
+             
+Multiplicative-Expr-> Term
 |  Term MULT Term 
 | Term MULT Term DIV Term 
 | Term MULT Term DIV Term MOD Term
-			| Term DIV Term
-			| Term DIV Term MOD Term
-			| Term MOD Term
-			| Term MULT Term MOD Term
-			| Term DIV Term
+            | Term DIV Term
+            | Term DIV Term MOD Term
+            | Term MOD Term
+            | Term MULT Term MOD Term
+            | Term DIV Term
 
-Term -> SUB Term 
-               | Var1 | number | L_PAREN Expression R_PAREN 
+Term -> Normal{}  
+               |SUB Var
+               | SUB NUMBER 
+               | SUB L_PAREN Expression R_PAREN 
                | identifier L_PAREN Expression1 R_PAREN 
 
-Expression1 - > Expression COMMA Expression1 | Expression COMMA |  epsilon
+Normal -> Var 
+         | NUMBER
+         | L_PAREN Expression1 R_PAREN 
 
-Var -> identifier | identifier L_SQUARE_BRACKET Expression R_SQUARE_BRACKET
+Expression1 - > Expression COMMA Expression1 
+| Expression
+|  epsilon
 
+Var -> identifier 
+| identifier L_SQUARE_BRACKET Expression R_SQUARE_BRACKET
+
+
+
+
+
+         
