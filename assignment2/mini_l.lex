@@ -59,7 +59,7 @@ comment "##"+.*
 "<="				{col += yyleng; return LTE;}
 ">="				{col += yyleng; return GTE;}
 
-{number}+			{col += yyleng; yylval.sval = yytext; return NUMBER;}
+{number}+			{col += yyleng; yylval.num_val = atoi(yytext); return NUMBER;}
 {identifier}			{col += yyleng; yylval.sval = yytext; return IDENT;}
 ";"				{col += yyleng; return SEMICOLON;}
 ":"				{col += yyleng; return COLON;}

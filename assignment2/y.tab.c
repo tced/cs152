@@ -66,7 +66,7 @@
 
 #include <stdio.h> 
 #include <stdlib.h>
-//int yylex(void);
+int yylex(void);
 void yyerror(const char *s); 
 extern int linenum, col;
 FILE *yyin;  
