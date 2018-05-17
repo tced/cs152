@@ -618,10 +618,10 @@ char *yytext;
 	Written in C++ by Andrea Cruz Castillo and Tiffany Cedeno	
 */
 #line 7 "mini_l.lex"
+	#include "y.tab.h"
 	#include <stdio.h>
  	#include <stdlib.h>
         int yylex(void); 
-        #include "y.tab.h"
         int yyerror(char *s); 
 int linenum = 1, col = 1;
 #line 628 "lex.yy.c"

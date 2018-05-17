@@ -1,6 +1,7 @@
 %{
 #include <stdio.h> 
 #include <stdlib.h>
+#include <string.h>
 int yylex(void);
 void yyerror(const char *s); 
 extern int linenum, col;
@@ -65,7 +66,7 @@ Identifier:  identifier {printf("Identifier-> identifier\n");}
             | identifier COMMA Identifier {printf("Identifier-> identifier COMMA Identifier\n");}
 	;
 
-identifier:  IDENT {printf("identifer -> IDENT %s\n", $1);}
+identifier:  IDENT {printf("identifer -> IDENT %s\n", yylval.sval);}
 	;         
 Type:	     INTEGER { printf("Type-> INTEGER\n");}   
 	    | ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER {printf("Type-> ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER\n");}
@@ -128,14 +129,14 @@ Multiplicative-Expr:	Term MULT Term {printf("Multiplicative-Expr-> Term MULT Ter
 
 Term:		Normal{} /*can call Normal aka Term2 to reduce conflit/reduce*/ 
       		| SUB Var {printf("Term->SUB Var\n");}
-		| SUB NUMBER {printf("Term-> SUB NUMBER %s\n", $2);} 
+		| SUB NUMBER {printf("Term-> SUB NUMBER %d\n", yylval.num_val);} 
                 | SUB L_PAREN Expression R_PAREN {printf("Term-> SUB L_PAREN Expression R_PAREN\n");} 
       	        | identifier L_PAREN Expression1 R_PAREN {printf("Term -> identifier L_PAREN Expression1 R_PAREN\n");}
       		;
 
 /*-----form of Term2-------*/ 
 Normal:		Var {printf("Term->Var\n");}
-		| NUMBER {printf("Term->NUMBER %s\n", $1);}
+		| NUMBER {printf("Term->NUMBER %d\n", yylval.num_val);}
 		| L_PAREN Expression1 R_PAREN {printf("L_PAREN Expression1 R_PAREN\n");}
 		;
 

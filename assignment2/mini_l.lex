@@ -4,10 +4,10 @@
 */
 
 %{
+	#include "y.tab.h"
 	#include <stdio.h>
  	#include <stdlib.h>
         int yylex(void); 
-        #include "y.tab.h"
         int yyerror(char *s); 
 %}  
 	int linenum = 1, col = 1;
