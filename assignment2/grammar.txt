@@ -54,15 +54,11 @@ Expression -> Multiplicative-Expr ADD Expression
                           | Multiplicative-Expr SUB Expression
                           | Multiplicative-Expr 
              
-Multiplicative-Expr-> Term
-|  Term MULT Term 
-| Term MULT Term DIV Term 
-| Term MULT Term DIV Term MOD Term
-            | Term DIV Term
-            | Term DIV Term MOD Term
-            | Term MOD Term
-            | Term MULT Term MOD Term
-            | Term DIV Term
+Multiplicative-Expr->  Term MULT Term 
+			| Term DIV Term 
+			| Term DIV Term 
+         		| Term MOD Term
+            		| Term
 
 Term -> Normal{}  
                |SUB Var
@@ -75,11 +71,11 @@ Normal -> Var
          | L_PAREN Expression1 R_PAREN 
 
 Expression1 - > Expression COMMA Expression1 
-| Expression
-|  epsilon
+		| Expression
+		|  epsilon
 
 Var -> identifier 
-| identifier L_SQUARE_BRACKET Expression R_SQUARE_BRACKET
+	| identifier L_SQUARE_BRACKET Expression R_SQUARE_BRACKET
 
 
 
