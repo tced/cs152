@@ -4,9 +4,11 @@
 */
 
 %{
+	using namespace std;
+	#include <iostream>
 	#include "y.tab.h"
-	#include <stdio.h>
- 	#include <stdlib.h>
+	//#include <stdio.h>
+ 	//#include <stdlib.h>
         int yylex(void); 
         int yyerror(char *s); 
 %}  
@@ -72,9 +74,9 @@ comment "##"+.*
 
 {comment}			{/*ignore comment*/ col = 1;}
 "\n"				{ linenum++; col = 1;}
-({number}|{underscore})+{identifier}*   {printf("Error at line %d, column %d: identifer \"%s\" must begin with a letter\n", linenum, col, yytext); exit(0);}
-{identifier}{underscore}+	{printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore\n", linenum, col, yytext); exit(0);}
+({number}|{underscore})+{identifier}*   {cout << "Error at line " << linenum << ", column " << col << ": identifer \"" << yytext << "\" must begin with a letter\n"; exit(0);}
+{identifier}{underscore}+	{cout << "Error at line " << linenum << ", column " << col << ": identifier \"" << yytext << "\" cannot end with an underscore\n"; exit(0);}
 [ \t]+	{/*ignore spaces*/ col += yyleng;}
-.	{printf("Error at line %d column %d: unrecognied symbol \"%s\"\n", linenum, col, yytext); exit(0);}
+.	{cout << "Error at line " << linenum << ", column " << col << ": unrecognied symbol \"" << yytext << "\"\n"; exit(0);}
 
 %%
