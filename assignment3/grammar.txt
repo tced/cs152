@@ -1,0 +1,84 @@
+List of grammar rules
+
+Program -> Functions
+
+Functions -> Function Functions | epsilon
+
+Function -> FUNCTION identifier SEMICOLON BEGIN_PARAMS Declaration1 END_PARAMS BEGIN_LOCALS Declaration1 END_LOCALS BEGIN_BODY Statement1 END_BODY
+
+Declaration1 -> Declaration SEMICOLON Declaration1 | epsilon
+
+Declaration ->identifier COLON TYPE
+
+Statement1 -> Statement SEMICOLON Statement1 | Statement SEMICOLON                   
+
+Identifier -> identifier | identifier COMMA Identifier 
+
+Identifier -> IDENT 
+
+Type-> INTEGER
+| ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER 
+
+Statement -> Var1 ASSIGN Expression 
+               | IF-STMT 
+               | WHILE Bool-Expr BEGINLOOP Statement1 ENDLOOP     
+               | DO BEGINLOOP Statement1 ENDLOOP WHILE Bool-Expr     
+               | READ Var1 
+               | WRITE Var1    
+               | CONTINUE    
+               | RETURN Expression
+
+IF-STMT -> IF Bool-Expr THEN Statement1 ENDIF            
+       | IF Bool-Expr THEN Statement1 ELSE Statement1 ENDIF
+
+Var1 -> Var COMMA Var1 
+| Var 
+
+Bool-Expr -> Relation-And-Expr 
+| Relation-And-Expr OR Bool-Expr 
+
+Relation_And_Expr -> Relation-Exprs
+       | Relation-Expr AND Relation_And_Expr
+
+Relation-Exprs -> NOT Relation-Expr
+             | Relation_Expr 
+
+Relation_Expr -> Expression Comp Expression 
+| TRUE 
+| FALSE 
+|  L_PAREN Bool-Expr R_PAREN 
+
+Comp-> EQ | NEQ |  LT | GT | LTE | GTE 
+
+Expression -> Multiplicative-Expr ADD Expression 
+                          | Multiplicative-Expr SUB Expression
+                          | Multiplicative-Expr 
+             
+Multiplicative-Expr->  Term MULT Term 
+			| Term DIV Term 
+			| Term DIV Term 
+         		| Term MOD Term
+            		| Term
+
+Term -> Normal{}  
+               |SUB Var
+               | SUB NUMBER 
+               | SUB L_PAREN Expression R_PAREN 
+               | identifier L_PAREN Expression1 R_PAREN 
+
+Normal -> Var 
+         | NUMBER
+         | L_PAREN Expression1 R_PAREN 
+
+Expression1 - > Expression COMMA Expression1 
+		| Expression
+		|  epsilon
+
+Var -> identifier 
+	| identifier L_SQUARE_BRACKET Expression R_SQUARE_BRACKET
+
+
+
+
+
+         
