@@ -48,14 +48,16 @@ Functions:	/*empty*/ {cout << "Function->epsilon\n";}
          	| Function Functions {cout << "Functions -> Function Functions\n";}
          	;
 
-Function:	FUNCTION identifier SEMICOLON BEGIN_PARAMS Declaration1 END_PARAMS BEGIN_LOCALS Declaration1  END_LOCALS BEGIN_BODY Statement1  END_BODY { cout << "Function -> FUNCTION identifier SEMICOLON BEGIN_PARAMS Declaration1 END_PARAMS BEGIN_LOCALS Declaration1 END_LOCALS BEGIN_BODY Statement1  END_BODY\n";}
-         	;
+Function:	FUNCTION IDENT {cout << "func " << strdup($2) << endl;} SEMICOLON BEGIN_PARAMS Declaration1 END_PARAMS BEGIN_LOCALS Declaration1  END_LOCALS BEGIN_BODY Statement1  END_BODY  {cout << "endfunc" << endl;} /*{ cout << "Function -> FUNCTION identifier SEMICOLON BEGIN_PARAMS Declaration1 END_PARAMS BEGIN_LOCALS Declaration1 END_LOCALS BEGIN_BODY Statement1  END_BODY\n";}*/
+         	| error{ yyerrok; yyclearin;}
+		;
 
 Declaration1:	/*empty*/ {cout << "Declaration1->epsilon\n";}  
             	| Declaration SEMICOLON Declaration1 {cout << "Declaration1-> Declaration SEMICOLON Declaration1\n";}
                 ; 
 
 Declaration: Identifier COLON Type {cout << "Declaration-> Identifier COLON Type\n";}
+		| error{yyerrok; yyclearin;}
 
 Statement1: Statement SEMICOLON Statement1 {cout << "Statement1-> Statement SEMICOLON Statement1\n";} 
             | Statement SEMICOLON {cout << "Statement1-> Statement SEMICOLON\n";}
@@ -66,7 +68,7 @@ Identifier:  identifier {cout << "Identifier-> identifier\n";}
             | identifier COMMA Identifier {cout << "Identifier-> identifier COMMA Identifier\n";}
 	;
 
-identifier:  IDENT {cout << "identifer -> IDENT %s\n", yylval.sval;}
+identifier:  IDENT {cout << "identifer -> IDENT " <<  yylval.sval << endl;}
 	;         
 Type:	     INTEGER { cout << "Type-> INTEGER\n";}   
 	    | ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER {cout << "Type-> ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER\n";}
@@ -80,6 +82,7 @@ Statement: Var1 ASSIGN Expression {cout << "Statement->Var1 ASSIGN Expression\n"
            | WRITE Var1{cout << "Statement->WRITE Var1\n";}
            | CONTINUE{cout << "Statement->CONTINUE\n";}
            | RETURN Expression{cout << "Statement->RETURN Expression\n";}
+	   | error {yyerrok; yyclearin;}
            ;
 
 IF-STMT:   IF Bool-Expr THEN Statement1 ENDIF {cout << "IF-STMT->IF Bool-Expr THEN Statement1 ENDIF\n";}
