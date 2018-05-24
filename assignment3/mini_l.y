@@ -1,15 +1,11 @@
 %{
-#include <iostream>
-using namespace std;
-//#include <stdio.h> 
-//#include <stdlib.h>
-//#include <string.h>
-#include <fstream>
+
+#include "heading.h"
 int yylex(void);
 void yyerror(const char *s); 
 extern int linenum;
 extern int col;
-FILE *yyin;  
+//FILE *yyin;  
 %}
 
 %union{
@@ -159,14 +155,11 @@ void yyerror(const char* s)
 }
 
 int main(int argc, char **argv) {
-   if (argc > 1) {
-      ifstream fs;
-      yyin = fs.open(argv[1], fstream::in);
-      if (yyin == NULL){
-         cout << "syntax: " << argv[0] << " filename\n";
-      }
+   if (argc > 1 && (freopen(argv[1], "r", stdin) == NULL)) {
+      cerr << argv[0] << ": File " << argv[1] << " cannot beopened.\n"; 
+ 	exit(1);  
    }
    yyparse(); 
-   return 0; 
+   return 0;
 }
 
