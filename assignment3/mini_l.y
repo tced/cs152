@@ -70,6 +70,8 @@ Identifier:  identifier {}
 
 identifier:  IDENT {cout <<  "." << strdup($1) << endl;}
 	;         
+
+/*part of Declaration*/ 
 Type:	     INTEGER {}   
 	    | ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER {}
             ;
