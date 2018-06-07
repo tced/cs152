@@ -1,55 +1,55 @@
 func fibonacci
-. _k
-. t0
-. t1
-. t2
-. t3
-. t4
-. t5
-. t6
-. t7
-. t8
-. t9
-. t10
-. t11
-. t12
-. t13
-= _k, $0
-= t0, _k
-= t1, 1
-<= t2, t0, t1
-?:= if_condition_true_1, t2
+. k
+. _temp_0
+. _temp_1
+. _temp_2
+. _temp_3
+. _temp_4
+. _temp_5
+. _temp_6
+. _temp_7
+. _temp_8
+. _temp_9
+. _temp_10
+. _temp_11
+. _temp_12
+. _temp_13
+= k, $0
+= _temp_0, k
+= _temp_1, 1
+<= _temp_2, _temp_0, _temp_1
+?:= if_condition_true_1, _temp_2
 := if_condition_false_1
 : if_condition_true_1
-= t3, 1
-ret t3
+= _temp_3, 1
+ret _temp_3
 : if_condition_false_1
-= t4, _k
-= t5, 1
-- t6, t4, t5
-param t6
-call fibonacci, t7
-= t8, _k
-= t9, 2
-- t10, t8, t9
-param t10
-call fibonacci, t11
-+ t12, t7, t11
-ret t12
-= t13, _k
-ret t13
+= _temp_4, k
+= _temp_5, 1
+- _temp_6, _temp_4, _temp_5
+param _temp_6
+call fibonacci, _temp_7
+= _temp_8, k
+= _temp_9, 2
+- _temp_10, _temp_8, _temp_9
+param _temp_10
+call fibonacci, _temp_11
++ _temp_12, _temp_7, _temp_11
+ret _temp_12
+= _temp_13, k
+ret _temp_13
 endfunc
 func main
-. _n
-. _fib_n
-. t14
-. t15
-. t16
-.< _n
-= t14, _n
-param t14
-call fibonacci, t15
-= _fib_n, t15
-= t16, _fib_n
-.> t16
+. n
+. fib_n
+. _temp_14
+. _temp_15
+. _temp_16
+.< n
+= _temp_14, n
+param _temp_14
+call fibonacci, _temp_15
+= fib_n, _temp_15
+= _temp_16, fib_n
+.> _temp_16
 endfunc

@@ -56,34 +56,27 @@ stringstream m;
 %right NOT ASSIGN
 
 %% 
-Program:	functions
+Program:	Functions
 		;	
 	
-functions:	/*empty*/
-		| function functions
+Functions:	/*empty*/
+		| Function Functions
 		
 		;
-function_name: FUNCTION IDENT
-             {
-                func_table.push_back(strdup($2));
-                cout <<"func "<< strdup($2) <<endl;
-             }
-             ;
-beginparam: BEGIN_PARAMS
-          {
-              add_to_param_table=true;
-          }
-          ;
-endparam:   END_PARAMS
-        {
-            add_to_param_table=false;
-        }
-        ;
-function:	function_name SEMICOLON beginparam declarations endparam BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY 
+
+beginparam:	BEGIN_PARAMS
+          	{
+              		add_to_param_table=true;
+          	}
+          	;
+endparam:	END_PARAMS
+        	{
+            		add_to_param_table=false;
+        	}
+        	;
+
+Function:	FUNCTION IDENT {func_table.push_back(strdup($2)); cout << "func " << strdup($2) << endl;} SEMICOLON beginparam Declaration1 endparam BEGIN_LOCALS Declaration1 END_LOCALS BEGIN_BODY Statement1 END_BODY 
 		{
-			//func_table.push_back( strdup($2));
-            //cout <<"func "<< strdup($2)<<endl;
-            //VARIABLE AND PARAMETER DECLARATIONS
 			for(unsigned int j=0;j<sym_table.size();j++)
 			{
 				if(sym_type.at(j)=="INTEGER")
@@ -91,47 +84,47 @@ function:	function_name SEMICOLON beginparam declarations endparam BEGIN_LOCALS 
 				else
 					cout<<".[] "<<sym_table.at(j)<<", "<<sym_type.at(j)<<endl;
 			}
-            while(!param_table.empty())
-            {
-                cout<<"= "<<param_table.front()<<", $"<<param_val<<endl;
-                param_table.erase(param_table.begin());
-                param_val++;
-            }
-            //STATEMENT PRINT
-            for(unsigned i=0;i<stmnt_vctr.size();i++)
-                cout<<stmnt_vctr.at(i)<<endl;
-            cout<<"endfunc"<<endl;
-            stmnt_vctr.clear();
-            sym_table.clear();
-            sym_type.clear();
-            param_table.clear();
-            param_val=0;
+            		while(!param_table.empty())
+            		{
+                		cout<<"= "<<param_table.front()<<", $"<<param_val<<endl;
+                		param_table.erase(param_table.begin());
+                		param_val++;
+            		}
+            		//STATEMENT PRINT
+            		for(unsigned i=0;i<stmnt_vctr.size();i++)
+                		cout<<stmnt_vctr.at(i)<<endl;
+            		cout<<"endfunc"<<endl;
+            		stmnt_vctr.clear();
+            		sym_table.clear();
+            		sym_type.clear();
+            		param_table.clear();
+            		param_val=0;
 
 		}
 		; 
 
 
-declarations:	/*empty*/ 
-		        | declaration SEMICOLON declarations 
-		        ;
-
-declaration:	id COLON assign 
+Declaration1:	/*empty*/
+		| Declaration SEMICOLON Declaration1 
 		;
 
-id:		IDENT 
+Declaration:	Identifier COLON Type 
+		;
+
+Identifier:	IDENT 
 		{
-			sym_table.push_back(std::string("_") + strdup($1));
-            if(add_to_param_table)
-                param_table.push_back(std::string("_") + strdup($1));
+			sym_table.push_back(strdup($1));
+            		if(add_to_param_table)
+                		param_table.push_back(strdup($1));
 		}
-		| IDENT COMMA id 
+		| IDENT COMMA Identifier
 		{
-			sym_table.push_back(std::string("_") + strdup($1));
+			sym_table.push_back(strdup($1));
 			sym_type.push_back("INTEGER");
 		}
 		;
 
-assign:		INTEGER 
+Type:		INTEGER 
 		{ 
 			sym_type.push_back("INTEGER");
 		}
@@ -144,260 +137,230 @@ assign:		INTEGER
 		} 
 		;
 
-statements:	statement SEMICOLON statements
-		    | statement SEMICOLON 
-		    ;
+Statement1:	Statement SEMICOLON Statement1
+		| Statement SEMICOLON 
+		;
 
-statement:  aa
-		    | bb
-		    | cc
-		    | dd
-	       	| ee
-            | ff
-            | gg
+Statement:	assign_rule
+		| If_rule
+		| while_rule
+		| do_while_rule
+	       	| Read_in
+            	| write_rule
+            	| gg
         	| hh
-            ;
-aa:		IDENT ASSIGN expression
-        {
-            string var = std::string("_") + strdup($1);
-            stmnt_vctr.push_back("= " + var + ", " + op.back() );
-            op.pop_back();
-            //cout<<op.size()<<endl;    TEST
-            //op.clear()  //REMOVE AFTER TESTING
-        }
-        | IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression
-        {
-            string var = std::string("_") + strdup($1);
-            string array_result_expression = op.back();
-            op.pop_back();
-            string array_expression = op.back();
-            op.pop_back();
-            stmnt_vctr.push_back(std::string("[]= _") + strdup($1)+", " + array_expression + ", " + array_result_expression); 
-        }
-        ;
+            	;
+
+assign_rule:	IDENT ASSIGN Expression
+        	{
+            		string var = strdup($1);
+            		stmnt_vctr.push_back("= " + var + ", " + op.back() );
+            		op.pop_back();
+        	}
+        	| IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET ASSIGN Expression
+        	{
+            		string var = strdup($1);
+            		string array_result_Expression = op.back();
+            		op.pop_back();
+            		string array_Expression = op.back();
+            		op.pop_back();
+            		stmnt_vctr.push_back(std::string("[]= _") + strdup($1)+", " + array_Expression + ", " + array_result_Expression); 
+        	}
+        	;
 
 
-if_clause:		IF boolean_expr THEN
-        {
-            label_count++;    
-            m.str("");
-            m.clear();     
-            m<<label_count;
-            string label_1 = "if_condition_true_"+m.str(); 
-            string label_2 = "if_condition_false_"+m.str();
-            string label_3 = "end_if_"+m.str();
-            vector<string> temp;        //temp label vector
-            temp.push_back(label_1);    
-            temp.push_back(label_2);    
-            temp.push_back(label_3);
-            if_label.push_back(temp);   //pushing temp vector onto if label
-            stmnt_vctr.push_back("?:= "+if_label.back().at(0)+", "+op.back());
-            op.pop_back();
-            stmnt_vctr.push_back(":= "+if_label.back().at(1)); 
-            stmnt_vctr.push_back(": "+if_label.back().at(0));    
+if_condition:	IF Bool-Expr THEN
+        	{
+            		label_count++;    
+            		m.str("");
+            		m.clear();     
+            		m<<label_count;
+            		string label_1 = "if_condition_true_"+m.str(); 
+            		string label_2 = "if_condition_false_"+m.str();
+            		string label_3 = "end_if_"+m.str();
+            		vector<string> temp;        //temp label vector
+            		temp.push_back(label_1);    
+            		temp.push_back(label_2);    
+            		temp.push_back(label_3);
+            		if_label.push_back(temp);               
+	    		stmnt_vctr.push_back("?:= "+if_label.back().at(0)+", "+op.back());
+            		op.pop_back();
+            		stmnt_vctr.push_back(":= "+if_label.back().at(1)); 
+            		stmnt_vctr.push_back(": "+if_label.back().at(0));    
 
-        }
-        ;
+        	}
+        	;
 
-else_if:    if_clause statements ELSE
-            {
-                stmnt_vctr.push_back(":= "+if_label.back().at(2));
-                stmnt_vctr.push_back(": "+if_label.back().at(1));
-            }
-            ;
+else_condition: if_condition Statement1 ELSE
+            	{
+                	stmnt_vctr.push_back(":= "+if_label.back().at(2));
+                	stmnt_vctr.push_back(": "+if_label.back().at(1));
+            	}
+            	;
 
-bb:	    if_clause statements ENDIF
-        {
-            stmnt_vctr.push_back(": "+if_label.back().at(1));
-            if_label.pop_back();
-        }
-        |else_if statements ENDIF 
+If_rule:	if_condition Statement1 ENDIF
+        	{
+            		stmnt_vctr.push_back(": "+if_label.back().at(1));
+            		if_label.pop_back();
+        	}
+        	| else_condition Statement1 ENDIF 
 		{
-           stmnt_vctr.push_back(": "+if_label.back().at(2));
-           if_label.pop_back();             //END_LOOP_HERE
-        }
-        ;
+           		stmnt_vctr.push_back(": "+if_label.back().at(2));
+           		if_label.pop_back();           
+        	}
+        	;
 
-while_key:  WHILE
-         {
-            label_count++;
-            m.str("");
-            m.clear();      
-            m<<label_count;
-            string label_1 = "while_loop_"+m.str();  // loop label
-            string label_2 = "conditional_true_"+m.str();  //if condition == true label
-            string label_3 = "conditional_false_"+m.str();  //if contiditon == false label
-            vector<string> temp;        //temp label vector
-            temp.push_back(label_1);    
-            temp.push_back(label_2);  
-            temp.push_back(label_3);  
-            loop_label.push_back(temp); 
-            stmnt_vctr.push_back(": "+loop_label.back().at(0));
-         }
-         ;
-while_clause: while_key boolean_expr BEGINLOOP
-            {
-                stmnt_vctr.push_back("?:= "+loop_label.back().at(1)+", "+op.back());
-                op.pop_back();
-                stmnt_vctr.push_back(":= "+loop_label.back().at(2));
-                stmnt_vctr.push_back(": "+loop_label.back().at(1));
-            }
-            ;
+while_clause: WHILE Bool-Expr BEGINLOOP
+              {
+			label_count++;
+            		m.str("");
+            		m.clear();      
+            		m<<label_count;
+            		string label_1 = "while_loop_"+m.str();  // loop label
+            		string label_2 = "conditional_true_"+m.str();  //if condition == true label
+            		string label_3 = "conditional_false_"+m.str();  //if contiditon == false label
+            		vector<string> temp;        //temp label vector
+            		temp.push_back(label_1);    
+            		temp.push_back(label_2);  
+            		temp.push_back(label_3);  
+            		loop_label.push_back(temp); 
+            		stmnt_vctr.push_back(": "+loop_label.back().at(0));
 
-cc:		 while_clause statements ENDLOOP 
-		{
-            stmnt_vctr.push_back(":= "+loop_label.back().at(0));
-            stmnt_vctr.push_back(": "+loop_label.back().at(2));
-            loop_label.pop_back();
-        }
-        ;
+                	stmnt_vctr.push_back("?:= "+loop_label.back().at(1)+", "+op.back());
+                	op.pop_back();
+                	stmnt_vctr.push_back(":= "+loop_label.back().at(2));
+                	stmnt_vctr.push_back(": "+loop_label.back().at(1));
+               }
+               ;
 
-do_key: DO BEGINLOOP
-      {
-            label_count++; 
-            m.str("");
-            m.clear();     
-            m<<label_count;
-            string label_1 = "do_while_loop_"+m.str();  // do_while_loop label
-            string label_2 = "do_while_conditional_check"+m.str(); //if condition == true label
-            vector <string> temp;
-            temp.push_back(label_1);
-            temp.push_back(label_2);
-            loop_label.push_back(temp);
-            stmnt_vctr.push_back(": "+label_1);
-        }
-        ;
+while_rule:	while_clause Statement1 ENDLOOP 
+		{	
+			stmnt_vctr.push_back(":= "+loop_label.back().at(0));
+            		stmnt_vctr.push_back(": "+loop_label.back().at(2));
+            		loop_label.pop_back();
+        	}
+        	;
 
-do_check: do_key statements ENDLOOP
-        {
-            stmnt_vctr.push_back(": "+ loop_label.back().at(1));
-        }
-dd:	     do_check WHILE boolean_expr 
-		{
-            stmnt_vctr.push_back("?:= "+ loop_label.back().at(0)+", "+op.back());
-            //if condition is false only return first pass through loop
-            op.pop_back();
-            loop_label.pop_back();
-        }
-        ;
+do_while_rule:  DO BEGINLOOP Statement1 ENDLOOP WHILE Bool-Expr 
+		{}
+        	;
 
 read_mult:  COMMA IDENT read_mult
             {
-                string var = std::string("_") + strdup($2);
-                read_queue.push(std::string(".< _") + strdup($2));
+                string var = strdup($2);
+                read_queue.push(strdup($2));
 
             }
-            | COMMA IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET read_mult
+            | COMMA IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET read_mult
             {
-                string var = std::string("_") + strdup($2);
+                string var = strdup($2);
                 m.str("");
                 m.clear();                             
                 m<<temp_var_count;                  
                 temp_var_count++;                       
-                string new_temp_var='t'+ m.str();       
+                string new_temp_var=std::string("_temp_")+ m.str();       
                 sym_table.push_back(new_temp_var);    
                 sym_type.push_back("INTEGER");  
                 read_queue.push(".< "+new_temp_var);
-                read_queue.push(std::string("[]= _") + strdup($2) + ", " + op.back() + ", " + new_temp_var);
+                read_queue.push(std::string("[]= ") + strdup($2) + ", " + op.back() + ", " + new_temp_var);
                 op.pop_back();
             }
             | /*empty*/
             ;
                                                     
-ee:		READ IDENT read_mult
-        {                                      
-            string var = std::string("_") + strdup($2);            
-            stmnt_vctr.push_back(std::string(".< _") + strdup($2));
-            while(!read_queue.empty())
-            {
-                stmnt_vctr.push_back(read_queue.top());
-                read_queue.pop();
+Read_in:    READ IDENT read_mult
+            {                                      
+            	string var = strdup($2);            
+            	stmnt_vctr.push_back(std::string(".< ") + strdup($2));
+            	while(!read_queue.empty())
+            	{
+                	stmnt_vctr.push_back(read_queue.top());
+                	read_queue.pop();
+            	}
             }
-        }
-        |READ IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET read_mult
-        {
-            string var = std::string("_") + strdup($2);
-            m.str("");
-            m.clear();                            
-            m<<temp_var_count;               
-            temp_var_count++;                       
-            string new_temp_var='t'+ m.str();     
-            sym_table.push_back(new_temp_var);  
-            sym_type.push_back("INTEGER");      
-            stmnt_vctr.push_back(std::string(".< ") +new_temp_var);
-            stmnt_vctr.push_back(std::string("[]= _") + strdup($2)+ ", " + op.back() + ", " + new_temp_var);
-            op.pop_back();
-            while(!read_queue.empty())
+            |READ IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET read_mult
             {
-                stmnt_vctr.push_back(read_queue.top());
-                read_queue.pop();
+            	string var = strdup($2);
+            	m.str("");
+            	m.clear();                            
+            	m<<temp_var_count;               
+            	temp_var_count++;                       
+            	string new_temp_var=std::string("_temp_")+ m.str();     
+            	sym_table.push_back(new_temp_var);  
+            	sym_type.push_back("INTEGER");      
+            	stmnt_vctr.push_back(std::string(".< ") +new_temp_var);
+            	stmnt_vctr.push_back(std::string("[]= ") + strdup($2)+ ", " + op.back() + ", " + new_temp_var);
+            	op.pop_back();
+            	while(!read_queue.empty())
+            	{
+                	stmnt_vctr.push_back(read_queue.top());
+                	read_queue.pop();
+            	}
             }
-        }
 	    ;
 
-ii:		/*empty*/ 
-		| COMMA posterm ii 
-		
-        ;
+comma_mult:	/*empty*/ 
+		| COMMA Normal comma_mult 
+		;
 
-ff:		WRITE posterm ii
-        {
-            while(!op.empty())
-            {
-            	string s= op.front();
-                op.erase(op.begin());
-                stmnt_vctr.push_back(".> "+ s);
-            }
-            op.clear();
-        }
+write_rule:	WRITE Normal comma_mult
+        	{
+            		while(!op.empty())
+            		{
+            			string s= op.front();
+                		op.erase(op.begin());
+                		stmnt_vctr.push_back(".> "+ s);
+            		}
+            		op.clear();
+        	}
 		;
 
 gg:		CONTINUE 
-        {
-            if (!loop_label.empty())
-            {
-                if(loop_label.back().at(0).at(0)=='d')
-                    stmnt_vctr.push_back(":= "+ loop_label.back().at(1)); 
-                else
-                    stmnt_vctr.push_back(":= "+ loop_label.back().at(0));
-            }
-        }
+        	{
+            		if (!loop_label.empty())
+            		{
+                		if(loop_label.back().at(0).at(0)=='d')
+                    			stmnt_vctr.push_back(":= "+ loop_label.back().at(1)); 
+                		else
+                    			stmnt_vctr.push_back(":= "+ loop_label.back().at(0));
+            		}
+        	}
 		;
 
-hh:		RETURN expression
-        {
-            stmnt_vctr.push_back("ret "+op.back());
-            op.pop_back();
-        }
+hh:		RETURN Expression
+        	{
+            		stmnt_vctr.push_back("ret "+op.back());
+            		op.pop_back();
+        	}
 		;
 
-boolean_expr:	relation_exprr
-		| boolean_expr OR relation_exprr 
+Bool-Expr:	Relation_And_Expr
+		| Bool-Expr OR Relation_And_Expr 
 		{
-            m.str("");
-            m.clear();                             
-            m<<temp_var_count;                    
-            temp_var_count++;
-            string new_temp_var='t'+ m.str();      
-            sym_table.push_back(new_temp_var);   
-            sym_type.push_back("INTEGER");     
-            string op2 = op.back();
-            op.pop_back();
-            string op1 =op.back();
-            op.pop_back();
-            stmnt_vctr.push_back("|| "+ new_temp_var + ", "+op1+", "+op2);    
-            op.push_back(new_temp_var);
-        }
-        ;
+            		m.str("");
+            		m.clear();                             
+            		m<<temp_var_count;                    
+            		temp_var_count++;
+            		string new_temp_var=std::string("_temp_")+ m.str();      
+            		sym_table.push_back(new_temp_var);   
+            		sym_type.push_back("INTEGER");     
+            		string op2 = op.back();
+            		op.pop_back();
+            		string op1 =op.back();
+            		op.pop_back();
+            		stmnt_vctr.push_back("|| "+ new_temp_var + ", "+op1+", "+op2);    
+            		op.push_back(new_temp_var);
+        	}	
+        	;
 
-relation_exprr:	relation_expr 
-		| relation_exprr AND relation_expr 
+Relation_And_Expr:	Relation-Exprs 
+		| Relation_And_Expr AND Relation-Exprs 
 		{
             m.str("");
             m.clear();                      
             m<<temp_var_count;
             temp_var_count++;
-            string new_temp_var='t'+ m.str();      
+            string new_temp_var=std::string("_temp_")+ m.str();      
             sym_table.push_back(new_temp_var);  
             sym_type.push_back("INTEGER");  
             string op2 = op.back();
@@ -410,14 +373,14 @@ relation_exprr:	relation_expr
 
         ;
 
-relation_expr:	rexpr
-		| NOT rexpr
+Relation-Exprs:	Relation_Expr
+		| NOT Relation_Expr
         {
             m.str("");
             m.clear();      
             m<<temp_var_count;  
             temp_var_count++;
-            string new_temp_var='t'+ m.str(); 
+            string new_temp_var=std::string("_temp_")+ m.str(); 
             sym_table.push_back(new_temp_var); 
             sym_type.push_back("INTEGER");  
             string op1 = op.back();
@@ -428,13 +391,13 @@ relation_expr:	rexpr
         }
 		;
 
-rexpr:	expression EQ expression
+Relation_Expr:	Expression EQ Expression
         {
             m.str("");
             m.clear();       
             m<<temp_var_count;       
             temp_var_count++;
-            string new_temp_var='t'+ m.str();  
+            string new_temp_var=std::string("_temp_")+ m.str();  
             sym_table.push_back(new_temp_var);   
             sym_type.push_back("INTEGER");    
             string op2 = op.back();
@@ -444,13 +407,13 @@ rexpr:	expression EQ expression
             stmnt_vctr.push_back("== "+ new_temp_var + ", "+op1+", "+op2);    
             op.push_back(new_temp_var);
         }
-		| expression NEQ expression
+		| Expression NEQ Expression
         {
             m.str("");
             m.clear();             
             m<<temp_var_count;              
             temp_var_count++;
-            string new_temp_var='t'+ m.str();    
+            string new_temp_var=std::string("_temp_")+ m.str();    
             sym_table.push_back(new_temp_var); 
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -461,13 +424,13 @@ rexpr:	expression EQ expression
             op.push_back(new_temp_var);
         }
 
-        | expression LT expression 
+        | Expression LT Expression 
         {
             m.str("");
             m.clear();
             m<<temp_var_count;
             temp_var_count++;
-            string new_temp_var='t'+ m.str(); 
+            string new_temp_var=std::string("_temp_")+ m.str(); 
             sym_table.push_back(new_temp_var); 
             sym_type.push_back("INTEGER");
             string op2 = op.back();
@@ -477,13 +440,13 @@ rexpr:	expression EQ expression
             stmnt_vctr.push_back("< "+ new_temp_var + ", "+op1+", "+op2);    
             op.push_back(new_temp_var);
         }
-        | expression GT expression 
+        | Expression GT Expression 
         {
             m.str("");
             m.clear();      
             m<<temp_var_count; 
             temp_var_count++;
-            string new_temp_var='t'+ m.str(); 
+            string new_temp_var=std::string("_temp_")+ m.str(); 
             sym_table.push_back(new_temp_var);
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -493,13 +456,13 @@ rexpr:	expression EQ expression
             stmnt_vctr.push_back("> "+ new_temp_var + ", "+op1+", "+op2);    
             op.push_back(new_temp_var);
         }
-        | expression LTE expression 
+        | Expression LTE Expression 
         {
             m.str("");
             m.clear();           
             m<<temp_var_count;  
             temp_var_count++;
-            string new_temp_var='t'+ m.str(); 
+            string new_temp_var=std::string("_temp_")+ m.str(); 
             sym_table.push_back(new_temp_var); 
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -509,13 +472,13 @@ rexpr:	expression EQ expression
             stmnt_vctr.push_back("<= "+ new_temp_var + ", "+op1+", "+op2);    
             op.push_back(new_temp_var);
         }
-        | expression GTE expression 
+        | Expression GTE Expression 
         {
             m.str("");
             m.clear();
             m<<temp_var_count;  
             temp_var_count++;
-            string new_temp_var='t'+ m.str(); 
+            string new_temp_var=std::string("_temp_")+ m.str(); 
             sym_table.push_back(new_temp_var);
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -531,7 +494,7 @@ rexpr:	expression EQ expression
             m.clear();   
             m<<temp_var_count;
             temp_var_count++;
-            string new_temp_var='t'+ m.str();
+            string new_temp_var=std::string("_temp_")+ m.str();
             sym_table.push_back(new_temp_var);
             sym_type.push_back("INTEGER"); 
             stmnt_vctr.push_back("= "+new_temp_var+", 1");
@@ -543,27 +506,27 @@ rexpr:	expression EQ expression
             m.clear();       
             m<<temp_var_count;   
             temp_var_count++;
-            string new_temp_var='t'+ m.str();   
+            string new_temp_var=std::string("_temp_")+ m.str();   
             sym_table.push_back(new_temp_var);
             sym_type.push_back("INTEGER");  
             stmnt_vctr.push_back("= "+new_temp_var+", 0"); 
             op.push_back(new_temp_var);
         }
-		| L_PAREN boolean_expr R_PAREN 
+		| L_PAREN Bool-Expr R_PAREN 
         ;		
 
 
-expression:	mul_expr expradd
+Expression:	Term_Mult-Expr expradd
 		;
 
 expradd:	/*empty*/ 
-		| ADD mul_expr expradd
+		| ADD Term_Mult-Expr expradd
         {
             m.str("");
             m.clear();           
             m<<temp_var_count;  
             temp_var_count++;
-            string new_temp_var='t'+ m.str();  
+            string new_temp_var=std::string("_temp_")+ m.str();  
             sym_table.push_back(new_temp_var);  
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -574,13 +537,13 @@ expradd:	/*empty*/
             op.push_back(new_temp_var);
 
         }
-		| SUB mul_expr expradd
+		| SUB Term_Mult-Expr expradd
         {
             m.str("");
             m.clear();   
             m<<temp_var_count;  
             temp_var_count++;
-            string new_temp_var='t'+ m.str();
+            string new_temp_var=std::string("_temp_")+ m.str();
             sym_table.push_back(new_temp_var); 
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -592,17 +555,17 @@ expradd:	/*empty*/
         }
 		;
 
-mul_expr:	term multi_term 
+Term_Mult-Expr:	term Multiplicative-Expr 
 		;
 
-multi_term:	/*empty*/ 
-		| MULT term multi_term 
+Multiplicative-Expr:	/*empty*/ 
+		| MULT term Multiplicative-Expr 
         {
             m.str("");
             m.clear();   
             m<<temp_var_count;   
             temp_var_count++;
-            string new_temp_var='t'+ m.str();  
+            string new_temp_var=std::string("_temp_")+ m.str();  
             sym_table.push_back(new_temp_var);  
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -612,13 +575,13 @@ multi_term:	/*empty*/
             stmnt_vctr.push_back("* "+ new_temp_var + ", "+op1+", "+op2);    
             op.push_back(new_temp_var);
         }
-		| DIV term multi_term
+		| DIV term Multiplicative-Expr
         {
             m.str("");
             m.clear();     
             m<<temp_var_count;
             temp_var_count++;
-            string new_temp_var='t'+ m.str();
+            string new_temp_var=std::string("_temp_")+ m.str();
             sym_table.push_back(new_temp_var); 
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -629,13 +592,13 @@ multi_term:	/*empty*/
             op.push_back(new_temp_var);
         }
 
-		| MOD term multi_term
+		| MOD term Multiplicative-Expr
         {
             m.str("");
             m.clear();                          
             m<<temp_var_count; 
             temp_var_count++;
-            string new_temp_var='t'+ m.str();
+            string new_temp_var=std::string("_temp_")+ m.str();
             sym_table.push_back(new_temp_var);
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -648,17 +611,17 @@ multi_term:	/*empty*/
 
 		;
 
-term:           posterm 
+term:           Normal 
                 {
                     //empty transition. Last operand on stack si still a valid part
                 }
-                | SUB posterm
+                | SUB Normal
                 {
                     m.str("");
                     m.clear();     
                     m<<temp_var_count;
                     temp_var_count++;
-                    string new_temp_var='t'+ m.str(); 
+                    string new_temp_var=std::string("_temp_")+ m.str(); 
                     sym_table.push_back(new_temp_var); 
                     sym_type.push_back("INTEGER"); 
                     stmnt_vctr.push_back("- "+ new_temp_var + ", 0, " +op.back());    
@@ -666,14 +629,14 @@ term:           posterm
                     op.push_back(new_temp_var); 
 
                 }
-                | IDENT term_iden
+                | IDENT Term_1
                 {
                     //calling functions
                     m.str("");
                     m.clear();  
                     m<<temp_var_count;
                     temp_var_count++;
-                    string new_temp_var='t'+ m.str(); 
+                    string new_temp_var=std::string("_temp_")+ m.str(); 
                     sym_table.push_back(new_temp_var); 
                     sym_type.push_back("INTEGER");  
                     stmnt_vctr.push_back(std::string("call ") + strdup($1) + ", " + new_temp_var);
@@ -681,13 +644,13 @@ term:           posterm
                 }
                 ;
 
-posterm:        var 
+Normal:        var 
                 {
                     m.str("");
                     m.clear();         
                     m<<temp_var_count;  
                     temp_var_count++;
-                    string new_temp_var='t'+ m.str();    
+                    string new_temp_var=std::string("_temp_")+ m.str();    
                     sym_table.push_back(new_temp_var);  
                     sym_type.push_back("INTEGER"); 
                     string op1=op.back();       
@@ -706,7 +669,7 @@ posterm:        var
                     m.clear(); 
                     m<<temp_var_count; 
                     temp_var_count++; 
-                    string new_temp_var='t'+ m.str();
+                    string new_temp_var=std::string("_temp_")+ m.str();
                     sym_table.push_back(new_temp_var); 
                     sym_type.push_back("INTEGER"); 
                     stringstream ss;
@@ -714,10 +677,10 @@ posterm:        var
                     stmnt_vctr.push_back("= "+ new_temp_var +", "+ ss.str());
                     op.push_back(new_temp_var);
                 }
-                | L_PAREN expression R_PAREN
+                | L_PAREN Expression R_PAREN
                 ;
 
-term_iden:      L_PAREN term_ex R_PAREN
+Term_1:      L_PAREN Expression1 R_PAREN
                 {
                     while(!param_queue.empty())
                     {
@@ -730,12 +693,12 @@ term_iden:      L_PAREN term_ex R_PAREN
                 }
                 ;
 
-term_ex:        expression
+Expression1:        Expression
                 {
                     param_queue.push(op.back());
                     op.pop_back();
                 }
-                | expression COMMA term_ex
+                | Expression COMMA Expression1
                 {
                     param_queue.push(op.back());
                     op.pop_back();
@@ -744,14 +707,14 @@ term_ex:        expression
 
 var:            IDENT
                 {
-                    string var = std::string("_") + strdup($1); 
+                    string var = strdup($1); 
                     op.push_back(var);
                 }
-                | IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET
+                | IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET
                 {
                     string op1 = op.back();
                     op.pop_back();
-                    string var = std::string("_") + strdup($1);
+                    string var = strdup($1);
                     op.push_back("[] " + var + ", " + op1);
                 }
                 ;
