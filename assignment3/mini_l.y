@@ -21,7 +21,7 @@ vector <vector <string> > if_label;
 vector <vector <string> > loop_label; 
 stack <string> param_queue;
 stack <string> read_queue; 
-stringstream m; 
+stringstream my_string; 
 %}
 
 %union{
@@ -102,7 +102,6 @@ Function:	FUNCTION IDENT {func_table.push_back(strdup($2)); cout << "func " << s
 
 		}
 		; 
-
 
 Declaration1:	/*empty*/
 		| Declaration SEMICOLON Declaration1 
@@ -188,13 +187,13 @@ assign_rule:	IDENT ASSIGN Expression
 if_condition:	IF Bool-Expr THEN
         	{
             		label_count++;    
-            		m.str("");
-            		m.clear();     
-            		m<<label_count;
-            		string label_1 = "if_condition_true_"+m.str(); 
-            		string label_2 = "if_condition_false_"+m.str();
-            		string label_3 = "end_if_"+m.str();
-            		vector<string> temp;        //temp label vector
+            		my_string.str("");
+            		my_string.clear();     
+            		my_string<<label_count;
+            		string label_1 = "if_condition_true_"+my_string.str(); 
+            		string label_2 = "if_condition_false_"+my_string.str();
+            		string label_3 = "end_if_"+my_string.str();
+            		vector<string> temp;   
             		temp.push_back(label_1);    
             		temp.push_back(label_2);    
             		temp.push_back(label_3);
@@ -229,12 +228,12 @@ If_rule:	if_condition Statement1 ENDIF
 while_clause: WHILE Bool-Expr BEGINLOOP
               {
 			label_count++;
-            		m.str("");
-            		m.clear();      
-            		m<<label_count;
-            		string label_1 = "while_loop_"+m.str();  // loop label
-            		string label_2 = "conditional_true_"+m.str();  //if condition == true label
-            		string label_3 = "conditional_false_"+m.str();  //if contiditon == false label
+            		my_string.str("");
+            		my_string.clear();      
+            		my_string<<label_count;
+            		string label_1 = "while_loop_"+my_string.str();  // loop label
+            		string label_2 = "conditional_true_"+my_string.str();  //if condition == true label
+            		string label_3 = "conditional_false_"+my_string.str();  //if contiditon == false label
             		vector<string> temp;        //temp label vector
             		temp.push_back(label_1);    
             		temp.push_back(label_2);  
@@ -270,11 +269,11 @@ read_mult:  COMMA IDENT read_mult
             | COMMA IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET read_mult
             {
                 string var = strdup($2);
-                m.str("");
-                m.clear();                             
-                m<<temp_count;                  
+                my_string.str("");
+                my_string.clear();                             
+                my_string<<temp_count;                  
                 temp_count++;                       
-                string new_temp_var=std::string("_temp_")+ m.str();       
+                string new_temp_var=std::string("_temp_")+ my_string.str();       
                 sym_table.push_back(new_temp_var);    
                 sym_type.push_back("INTEGER");  
                 read_queue.push(".< "+new_temp_var);
@@ -297,11 +296,11 @@ Read_in:    READ IDENT read_mult
             |READ IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET read_mult
             {
             	string var = strdup($2);
-            	m.str("");
-            	m.clear();                            
-            	m<<temp_count;               
+            	my_string.str("");
+            	my_string.clear();                            
+            	my_string<<temp_count;               
             	temp_count++;                       
-            	string new_temp_var=std::string("_temp_")+ m.str();     
+            	string new_temp_var=std::string("_temp_")+ my_string.str();     
             	sym_table.push_back(new_temp_var);  
             	sym_type.push_back("INTEGER");      
             	mil_vector.push_back(std::string(".< ") +new_temp_var);
@@ -336,11 +335,11 @@ write_rule:	WRITE Normal comma_mult
 Bool-Expr:	Relation_And_Expr
 		| Bool-Expr OR Relation_And_Expr 
 		{
-            		m.str("");
-            		m.clear();                             
-            		m<<temp_count;                    
+            		my_string.str("");
+            		my_string.clear();                             
+            		my_string<<temp_count;                    
             		temp_count++;
-            		string new_temp_var=std::string("_temp_")+ m.str();      
+            		string new_temp_var=std::string("_temp_")+ my_string.str();      
             		sym_table.push_back(new_temp_var);   
             		sym_type.push_back("INTEGER");     
             		string op2 = op.back();
@@ -355,11 +354,11 @@ Bool-Expr:	Relation_And_Expr
 Relation_And_Expr:	Relation-Exprs 
 		| Relation_And_Expr AND Relation-Exprs 
 		{
-            m.str("");
-            m.clear();                      
-            m<<temp_count;
+            my_string.str("");
+            my_string.clear();                      
+            my_string<<temp_count;
             temp_count++;
-            string new_temp_var=std::string("_temp_")+ m.str();      
+            string new_temp_var=std::string("_temp_")+ my_string.str();      
             sym_table.push_back(new_temp_var);  
             sym_type.push_back("INTEGER");  
             string op2 = op.back();
@@ -375,11 +374,11 @@ Relation_And_Expr:	Relation-Exprs
 Relation-Exprs:	Relation_Expr
 		| NOT Relation_Expr
         {
-            m.str("");
-            m.clear();      
-            m<<temp_count;  
+            my_string.str("");
+            my_string.clear();      
+            my_string<<temp_count;  
             temp_count++;
-            string new_temp_var=std::string("_temp_")+ m.str(); 
+            string new_temp_var=std::string("_temp_")+ my_string.str(); 
             sym_table.push_back(new_temp_var); 
             sym_type.push_back("INTEGER");  
             string op1 = op.back();
@@ -392,11 +391,11 @@ Relation-Exprs:	Relation_Expr
 
 Relation_Expr:	Expression EQ Expression
         {
-            m.str("");
-            m.clear();       
-            m<<temp_count;       
+            my_string.str("");
+            my_string.clear();       
+            my_string<<temp_count;       
             temp_count++;
-            string new_temp_var=std::string("_temp_")+ m.str();  
+            string new_temp_var=std::string("_temp_")+ my_string.str();  
             sym_table.push_back(new_temp_var);   
             sym_type.push_back("INTEGER");    
             string op2 = op.back();
@@ -408,11 +407,11 @@ Relation_Expr:	Expression EQ Expression
         }
 		| Expression NEQ Expression
         {
-            m.str("");
-            m.clear();             
-            m<<temp_count;              
+            my_string.str("");
+            my_string.clear();             
+            my_string<<temp_count;              
             temp_count++;
-            string new_temp_var=std::string("_temp_")+ m.str();    
+            string new_temp_var=std::string("_temp_")+ my_string.str();    
             sym_table.push_back(new_temp_var); 
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -425,11 +424,11 @@ Relation_Expr:	Expression EQ Expression
 
         | Expression LT Expression 
         {
-            m.str("");
-            m.clear();
-            m<<temp_count;
+            my_string.str("");
+            my_string.clear();
+            my_string<<temp_count;
             temp_count++;
-            string new_temp_var=std::string("_temp_")+ m.str(); 
+            string new_temp_var=std::string("_temp_")+ my_string.str(); 
             sym_table.push_back(new_temp_var); 
             sym_type.push_back("INTEGER");
             string op2 = op.back();
@@ -441,11 +440,11 @@ Relation_Expr:	Expression EQ Expression
         }
         | Expression GT Expression 
         {
-            m.str("");
-            m.clear();      
-            m<<temp_count; 
+            my_string.str("");
+            my_string.clear();      
+            my_string<<temp_count; 
             temp_count++;
-            string new_temp_var=std::string("_temp_")+ m.str(); 
+            string new_temp_var=std::string("_temp_")+ my_string.str(); 
             sym_table.push_back(new_temp_var);
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -457,11 +456,11 @@ Relation_Expr:	Expression EQ Expression
         }
         | Expression LTE Expression 
         {
-            m.str("");
-            m.clear();           
-            m<<temp_count;  
+            my_string.str("");
+            my_string.clear();           
+            my_string<<temp_count;  
             temp_count++;
-            string new_temp_var=std::string("_temp_")+ m.str(); 
+            string new_temp_var=std::string("_temp_")+ my_string.str(); 
             sym_table.push_back(new_temp_var); 
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -473,11 +472,11 @@ Relation_Expr:	Expression EQ Expression
         }
         | Expression GTE Expression 
         {
-            m.str("");
-            m.clear();
-            m<<temp_count;  
+            my_string.str("");
+            my_string.clear();
+            my_string<<temp_count;  
             temp_count++;
-            string new_temp_var=std::string("_temp_")+ m.str(); 
+            string new_temp_var=std::string("_temp_")+ my_string.str(); 
             sym_table.push_back(new_temp_var);
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -489,11 +488,11 @@ Relation_Expr:	Expression EQ Expression
         }
         |TRUE
         {
-            m.str("");
-            m.clear();   
-            m<<temp_count;
+            my_string.str("");
+            my_string.clear();   
+            my_string<<temp_count;
             temp_count++;
-            string new_temp_var=std::string("_temp_")+ m.str();
+            string new_temp_var=std::string("_temp_")+ my_string.str();
             sym_table.push_back(new_temp_var);
             sym_type.push_back("INTEGER"); 
             mil_vector.push_back("= "+new_temp_var+", 1");
@@ -501,11 +500,11 @@ Relation_Expr:	Expression EQ Expression
         }
 		| FALSE
         {
-            m.str("");
-            m.clear();       
-            m<<temp_count;   
+            my_string.str("");
+            my_string.clear();       
+            my_string<<temp_count;   
             temp_count++;
-            string new_temp_var=std::string("_temp_")+ m.str();   
+            string new_temp_var=std::string("_temp_")+ my_string.str();   
             sym_table.push_back(new_temp_var);
             sym_type.push_back("INTEGER");  
             mil_vector.push_back("= "+new_temp_var+", 0"); 
@@ -521,11 +520,11 @@ Expression:	Term_Mult-Expr expradd
 expradd:	/*empty*/ 
 		| ADD Term_Mult-Expr expradd
         {
-            m.str("");
-            m.clear();           
-            m<<temp_count;  
+            my_string.str("");
+            my_string.clear();           
+            my_string<<temp_count;  
             temp_count++;
-            string new_temp_var=std::string("_temp_")+ m.str();  
+            string new_temp_var=std::string("_temp_")+ my_string.str();  
             sym_table.push_back(new_temp_var);  
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -538,11 +537,11 @@ expradd:	/*empty*/
         }
 		| SUB Term_Mult-Expr expradd
         {
-            m.str("");
-            m.clear();   
-            m<<temp_count;  
+            my_string.str("");
+            my_string.clear();   
+            my_string<<temp_count;  
             temp_count++;
-            string new_temp_var=std::string("_temp_")+ m.str();
+            string new_temp_var=std::string("_temp_")+ my_string.str();
             sym_table.push_back(new_temp_var); 
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -560,11 +559,11 @@ Term_Mult-Expr:	term Multiplicative-Expr
 Multiplicative-Expr:	/*empty*/ 
 		| MULT term Multiplicative-Expr 
         {
-            m.str("");
-            m.clear();   
-            m<<temp_count;   
+            my_string.str("");
+            my_string.clear();   
+            my_string<<temp_count;   
             temp_count++;
-            string new_temp_var=std::string("_temp_")+ m.str();  
+            string new_temp_var=std::string("_temp_")+ my_string.str();  
             sym_table.push_back(new_temp_var);  
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -576,11 +575,11 @@ Multiplicative-Expr:	/*empty*/
         }
 		| DIV term Multiplicative-Expr
         {
-            m.str("");
-            m.clear();     
-            m<<temp_count;
+            my_string.str("");
+            my_string.clear();     
+            my_string<<temp_count;
             temp_count++;
-            string new_temp_var=std::string("_temp_")+ m.str();
+            string new_temp_var=std::string("_temp_")+ my_string.str();
             sym_table.push_back(new_temp_var); 
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -593,11 +592,11 @@ Multiplicative-Expr:	/*empty*/
 
 		| MOD term Multiplicative-Expr
         {
-            m.str("");
-            m.clear();                          
-            m<<temp_count; 
+            my_string.str("");
+            my_string.clear();                          
+            my_string<<temp_count; 
             temp_count++;
-            string new_temp_var=std::string("_temp_")+ m.str();
+            string new_temp_var=std::string("_temp_")+ my_string.str();
             sym_table.push_back(new_temp_var);
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -615,11 +614,11 @@ term:           Normal
                 }
                 | SUB Normal
                 {
-                    m.str("");
-                    m.clear();     
-                    m<<temp_count;
+                    my_string.str("");
+                    my_string.clear();     
+                    my_string<<temp_count;
                     temp_count++;
-                    string new_temp_var=std::string("_temp_")+ m.str(); 
+                    string new_temp_var=std::string("_temp_")+ my_string.str(); 
                     sym_table.push_back(new_temp_var); 
                     sym_type.push_back("INTEGER"); 
                     mil_vector.push_back("- "+ new_temp_var + ", 0, " +op.back());    
@@ -630,11 +629,11 @@ term:           Normal
                 | IDENT Term_1
                 {
                     //calling functions
-                    m.str("");
-                    m.clear();  
-                    m<<temp_count;
+                    my_string.str("");
+                    my_string.clear();  
+                    my_string<<temp_count;
                     temp_count++;
-                    string new_temp_var=std::string("_temp_")+ m.str(); 
+                    string new_temp_var=std::string("_temp_")+ my_string.str(); 
                     sym_table.push_back(new_temp_var); 
                     sym_type.push_back("INTEGER");  
                     mil_vector.push_back(std::string("call ") + strdup($1) + ", " + new_temp_var);
@@ -644,11 +643,11 @@ term:           Normal
 
 Normal:        var 
                 {
-                    m.str("");
-                    m.clear();         
-                    m<<temp_count;  
+		    my_string.str("");
+                    my_string.clear();  
+                    my_string<<temp_count;
                     temp_count++;
-                    string new_temp_var=std::string("_temp_")+ m.str();    
+                    string new_temp_var=std::string("_temp_")+ my_string.str();
                     sym_table.push_back(new_temp_var);  
                     sym_type.push_back("INTEGER"); 
                     string op1=op.back();       
@@ -661,11 +660,11 @@ Normal:        var
                 }
                 | NUMBER
                 {
-                    m.str("");
-                    m.clear(); 
-                    m<<temp_count; 
+                    my_string.str("");
+                    my_string.clear(); 
+                    my_string<<temp_count; 
                     temp_count++; 
-                    string new_temp_var=std::string("_temp_")+ m.str();
+                    string new_temp_var=std::string("_temp_")+ my_string.str();
                     sym_table.push_back(new_temp_var); 
                     sym_type.push_back("INTEGER"); 
                     stringstream ss;
