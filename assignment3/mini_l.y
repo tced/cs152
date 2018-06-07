@@ -151,7 +151,7 @@ Statement:	Var ASSIGN Expression
            	| while_rule
            	| do_while_rule  
            	| read_in 
-           	| WRITE comma_mult
+           	| WRITE write_to
 			{
 				while(!op.empty())
            			{
@@ -253,14 +253,19 @@ while_condition:	WHILE Bool-Expr BEGINLOOP
 do_while_rule:	DO BEGINLOOP Statement1 ENDLOOP WHILE Bool-Expr
 		;
 
-read_in:	READ comma_mult 
+read_in:	READ IDENT comma_mult {}
+		| READ IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET comma_mult {}
 		; 
 
 /*not sure how to edit this*/ 
-comma_mult:	Var
-	      	| Var COMMA comma_mult 
+comma_mult:	 COMMA IDENT comma_mult {}
+		| COMMA IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET comma_mult{}
+		| 
 		; 
 		
+write_to:	Var {}
+		| NUMBER {}
+		| L_PAREN Expression R_PAREN {}
 /* 
 Var1: Var COMMA Var1
      | Var
@@ -286,7 +291,7 @@ Bool-Expr:	Relation_Exprs {}
          	; 
 
 Relation_And_Expr:	Relation_Exprs {}
-                  	| Relation_Exprs AND Relation_Exprs 
+                  	| Relation_And_Expr AND Relation_Exprs 
 				{
 					 m.str("");
             				m.clear();                              //clearing string stream for conversion from int to str
@@ -322,21 +327,26 @@ Relation_Exprs:		NOT Relation_Expr
                 	| Relation_Expr {}
 			; 
 
-Relation_Expr:		Expression Comp Expression {}
+Relation_Expr:		Expression EQ Expression {}
+			| Expression NEQ Expression {}
+			| Expression LT Expression {}
+			| Expression GT Expression {}
+			| Expression LTE Expression {}
+			| Expression GTE Expression {}
               		| TRUE {}
              		| FALSE {}
               		| L_PAREN Bool-Expr R_PAREN {}
               		; 
 
 /*not sure if i should change this*/
-Comp:	EQ
+/*Comp:	EQ
     	| NEQ 
 	| LT
 	| GT 
         | LTE 
         | GTE
         ;  
-
+*/
 /*not sure if i should change this*/
 Expression: 	Multiplicative-Expr ADD Expression {}
  		| Multiplicative-Expr SUB Expression {} 
@@ -420,7 +430,7 @@ Term:		Normal{} /*can call Normal aka Term2 to reduce conflit/reduce*/
                     		string new_temp_var='t'+ m.str();       //creating temp variable name
                     		sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
                     		sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
-                    		stmnt_vctr.push_back("call " + *($1) + ", " + new_temp_var);
+                    		stmnt_vctr.push_back(std::string("call ") + *($1) + ", " + new_temp_var);
                     		op.push_back(new_temp_var); 
 			}
       		;
