@@ -444,16 +444,24 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  6
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   164
+#define YYLAST   162
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  52
 /* YYNNTS -- Number of nonterminals.  */
+<<<<<<< Updated upstream
 #define YYNNTS  37
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  78
 /* YYNSTATES -- Number of states.  */
 #define YYNSTATES  167
+=======
+#define YYNNTS  40
+/* YYNRULES -- Number of rules.  */
+#define YYNRULES  81
+/* YYNSTATES -- Number of states.  */
+#define YYNSTATES  170
+>>>>>>> Stashed changes
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
@@ -504,6 +512,7 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
+<<<<<<< Updated upstream
        0,    59,    59,    62,    63,    67,    72,    78,    78,   106,
      107,   110,   113,   119,   126,   130,   139,   140,   143,   144,
      145,   146,   147,   148,   149,   161,   169,   175,   187,   209,
@@ -512,6 +521,17 @@ static const yytype_uint16 yyrline[] =
      408,   425,   441,   457,   473,   489,   501,   513,   517,   520,
      521,   538,   556,   559,   560,   576,   593,   612,   615,   629,
      644,   661,   675,   678,   686,   691,   696,   703,   708
+=======
+       0,    59,    59,    62,    63,    66,    72,    77,    82,   114,
+     115,   118,   121,   127,   134,   138,   147,   148,   151,   152,
+     153,   154,   155,   156,   157,   169,   176,   184,   196,   218,
+     225,   230,   237,   254,   263,   271,   287,   291,   300,   306,
+     320,   323,   333,   354,   355,   359,   371,   372,   390,   391,
+     410,   411,   428,   444,   461,   477,   493,   509,   525,   537,
+     549,   553,   556,   557,   574,   592,   595,   596,   612,   629,
+     648,   652,   666,   681,   698,   712,   715,   723,   728,   733,
+     740,   745
+>>>>>>> Stashed changes
 };
 #endif
 
@@ -527,6 +547,7 @@ static const char *const yytname[] =
   "AND", "OR", "NOT", "SEMICOLON", "COLON", "COMMA", "L_PAREN", "R_PAREN",
   "L_SQUARE_BRACKET", "R_SQUARE_BRACKET", "ASSIGN", "RETURN", "NUMBER",
   "IDENT", "MULT", "DIV", "MOD", "ADD", "SUB", "LT", "LTE", "GT", "GTE",
+<<<<<<< Updated upstream
   "EQ", "NEQ", "$accept", "Program", "Functions", "beginparam", "endparam",
   "Function", "$@1", "Declaration1", "Declaration", "Identifier", "Type",
   "Statement1", "Statement", "assign_rule", "if_condition",
@@ -535,6 +556,16 @@ static const char *const yytname[] =
   "Bool-Expr", "Relation_And_Expr", "Relation-Exprs", "Relation_Expr",
   "Expression", "expradd", "Term_Mult-Expr", "Multiplicative-Expr", "term",
   "Normal", "Term_1", "Expression1", "var", YY_NULLPTR
+=======
+  "EQ", "NEQ", "$accept", "Program", "functions", "function_name",
+  "beginparam", "endparam", "function", "declarations", "declaration",
+  "id", "assign", "statements", "statement", "assign_rule", "if_clause",
+  "else_if", "If_rule", "while_key", "while_clause", "while_rule",
+  "do_key", "do_check", "do_while_rule", "read_mult", "Read_in", "ii",
+  "write_rule", "boolean_expr", "relation_exprr", "relation_expr", "rexpr",
+  "expression", "expradd", "mul_expr", "multi_term", "term", "posterm",
+  "term_iden", "term_ex", "var", YY_NULLPTR
+>>>>>>> Stashed changes
 };
 #endif
 
@@ -552,10 +583,17 @@ static const yytype_uint16 yytoknum[] =
 };
 # endif
 
+<<<<<<< Updated upstream
 #define YYPACT_NINF -137
 
 #define yypact_value_is_default(Yystate) \
   (!!((Yystate) == (-137)))
+=======
+#define YYPACT_NINF -139
+
+#define yypact_value_is_default(Yystate) \
+  (!!((Yystate) == (-139)))
+>>>>>>> Stashed changes
 
 #define YYTABLE_NINF -1
 
@@ -566,6 +604,7 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
+<<<<<<< Updated upstream
       -1,   -15,    52,  -137,    -1,  -137,  -137,  -137,    50,    60,
     -137,    66,    68,   112,    88,    91,    66,  -137,   110,    66,
       34,  -137,    66,  -137,  -137,    89,  -137,   113,    87,   119,
@@ -583,6 +622,25 @@ static const yytype_int16 yypact[] =
      -30,   124,    30,   120,   104,   125,    56,  -137,  -137,  -137,
     -137,  -137,  -137,  -137,     2,    56,  -137,   126,  -137,    56,
     -137,   127,   128,  -137,  -137,   126,  -137
+=======
+       0,   -27,    21,  -139,    36,     0,  -139,  -139,    72,  -139,
+    -139,    38,    48,    81,    70,    57,    38,  -139,    97,    38,
+      58,  -139,    38,  -139,  -139,    84,  -139,   113,    86,   120,
+      91,    -7,   115,    42,  -139,   109,  -139,    90,    19,   -11,
+      12,   123,   102,  -139,    -7,    -7,  -139,    42,    -7,  -139,
+      -7,   116,  -139,  -139,  -139,   122,  -139,  -139,    11,    42,
+    -139,    22,    19,    -9,   108,  -139,  -139,    67,    28,    56,
+    -139,  -139,  -139,    -8,   -11,   101,   105,  -139,   -11,   -11,
+    -139,    -7,    92,   124,    -2,   117,   118,    42,  -139,  -139,
+       4,    43,    62,   -11,  -139,  -139,  -139,    42,    42,   -11,
+     -11,   -11,   -11,   -11,   -11,   -11,   -11,  -139,   -11,   -11,
+     -11,  -139,   103,   -11,  -139,   107,    19,  -139,   106,  -139,
+    -139,  -139,  -139,  -139,  -139,  -139,  -139,   119,  -139,  -139,
+    -139,   112,   111,   110,   108,  -139,  -139,  -139,  -139,  -139,
+    -139,  -139,    28,    28,    56,    56,    56,    13,   114,   105,
+     121,   -11,  -139,  -139,  -139,  -139,  -139,  -139,  -139,   -11,
+    -139,   125,  -139,   -11,  -139,   126,  -139,  -139,   125,  -139
+>>>>>>> Stashed changes
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -593,6 +651,7 @@ static const yytype_uint8 yydefact[] =
        3,     0,     0,     2,     3,     7,     1,     4,     0,     0,
        5,     9,    12,     0,     0,     0,     0,     6,     0,     9,
        0,    13,     9,    10,    14,     0,    11,     0,     0,     0,
+<<<<<<< Updated upstream
        0,     0,     0,     0,     0,     0,    24,     0,     0,     0,
        0,     0,     0,    18,     0,     0,    19,     0,    20,    21,
       22,    23,     0,    55,    56,     0,     0,    71,    77,     0,
@@ -607,15 +666,38 @@ static const yytype_uint8 yydefact[] =
       63,     0,    37,     0,    40,     0,     0,    73,    78,    60,
       61,    64,    65,    66,     0,     0,    35,    37,    41,     0,
       76,    34,     0,    39,    27,    37,    36
+=======
+       0,     0,     0,     0,    32,     0,    24,     0,     0,     0,
+       0,     0,     0,    18,     0,     0,    19,     0,     0,    20,
+       0,     0,    21,    22,    23,     0,    58,    59,     0,     0,
+      74,    80,     0,     0,    46,    48,    50,     0,    62,    66,
+      70,    73,    35,    40,     0,    80,    43,    25,     0,     0,
+       8,    17,     0,     0,     0,     0,     0,     0,    15,    51,
+       0,     0,     0,     0,    72,    71,    28,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,    61,     0,     0,
+       0,    65,     0,     0,    41,     0,     0,    45,     0,    26,
+      16,    30,    29,    31,    33,    34,    36,    37,    60,    75,
+      77,    78,     0,     0,    47,    49,    54,    56,    55,    57,
+      52,    53,    62,    62,    66,    66,    66,    40,     0,    43,
+       0,     0,    76,    81,    63,    64,    67,    68,    69,     0,
+      38,    40,    44,     0,    79,     0,    42,    27,    40,    39
+>>>>>>> Stashed changes
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int16 yypgoto[] =
 {
+<<<<<<< Updated upstream
     -137,  -137,   141,  -137,  -137,  -137,  -137,    44,  -137,   130,
     -137,   -40,  -137,  -137,  -137,  -137,  -137,  -137,  -137,  -137,
     -136,  -137,     3,  -137,   -33,    58,    55,    96,   -39,   -32,
       14,   -64,   -13,   -35,  -137,     7,  -137
+=======
+    -139,  -139,   143,  -139,  -139,  -139,  -139,    24,  -139,   133,
+    -139,   -40,  -139,  -139,  -139,  -139,  -139,  -139,  -139,  -139,
+    -139,  -139,  -139,  -138,  -139,     2,  -139,   -45,    55,    61,
+      95,   -39,   -32,    16,   -61,    -5,   -37,  -139,     3,  -139
+>>>>>>> Stashed changes
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
@@ -623,8 +705,13 @@ static const yytype_int8 yydefgoto[] =
 {
       -1,     2,     3,    11,    18,     4,     8,    13,    14,    15,
       26,    41,    42,    43,    44,    45,    46,    47,    48,    49,
+<<<<<<< Updated upstream
      111,    50,   114,    51,    60,    61,    62,    63,    64,   102,
       65,   106,    66,    67,    89,   126,    68
+=======
+      50,    51,    52,   114,    53,   117,    54,    63,    64,    65,
+      66,    67,   107,    68,   111,    69,    70,    94,   132,    71
+>>>>>>> Stashed changes
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -632,6 +719,7 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
+<<<<<<< Updated upstream
       75,    69,     1,    74,    80,    81,   156,    82,   107,    91,
       33,   103,   104,   105,    34,    35,    92,    86,    36,    37,
       38,   163,    92,    85,    90,     5,    92,    53,    54,   166,
@@ -649,10 +737,30 @@ static const yytype_uint8 yytable[] =
      123,   142,   154,   146,   145,     7,    21,   158,   129,   147,
      128,    84,   148,   160,     0,    92,   157,     0,   109,     0,
        0,     0,   159,     0,   165
+=======
+      77,    76,    84,     1,    82,    83,    96,    33,    85,   160,
+      86,    34,    35,     6,    90,    36,    37,    38,   124,    97,
+      91,     7,    74,   166,   112,    95,    97,   113,    60,    61,
+     169,    39,    97,    40,    62,   115,    56,    57,   128,   118,
+     119,   120,   127,    23,    59,   112,    27,    78,   159,    79,
+      60,    61,    74,   131,   133,    92,    62,    93,    60,    75,
+     136,   137,   138,   139,   140,   141,     8,    56,    57,    24,
+      25,    58,   105,   106,   148,    59,    10,   129,    12,   149,
+      16,    60,    61,   156,   157,   158,    17,    62,    20,    99,
+     100,   101,   102,   103,   104,    74,   130,   108,   109,   110,
+      19,    60,    61,   144,   145,   146,    22,    62,   121,   122,
+     154,   155,   131,    99,   100,   101,   102,   103,   104,    28,
+     165,   142,   143,    29,   167,    30,    31,    32,    55,    72,
+      73,    80,    81,    88,    87,    98,    93,   116,   125,   126,
+     123,   129,   150,   147,   151,   152,   153,    97,     9,    21,
+     161,   162,   134,    89,   164,     0,     0,   112,   163,   135,
+       0,     0,   168
+>>>>>>> Stashed changes
 };
 
 static const yytype_int16 yycheck[] =
 {
+<<<<<<< Updated upstream
       39,    34,     3,    38,    44,    45,   142,    47,    20,    15,
       14,    41,    42,    43,    18,    19,    28,    56,    22,    23,
       24,   157,    28,    56,    59,    40,    28,    25,    26,   165,
@@ -670,6 +778,25 @@ static const yytype_int16 yycheck[] =
       34,    40,    18,    32,    36,     4,    16,   144,    93,    34,
       92,    55,    36,   146,    -1,    28,    36,    -1,    32,    -1,
       -1,    -1,    37,    -1,    36
+=======
+      39,    38,    47,     3,    44,    45,    15,    14,    48,   147,
+      50,    18,    19,    40,    59,    22,    23,    24,    20,    28,
+      59,     0,    33,   161,    32,    62,    28,    35,    39,    40,
+     168,    38,    28,    40,    45,    74,    25,    26,    34,    78,
+      79,    81,    87,    19,    33,    32,    22,    35,    35,    37,
+      39,    40,    33,    92,    93,    33,    45,    35,    39,    40,
+      99,   100,   101,   102,   103,   104,    30,    25,    26,    11,
+      12,    29,    44,    45,   113,    33,     4,    34,    40,   116,
+      32,    39,    40,   144,   145,   146,     5,    45,    31,    46,
+      47,    48,    49,    50,    51,    33,    34,    41,    42,    43,
+      30,    39,    40,   108,   109,   110,     9,    45,    16,    17,
+     142,   143,   151,    46,    47,    48,    49,    50,    51,    35,
+     159,   105,   106,    10,   163,    39,     6,    36,    13,    20,
+      40,     8,    30,    11,    18,    27,    35,    32,    21,    21,
+      16,    34,    36,    40,    32,    34,    36,    28,     5,    16,
+      36,   149,    97,    58,   151,    -1,    -1,    32,    37,    98,
+      -1,    -1,    36
+>>>>>>> Stashed changes
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -681,6 +808,7 @@ static const yytype_uint8 yystos[] =
       31,    61,     9,    59,    11,    12,    62,    59,    35,    10,
       39,     6,    36,    14,    18,    19,    22,    23,    24,    38,
       40,    63,    64,    65,    66,    67,    68,    69,    70,    71,
+<<<<<<< Updated upstream
       73,    75,    13,    25,    26,    29,    33,    39,    40,    45,
       76,    77,    78,    79,    80,    82,    84,    85,    88,    76,
       20,    40,    33,    40,    85,    80,    35,    37,     8,    30,
@@ -693,6 +821,20 @@ static const yytype_uint8 yystos[] =
       84,    21,    40,    80,    85,    36,    32,    34,    36,    81,
       81,    83,    83,    83,    18,    35,    72,    36,    74,    37,
       87,    76,    80,    72,    80,    36,    72
+=======
+      72,    73,    74,    76,    78,    13,    25,    26,    29,    33,
+      39,    40,    45,    79,    80,    81,    82,    83,    85,    87,
+      88,    91,    20,    40,    33,    40,    88,    83,    35,    37,
+       8,    30,    63,    63,    79,    63,    63,    18,    11,    82,
+      79,    83,    33,    35,    89,    88,    15,    28,    27,    46,
+      47,    48,    49,    50,    51,    44,    45,    84,    41,    42,
+      43,    86,    32,    35,    75,    83,    32,    77,    83,    83,
+      63,    16,    17,    16,    20,    21,    21,    79,    34,    34,
+      34,    83,    90,    83,    80,    81,    83,    83,    83,    83,
+      83,    83,    85,    85,    87,    87,    87,    40,    83,    88,
+      36,    32,    34,    36,    84,    84,    86,    86,    86,    35,
+      75,    36,    77,    37,    90,    83,    75,    83,    36,    75
+>>>>>>> Stashed changes
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -701,11 +843,20 @@ static const yytype_uint8 yyr1[] =
        0,    52,    53,    54,    54,    55,    56,    58,    57,    59,
       59,    60,    61,    61,    62,    62,    63,    63,    64,    64,
       64,    64,    64,    64,    64,    64,    65,    65,    66,    67,
+<<<<<<< Updated upstream
       68,    68,    69,    70,    71,    72,    72,    72,    73,    73,
       74,    74,    75,    76,    76,    77,    77,    78,    78,    79,
       79,    79,    79,    79,    79,    79,    79,    79,    80,    81,
       81,    81,    82,    83,    83,    83,    83,    84,    84,    84,
       85,    85,    85,    86,    86,    87,    87,    88,    88
+=======
+      68,    68,    69,    70,    71,    72,    73,    74,    75,    75,
+      75,    76,    76,    77,    77,    78,    79,    79,    80,    80,
+      81,    81,    82,    82,    82,    82,    82,    82,    82,    82,
+      82,    83,    84,    84,    84,    85,    86,    86,    86,    86,
+      87,    87,    87,    88,    88,    88,    89,    89,    90,    90,
+      91,    91
+>>>>>>> Stashed changes
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
@@ -714,11 +865,20 @@ static const yytype_uint8 yyr2[] =
        0,     2,     1,     0,     2,     1,     1,     0,    13,     0,
        3,     3,     1,     3,     1,     6,     3,     2,     1,     1,
        1,     1,     1,     1,     1,     2,     3,     6,     3,     3,
+<<<<<<< Updated upstream
        3,     3,     3,     3,     6,     3,     6,     0,     3,     6,
        0,     3,     3,     1,     3,     1,     3,     1,     2,     3,
        3,     3,     3,     3,     3,     1,     1,     3,     2,     0,
        3,     3,     2,     0,     3,     3,     3,     1,     2,     2,
        1,     1,     3,     3,     2,     1,     3,     1,     4
+=======
+       3,     3,     1,     3,     3,     2,     3,     3,     3,     6,
+       0,     3,     6,     0,     3,     3,     1,     3,     1,     3,
+       1,     2,     3,     3,     3,     3,     3,     3,     1,     1,
+       3,     2,     0,     3,     3,     2,     0,     3,     3,     3,
+       1,     2,     2,     1,     1,     3,     3,     2,     1,     3,
+       1,     4
+>>>>>>> Stashed changes
 };
 
 
@@ -1397,23 +1557,43 @@ yyreduce:
         case 5:
 #line 68 "mini_l.y" /* yacc.c:1646  */
     {
+<<<<<<< Updated upstream
               		add_to_param_table=true;
           	}
 #line 1403 "mini_l.tab.c" /* yacc.c:1646  */
+=======
+                func_table.push_back(strdup((yyvsp[0].sval)));
+                cout <<"func "<< strdup((yyvsp[0].sval)) <<endl;
+             }
+#line 1407 "mini_l.tab.c" /* yacc.c:1646  */
+>>>>>>> Stashed changes
     break;
 
   case 6:
 #line 73 "mini_l.y" /* yacc.c:1646  */
     {
+<<<<<<< Updated upstream
             		add_to_param_table=false;
         	}
 #line 1411 "mini_l.tab.c" /* yacc.c:1646  */
+=======
+              add_to_param_table=true;
+          }
+#line 1415 "mini_l.tab.c" /* yacc.c:1646  */
+>>>>>>> Stashed changes
     break;
 
   case 7:
 #line 78 "mini_l.y" /* yacc.c:1646  */
+<<<<<<< Updated upstream
     {func_table.push_back(strdup((yyvsp[0].sval))); cout << "func " << strdup((yyvsp[0].sval)) << endl;}
 #line 1417 "mini_l.tab.c" /* yacc.c:1646  */
+=======
+    {
+            add_to_param_table=false;
+        }
+#line 1423 "mini_l.tab.c" /* yacc.c:1646  */
+>>>>>>> Stashed changes
     break;
 
   case 8:
@@ -1426,6 +1606,7 @@ yyreduce:
 				else
 					cout<<".[] "<<sym_table.at(j)<<", "<<sym_type.at(j)<<endl;
 			}
+<<<<<<< Updated upstream
             		while(!param_table.empty())
             		{
                 		cout<<"= "<<param_table.front()<<", $"<<param_val<<endl;
@@ -1444,6 +1625,26 @@ yyreduce:
 
 		}
 #line 1447 "mini_l.tab.c" /* yacc.c:1646  */
+=======
+            while(!param_table.empty())
+            {
+                cout<<"= "<<param_table.front()<<", $"<<param_val<<endl;
+                param_table.erase(param_table.begin());
+                param_val++;
+            }
+            //STATEMENT PRINT
+            for(unsigned i=0;i<mil_vector.size();i++)
+                cout<<mil_vector.at(i)<<endl;
+            cout<<"endfunc"<<endl;
+            mil_vector.clear();
+            sym_table.clear();
+            sym_type.clear();
+            param_table.clear();
+            param_val=0;
+
+		}
+#line 1456 "mini_l.tab.c" /* yacc.c:1646  */
+>>>>>>> Stashed changes
     break;
 
   case 12:
@@ -1453,7 +1654,11 @@ yyreduce:
             		if(add_to_param_table)
                 		param_table.push_back(strdup((yyvsp[0].sval)));
 		}
+<<<<<<< Updated upstream
 #line 1457 "mini_l.tab.c" /* yacc.c:1646  */
+=======
+#line 1466 "mini_l.tab.c" /* yacc.c:1646  */
+>>>>>>> Stashed changes
     break;
 
   case 13:
@@ -1462,7 +1667,11 @@ yyreduce:
 			sym_table.push_back(strdup((yyvsp[-2].sval)));
 			sym_type.push_back("INTEGER");
 		}
+<<<<<<< Updated upstream
 #line 1466 "mini_l.tab.c" /* yacc.c:1646  */
+=======
+#line 1475 "mini_l.tab.c" /* yacc.c:1646  */
+>>>>>>> Stashed changes
     break;
 
   case 14:
@@ -1470,7 +1679,11 @@ yyreduce:
     { 
 			sym_type.push_back("INTEGER");
 		}
+<<<<<<< Updated upstream
 #line 1474 "mini_l.tab.c" /* yacc.c:1646  */
+=======
+#line 1483 "mini_l.tab.c" /* yacc.c:1646  */
+>>>>>>> Stashed changes
     break;
 
   case 15:
@@ -1481,11 +1694,19 @@ yyreduce:
 			string s = ss.str();
 			sym_type.push_back(s);
 		}
+<<<<<<< Updated upstream
 #line 1485 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
 #line 150 "mini_l.y" /* yacc.c:1646  */
+=======
+#line 1494 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 24:
+#line 158 "mini_l.y" /* yacc.c:1646  */
+>>>>>>> Stashed changes
     {
 			if (!loop_label.empty())
             		{
@@ -1495,7 +1716,20 @@ yyreduce:
                     			mil_vector.push_back(":= "+ loop_label.back().at(0));
             		}
         	}
+<<<<<<< Updated upstream
 #line 1499 "mini_l.tab.c" /* yacc.c:1646  */
+=======
+#line 1508 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 25:
+#line 170 "mini_l.y" /* yacc.c:1646  */
+    {
+            		mil_vector.push_back("ret "+op.back());
+            		op.pop_back();
+        	}
+#line 1517 "mini_l.tab.c" /* yacc.c:1646  */
+>>>>>>> Stashed changes
     break;
 
   case 25:
@@ -1508,6 +1742,7 @@ yyreduce:
     break;
 
   case 26:
+<<<<<<< Updated upstream
 #line 170 "mini_l.y" /* yacc.c:1646  */
     {
             		string var = strdup((yyvsp[-2].sval));
@@ -1624,11 +1859,169 @@ yyreduce:
 
   case 35:
 #line 264 "mini_l.y" /* yacc.c:1646  */
+=======
+#line 177 "mini_l.y" /* yacc.c:1646  */
+    {
+            string var = std::string("_") + strdup((yyvsp[-2].sval));
+            mil_vector.push_back("= " + var + ", " + op.back() );
+            op.pop_back();
+            //cout<<op.size()<<endl;    TEST
+            //op.clear()  //REMOVE AFTER TESTING
+        }
+#line 1529 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 27:
+#line 185 "mini_l.y" /* yacc.c:1646  */
+    {
+            string var = std::string("_") + strdup((yyvsp[-5].sval));
+            string array_result_expression = op.back();
+            op.pop_back();
+            string array_expression = op.back();
+            op.pop_back();
+            mil_vector.push_back(std::string("[]= _") + strdup((yyvsp[-5].sval))+", " + array_expression + ", " + array_result_expression); 
+        }
+#line 1542 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 28:
+#line 197 "mini_l.y" /* yacc.c:1646  */
+    {
+            label_count++;    
+            m.str("");
+            m.clear();     
+            m<<label_count;
+            string label_1 = "if_condition_true_"+m.str(); 
+            string label_2 = "if_condition_false_"+m.str();
+            string label_3 = "end_if_"+m.str();
+            vector<string> temp;        //temp label vector
+            temp.push_back(label_1);    
+            temp.push_back(label_2);    
+            temp.push_back(label_3);
+            if_label.push_back(temp);   //pushing temp vector onto if label
+            mil_vector.push_back("?:= "+if_label.back().at(0)+", "+op.back());
+            op.pop_back();
+            mil_vector.push_back(":= "+if_label.back().at(1)); 
+            mil_vector.push_back(": "+if_label.back().at(0));    
+
+        }
+#line 1566 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 29:
+#line 219 "mini_l.y" /* yacc.c:1646  */
+    {
+                mil_vector.push_back(":= "+if_label.back().at(2));
+                mil_vector.push_back(": "+if_label.back().at(1));
+            }
+#line 1575 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 30:
+#line 226 "mini_l.y" /* yacc.c:1646  */
+    {
+            mil_vector.push_back(": "+if_label.back().at(1));
+            if_label.pop_back();
+        }
+#line 1584 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 31:
+#line 231 "mini_l.y" /* yacc.c:1646  */
+    {
+           mil_vector.push_back(": "+if_label.back().at(2));
+           if_label.pop_back();             //END_LOOP_HERE
+        }
+#line 1593 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 32:
+#line 238 "mini_l.y" /* yacc.c:1646  */
+    {
+            label_count++;
+            m.str("");
+            m.clear();      
+            m<<label_count;
+            string label_1 = "while_loop_"+m.str();  // loop label
+            string label_2 = "conditional_true_"+m.str();  //if condition == true label
+            string label_3 = "conditional_false_"+m.str();  //if contiditon == false label
+            vector<string> temp;        //temp label vector
+            temp.push_back(label_1);    
+            temp.push_back(label_2);  
+            temp.push_back(label_3);  
+            loop_label.push_back(temp); 
+            mil_vector.push_back(": "+loop_label.back().at(0));
+         }
+#line 1613 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 33:
+#line 255 "mini_l.y" /* yacc.c:1646  */
+    {
+                mil_vector.push_back("?:= "+loop_label.back().at(1)+", "+op.back());
+                op.pop_back();
+                mil_vector.push_back(":= "+loop_label.back().at(2));
+                mil_vector.push_back(": "+loop_label.back().at(1));
+            }
+#line 1624 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 34:
+#line 264 "mini_l.y" /* yacc.c:1646  */
+    {
+            mil_vector.push_back(":= "+loop_label.back().at(0));
+            mil_vector.push_back(": "+loop_label.back().at(2));
+            loop_label.pop_back();
+        }
+#line 1634 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 35:
+#line 272 "mini_l.y" /* yacc.c:1646  */
+    {
+            label_count++; 
+            m.str("");
+            m.clear();     
+            m<<label_count;
+            string label_1 = "do_while_loop_"+m.str();  // do_while_loop label
+            string label_2 = "do_while_conditional_check"+m.str(); //if condition == true label
+            vector <string> temp;
+            temp.push_back(label_1);
+            temp.push_back(label_2);
+            loop_label.push_back(temp);
+            mil_vector.push_back(": "+label_1);
+        }
+#line 1652 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 36:
+#line 288 "mini_l.y" /* yacc.c:1646  */
+    {
+            mil_vector.push_back(": "+ loop_label.back().at(1));
+        }
+#line 1660 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 37:
+#line 292 "mini_l.y" /* yacc.c:1646  */
+    {
+            mil_vector.push_back("?:= "+ loop_label.back().at(0)+", "+op.back());
+            //if condition is false only return first pass through loop
+            op.pop_back();
+            loop_label.pop_back();
+        }
+#line 1671 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 38:
+#line 301 "mini_l.y" /* yacc.c:1646  */
+>>>>>>> Stashed changes
     {
                 string var = strdup((yyvsp[-1].sval));
                 read_queue.push(strdup((yyvsp[-1].sval)));
 
             }
+<<<<<<< Updated upstream
 #line 1633 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1641,12 +2034,27 @@ yyreduce:
                 my_string<<temp_count;                  
                 temp_count++;                       
                 string new_temp_var=std::string("_temp_")+ my_string.str();       
+=======
+#line 1681 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 39:
+#line 307 "mini_l.y" /* yacc.c:1646  */
+    {
+                string var = std::string("_") + strdup((yyvsp[-4].sval));
+                m.str("");
+                m.clear();                             
+                m<<temp_count;                  
+                temp_count++;                       
+                string new_temp_var=std::string("_temp_")+ m.str();       
+>>>>>>> Stashed changes
                 sym_table.push_back(new_temp_var);    
                 sym_type.push_back("INTEGER");  
                 read_queue.push(".< "+new_temp_var);
                 read_queue.push(std::string("[]= ") + strdup((yyvsp[-4].sval)) + ", " + op.back() + ", " + new_temp_var);
                 op.pop_back();
             }
+<<<<<<< Updated upstream
 #line 1651 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1729,6 +2137,90 @@ yyreduce:
             my_string<<temp_count;
             temp_count++;
             string new_temp_var=std::string("_temp_")+ my_string.str();      
+=======
+#line 1699 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 41:
+#line 324 "mini_l.y" /* yacc.c:1646  */
+    {                                      
+            string var = std::string("_") + strdup((yyvsp[-1].sval));            
+            mil_vector.push_back(std::string(".< _") + strdup((yyvsp[-1].sval)));
+            while(!read_queue.empty())
+            {
+                mil_vector.push_back(read_queue.top());
+                read_queue.pop();
+            }
+        }
+#line 1713 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 42:
+#line 334 "mini_l.y" /* yacc.c:1646  */
+    {
+            string var = std::string("_") + strdup((yyvsp[-4].sval));
+            m.str("");
+            m.clear();                            
+            m<<temp_count;               
+            temp_count++;                       
+            string new_temp_var=std::string("_temp_")+ m.str();     
+            sym_table.push_back(new_temp_var);  
+            sym_type.push_back("INTEGER");      
+            mil_vector.push_back(std::string(".< ") +new_temp_var);
+            mil_vector.push_back(std::string("[]= _") + strdup((yyvsp[-4].sval))+ ", " + op.back() + ", " + new_temp_var);
+            op.pop_back();
+            while(!read_queue.empty())
+            {
+                mil_vector.push_back(read_queue.top());
+                read_queue.pop();
+            }
+        }
+#line 1736 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 45:
+#line 360 "mini_l.y" /* yacc.c:1646  */
+    {
+            while(!op.empty())
+            {
+            	string s= op.front();
+                op.erase(op.begin());
+                mil_vector.push_back(".> "+ s);
+            }
+            op.clear();
+        }
+#line 1750 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 47:
+#line 373 "mini_l.y" /* yacc.c:1646  */
+    {
+            m.str("");
+            m.clear();                             
+            m<<temp_count;                    
+            temp_count++;
+            string new_temp_var=std::string("_temp_")+ m.str();      
+            sym_table.push_back(new_temp_var);   
+            sym_type.push_back("INTEGER");     
+            string op2 = op.back();
+            op.pop_back();
+            string op1 =op.back();
+            op.pop_back();
+            mil_vector.push_back("|| "+ new_temp_var + ", "+op1+", "+op2);    
+            op.push_back(new_temp_var);
+        }
+#line 1770 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 49:
+#line 392 "mini_l.y" /* yacc.c:1646  */
+    {
+            m.str("");
+            m.clear();                      
+            m<<temp_count;
+            temp_count++;
+            string new_temp_var=std::string("_temp_")+ m.str();      
+>>>>>>> Stashed changes
             sym_table.push_back(new_temp_var);  
             sym_type.push_back("INTEGER");  
             string op2 = op.back();
@@ -1738,6 +2230,7 @@ yyreduce:
             mil_vector.push_back("&& "+ new_temp_var + ", "+op1+", "+op2);    
             op.push_back(new_temp_var); 
         }
+<<<<<<< Updated upstream
 #line 1742 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1749,6 +2242,19 @@ yyreduce:
             my_string<<temp_count;  
             temp_count++;
             string new_temp_var=std::string("_temp_")+ my_string.str(); 
+=======
+#line 1790 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 51:
+#line 412 "mini_l.y" /* yacc.c:1646  */
+    {
+            m.str("");
+            m.clear();      
+            m<<temp_count;  
+            temp_count++;
+            string new_temp_var=std::string("_temp_")+ m.str(); 
+>>>>>>> Stashed changes
             sym_table.push_back(new_temp_var); 
             sym_type.push_back("INTEGER");  
             string op1 = op.back();
@@ -1757,6 +2263,7 @@ yyreduce:
             op.push_back(new_temp_var);
 
         }
+<<<<<<< Updated upstream
 #line 1761 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1768,6 +2275,19 @@ yyreduce:
             my_string<<temp_count;       
             temp_count++;
             string new_temp_var=std::string("_temp_")+ my_string.str();  
+=======
+#line 1809 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 52:
+#line 429 "mini_l.y" /* yacc.c:1646  */
+    {
+            m.str("");
+            m.clear();       
+            m<<temp_count;       
+            temp_count++;
+            string new_temp_var=std::string("_temp_")+ m.str();  
+>>>>>>> Stashed changes
             sym_table.push_back(new_temp_var);   
             sym_type.push_back("INTEGER");    
             string op2 = op.back();
@@ -1777,6 +2297,7 @@ yyreduce:
             mil_vector.push_back("== "+ new_temp_var + ", "+op1+", "+op2);    
             op.push_back(new_temp_var);
         }
+<<<<<<< Updated upstream
 #line 1781 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1788,6 +2309,19 @@ yyreduce:
             my_string<<temp_count;              
             temp_count++;
             string new_temp_var=std::string("_temp_")+ my_string.str();    
+=======
+#line 1829 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 53:
+#line 445 "mini_l.y" /* yacc.c:1646  */
+    {
+            m.str("");
+            m.clear();             
+            m<<temp_count;              
+            temp_count++;
+            string new_temp_var=std::string("_temp_")+ m.str();    
+>>>>>>> Stashed changes
             sym_table.push_back(new_temp_var); 
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -1797,6 +2331,7 @@ yyreduce:
             mil_vector.push_back("!= "+ new_temp_var + ", "+op1+", "+op2);    
             op.push_back(new_temp_var);
         }
+<<<<<<< Updated upstream
 #line 1801 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1808,6 +2343,19 @@ yyreduce:
             my_string<<temp_count;
             temp_count++;
             string new_temp_var=std::string("_temp_")+ my_string.str(); 
+=======
+#line 1849 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 54:
+#line 462 "mini_l.y" /* yacc.c:1646  */
+    {
+            m.str("");
+            m.clear();
+            m<<temp_count;
+            temp_count++;
+            string new_temp_var=std::string("_temp_")+ m.str(); 
+>>>>>>> Stashed changes
             sym_table.push_back(new_temp_var); 
             sym_type.push_back("INTEGER");
             string op2 = op.back();
@@ -1817,6 +2365,7 @@ yyreduce:
             mil_vector.push_back("< "+ new_temp_var + ", "+op1+", "+op2);    
             op.push_back(new_temp_var);
         }
+<<<<<<< Updated upstream
 #line 1821 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1828,6 +2377,19 @@ yyreduce:
             my_string<<temp_count; 
             temp_count++;
             string new_temp_var=std::string("_temp_")+ my_string.str(); 
+=======
+#line 1869 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 55:
+#line 478 "mini_l.y" /* yacc.c:1646  */
+    {
+            m.str("");
+            m.clear();      
+            m<<temp_count; 
+            temp_count++;
+            string new_temp_var=std::string("_temp_")+ m.str(); 
+>>>>>>> Stashed changes
             sym_table.push_back(new_temp_var);
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -1837,6 +2399,7 @@ yyreduce:
             mil_vector.push_back("> "+ new_temp_var + ", "+op1+", "+op2);    
             op.push_back(new_temp_var);
         }
+<<<<<<< Updated upstream
 #line 1841 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1848,6 +2411,19 @@ yyreduce:
             my_string<<temp_count;  
             temp_count++;
             string new_temp_var=std::string("_temp_")+ my_string.str(); 
+=======
+#line 1889 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 56:
+#line 494 "mini_l.y" /* yacc.c:1646  */
+    {
+            m.str("");
+            m.clear();           
+            m<<temp_count;  
+            temp_count++;
+            string new_temp_var=std::string("_temp_")+ m.str(); 
+>>>>>>> Stashed changes
             sym_table.push_back(new_temp_var); 
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -1857,6 +2433,7 @@ yyreduce:
             mil_vector.push_back("<= "+ new_temp_var + ", "+op1+", "+op2);    
             op.push_back(new_temp_var);
         }
+<<<<<<< Updated upstream
 #line 1861 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1868,6 +2445,19 @@ yyreduce:
             my_string<<temp_count;  
             temp_count++;
             string new_temp_var=std::string("_temp_")+ my_string.str(); 
+=======
+#line 1909 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 57:
+#line 510 "mini_l.y" /* yacc.c:1646  */
+    {
+            m.str("");
+            m.clear();
+            m<<temp_count;  
+            temp_count++;
+            string new_temp_var=std::string("_temp_")+ m.str(); 
+>>>>>>> Stashed changes
             sym_table.push_back(new_temp_var);
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -1877,6 +2467,7 @@ yyreduce:
             mil_vector.push_back(">= "+ new_temp_var + ", "+op1+", "+op2);    
             op.push_back(new_temp_var);
         }
+<<<<<<< Updated upstream
 #line 1881 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1888,11 +2479,25 @@ yyreduce:
             my_string<<temp_count;
             temp_count++;
             string new_temp_var=std::string("_temp_")+ my_string.str();
+=======
+#line 1929 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 58:
+#line 526 "mini_l.y" /* yacc.c:1646  */
+    {
+            m.str("");
+            m.clear();   
+            m<<temp_count;
+            temp_count++;
+            string new_temp_var=std::string("_temp_")+ m.str();
+>>>>>>> Stashed changes
             sym_table.push_back(new_temp_var);
             sym_type.push_back("INTEGER"); 
             mil_vector.push_back("= "+new_temp_var+", 1");
             op.push_back(new_temp_var);
         }
+<<<<<<< Updated upstream
 #line 1897 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1904,11 +2509,25 @@ yyreduce:
             my_string<<temp_count;   
             temp_count++;
             string new_temp_var=std::string("_temp_")+ my_string.str();   
+=======
+#line 1945 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 59:
+#line 538 "mini_l.y" /* yacc.c:1646  */
+    {
+            m.str("");
+            m.clear();       
+            m<<temp_count;   
+            temp_count++;
+            string new_temp_var=std::string("_temp_")+ m.str();   
+>>>>>>> Stashed changes
             sym_table.push_back(new_temp_var);
             sym_type.push_back("INTEGER");  
             mil_vector.push_back("= "+new_temp_var+", 0"); 
             op.push_back(new_temp_var);
         }
+<<<<<<< Updated upstream
 #line 1913 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1920,6 +2539,19 @@ yyreduce:
             my_string<<temp_count;  
             temp_count++;
             string new_temp_var=std::string("_temp_")+ my_string.str();  
+=======
+#line 1961 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 63:
+#line 558 "mini_l.y" /* yacc.c:1646  */
+    {
+            m.str("");
+            m.clear();           
+            m<<temp_count;  
+            temp_count++;
+            string new_temp_var=std::string("_temp_")+ m.str();  
+>>>>>>> Stashed changes
             sym_table.push_back(new_temp_var);  
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -1930,6 +2562,7 @@ yyreduce:
             op.push_back(new_temp_var);
 
         }
+<<<<<<< Updated upstream
 #line 1934 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1941,6 +2574,19 @@ yyreduce:
             my_string<<temp_count;  
             temp_count++;
             string new_temp_var=std::string("_temp_")+ my_string.str();
+=======
+#line 1982 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 64:
+#line 575 "mini_l.y" /* yacc.c:1646  */
+    {
+            m.str("");
+            m.clear();   
+            m<<temp_count;  
+            temp_count++;
+            string new_temp_var=std::string("_temp_")+ m.str();
+>>>>>>> Stashed changes
             sym_table.push_back(new_temp_var); 
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -1950,6 +2596,7 @@ yyreduce:
             mil_vector.push_back("- "+ new_temp_var + ", "+op1+", "+op2);    
             op.push_back(new_temp_var); 
         }
+<<<<<<< Updated upstream
 #line 1954 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1961,6 +2608,19 @@ yyreduce:
             my_string<<temp_count;   
             temp_count++;
             string new_temp_var=std::string("_temp_")+ my_string.str();  
+=======
+#line 2002 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 67:
+#line 597 "mini_l.y" /* yacc.c:1646  */
+    {
+            m.str("");
+            m.clear();   
+            m<<temp_count;   
+            temp_count++;
+            string new_temp_var=std::string("_temp_")+ m.str();  
+>>>>>>> Stashed changes
             sym_table.push_back(new_temp_var);  
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -1970,6 +2630,7 @@ yyreduce:
             mil_vector.push_back("* "+ new_temp_var + ", "+op1+", "+op2);    
             op.push_back(new_temp_var);
         }
+<<<<<<< Updated upstream
 #line 1974 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1981,6 +2642,19 @@ yyreduce:
             my_string<<temp_count;
             temp_count++;
             string new_temp_var=std::string("_temp_")+ my_string.str();
+=======
+#line 2022 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 68:
+#line 613 "mini_l.y" /* yacc.c:1646  */
+    {
+            m.str("");
+            m.clear();     
+            m<<temp_count;
+            temp_count++;
+            string new_temp_var=std::string("_temp_")+ m.str();
+>>>>>>> Stashed changes
             sym_table.push_back(new_temp_var); 
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -1990,6 +2664,7 @@ yyreduce:
             mil_vector.push_back("/ "+ new_temp_var + ", "+op1+", "+op2);    
             op.push_back(new_temp_var);
         }
+<<<<<<< Updated upstream
 #line 1994 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
@@ -2001,6 +2676,19 @@ yyreduce:
             my_string<<temp_count; 
             temp_count++;
             string new_temp_var=std::string("_temp_")+ my_string.str();
+=======
+#line 2042 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 69:
+#line 630 "mini_l.y" /* yacc.c:1646  */
+    {
+            m.str("");
+            m.clear();                          
+            m<<temp_count; 
+            temp_count++;
+            string new_temp_var=std::string("_temp_")+ m.str();
+>>>>>>> Stashed changes
             sym_table.push_back(new_temp_var);
             sym_type.push_back("INTEGER"); 
             string op2 = op.back();
@@ -2010,13 +2698,22 @@ yyreduce:
             mil_vector.push_back("% "+ new_temp_var + ", "+op1+", "+op2);    
             op.push_back(new_temp_var);
         }
+<<<<<<< Updated upstream
 #line 2014 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 67:
 #line 613 "mini_l.y" /* yacc.c:1646  */
+=======
+#line 2062 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 70:
+#line 649 "mini_l.y" /* yacc.c:1646  */
+>>>>>>> Stashed changes
     {
                 }
+<<<<<<< Updated upstream
 #line 2021 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
@@ -2028,6 +2725,19 @@ yyreduce:
                     my_string<<temp_count;
                     temp_count++;
                     string new_temp_var=std::string("_temp_")+ my_string.str(); 
+=======
+#line 2070 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 71:
+#line 653 "mini_l.y" /* yacc.c:1646  */
+    {
+                    m.str("");
+                    m.clear();     
+                    m<<temp_count;
+                    temp_count++;
+                    string new_temp_var=std::string("_temp_")+ m.str(); 
+>>>>>>> Stashed changes
                     sym_table.push_back(new_temp_var); 
                     sym_type.push_back("INTEGER"); 
                     mil_vector.push_back("- "+ new_temp_var + ", 0, " +op.back());    
@@ -2035,6 +2745,7 @@ yyreduce:
                     op.push_back(new_temp_var); 
 
                 }
+<<<<<<< Updated upstream
 #line 2039 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
@@ -2047,11 +2758,26 @@ yyreduce:
                     my_string<<temp_count;
                     temp_count++;
                     string new_temp_var=std::string("_temp_")+ my_string.str(); 
+=======
+#line 2088 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 72:
+#line 667 "mini_l.y" /* yacc.c:1646  */
+    {
+                    //calling functions
+                    m.str("");
+                    m.clear();  
+                    m<<temp_count;
+                    temp_count++;
+                    string new_temp_var=std::string("_temp_")+ m.str(); 
+>>>>>>> Stashed changes
                     sym_table.push_back(new_temp_var); 
                     sym_type.push_back("INTEGER");  
                     mil_vector.push_back(std::string("call ") + strdup((yyvsp[-1].sval)) + ", " + new_temp_var);
                     op.push_back(new_temp_var); 
                 }
+<<<<<<< Updated upstream
 #line 2056 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
@@ -2063,6 +2789,19 @@ yyreduce:
                     my_string<<temp_count;
                     temp_count++;
                     string new_temp_var=std::string("_temp_")+ my_string.str();
+=======
+#line 2105 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 73:
+#line 682 "mini_l.y" /* yacc.c:1646  */
+    {
+                    m.str("");
+                    m.clear();         
+                    m<<temp_count;  
+                    temp_count++;
+                    string new_temp_var=std::string("_temp_")+ m.str();    
+>>>>>>> Stashed changes
                     sym_table.push_back(new_temp_var);  
                     sym_type.push_back("INTEGER"); 
                     string op1=op.back();       
@@ -2073,6 +2812,7 @@ yyreduce:
                     op.pop_back(); 
                     op.push_back(new_temp_var);
                 }
+<<<<<<< Updated upstream
 #line 2077 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
@@ -2084,6 +2824,19 @@ yyreduce:
                     my_string<<temp_count; 
                     temp_count++; 
                     string new_temp_var=std::string("_temp_")+ my_string.str();
+=======
+#line 2126 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 74:
+#line 699 "mini_l.y" /* yacc.c:1646  */
+    {
+                    m.str("");
+                    m.clear(); 
+                    m<<temp_count; 
+                    temp_count++; 
+                    string new_temp_var=std::string("_temp_")+ m.str();
+>>>>>>> Stashed changes
                     sym_table.push_back(new_temp_var); 
                     sym_type.push_back("INTEGER"); 
                     stringstream ss;
@@ -2091,11 +2844,19 @@ yyreduce:
                     mil_vector.push_back("= "+ new_temp_var +", "+ ss.str());
                     op.push_back(new_temp_var);
                 }
+<<<<<<< Updated upstream
 #line 2095 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 73:
 #line 679 "mini_l.y" /* yacc.c:1646  */
+=======
+#line 2144 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 76:
+#line 716 "mini_l.y" /* yacc.c:1646  */
+>>>>>>> Stashed changes
     {
                     while(!param_queue.empty())
                     {
@@ -2103,6 +2864,7 @@ yyreduce:
                         param_queue.pop();
                     }
                 }
+<<<<<<< Updated upstream
 #line 2107 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
@@ -2115,19 +2877,42 @@ yyreduce:
 
   case 75:
 #line 692 "mini_l.y" /* yacc.c:1646  */
+=======
+#line 2156 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 77:
+#line 724 "mini_l.y" /* yacc.c:1646  */
+    {
+                }
+#line 2163 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 78:
+#line 729 "mini_l.y" /* yacc.c:1646  */
+>>>>>>> Stashed changes
     {
                     param_queue.push(op.back());
                     op.pop_back();
                 }
+<<<<<<< Updated upstream
 #line 2123 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 76:
 #line 697 "mini_l.y" /* yacc.c:1646  */
+=======
+#line 2172 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 79:
+#line 734 "mini_l.y" /* yacc.c:1646  */
+>>>>>>> Stashed changes
     {
                     param_queue.push(op.back());
                     op.pop_back();
                 }
+<<<<<<< Updated upstream
 #line 2132 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
@@ -2142,17 +2927,41 @@ yyreduce:
 
   case 78:
 #line 709 "mini_l.y" /* yacc.c:1646  */
+=======
+#line 2181 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 80:
+#line 741 "mini_l.y" /* yacc.c:1646  */
+    {
+                    string var = std::string("_") + strdup((yyvsp[0].sval)); 
+                    op.push_back(var);
+                }
+#line 2190 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 81:
+#line 746 "mini_l.y" /* yacc.c:1646  */
+>>>>>>> Stashed changes
     {
                     string op1 = op.back();
                     op.pop_back();
                     string var = strdup((yyvsp[-3].sval));
                     op.push_back("[] " + var + ", " + op1);
                 }
+<<<<<<< Updated upstream
 #line 2152 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
 
 #line 2156 "mini_l.tab.c" /* yacc.c:1646  */
+=======
+#line 2201 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+
+#line 2205 "mini_l.tab.c" /* yacc.c:1646  */
+>>>>>>> Stashed changes
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2380,7 +3189,11 @@ yyreturn:
 #endif
   return yyresult;
 }
+<<<<<<< Updated upstream
 #line 717 "mini_l.y" /* yacc.c:1906  */
+=======
+#line 754 "mini_l.y" /* yacc.c:1906  */
+>>>>>>> Stashed changes
 
 void yyerror(const char* s)
 {

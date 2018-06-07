@@ -34,30 +34,50 @@ Grammar
    15 Statement1: Statement SEMICOLON Statement1
    16           | Statement SEMICOLON
 
+<<<<<<< Updated upstream
    17 Statement: assign_rule
+=======
+   17 statement: assign_rule
+>>>>>>> Stashed changes
    18          | If_rule
    19          | while_rule
    20          | do_while_rule
    21          | Read_in
    22          | write_rule
    23          | CONTINUE
+<<<<<<< Updated upstream
    24          | RETURN Expression
 
    25 assign_rule: IDENT ASSIGN Expression
    26            | IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET ASSIGN Expression
+=======
+   24          | RETURN expression
+
+   25 assign_rule: IDENT ASSIGN expression
+   26            | IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression
+>>>>>>> Stashed changes
 
    27 if_condition: IF Bool-Expr THEN
 
    28 else_condition: if_condition Statement1 ELSE
 
+<<<<<<< Updated upstream
    29 If_rule: if_condition Statement1 ENDIF
    30        | else_condition Statement1 ENDIF
+=======
+   29 If_rule: if_clause statements ENDIF
+   30        | else_if statements ENDIF
+>>>>>>> Stashed changes
 
    31 while_clause: WHILE Bool-Expr BEGINLOOP
 
    32 while_rule: while_clause Statement1 ENDLOOP
 
+<<<<<<< Updated upstream
    33 do_while_rule: DO BEGINLOOP Statement1 ENDLOOP WHILE Bool-Expr
+=======
+   33 while_rule: while_clause statements ENDLOOP
+>>>>>>> Stashed changes
 
    34 read_mult: COMMA IDENT read_mult
    35          | COMMA IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET read_mult
@@ -66,17 +86,27 @@ Grammar
    37 Read_in: READ IDENT read_mult
    38        | READ IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET read_mult
 
+<<<<<<< Updated upstream
    39 comma_mult: %empty
    40           | COMMA Normal comma_mult
+=======
+   36 do_while_rule: do_check WHILE boolean_expr
+>>>>>>> Stashed changes
 
    41 write_rule: WRITE Normal comma_mult
 
+<<<<<<< Updated upstream
    42 Bool-Expr: Relation_And_Expr
    43          | Bool-Expr OR Relation_And_Expr
+=======
+   40 Read_in: READ IDENT read_mult
+   41        | READ IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET read_mult
+>>>>>>> Stashed changes
 
    44 Relation_And_Expr: Relation-Exprs
    45                  | Relation_And_Expr AND Relation-Exprs
 
+<<<<<<< Updated upstream
    46 Relation-Exprs: Relation_Expr
    47               | NOT Relation_Expr
 
@@ -119,6 +149,58 @@ Grammar
 
    76 var: IDENT
    77    | IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET
+=======
+   44 write_rule: WRITE posterm ii
+
+   45 boolean_expr: relation_exprr
+   46             | boolean_expr OR relation_exprr
+
+   47 relation_exprr: relation_expr
+   48               | relation_exprr AND relation_expr
+
+   49 relation_expr: rexpr
+   50              | NOT rexpr
+
+   51 rexpr: expression EQ expression
+   52      | expression NEQ expression
+   53      | expression LT expression
+   54      | expression GT expression
+   55      | expression LTE expression
+   56      | expression GTE expression
+   57      | TRUE
+   58      | FALSE
+   59      | L_PAREN boolean_expr R_PAREN
+
+   60 expression: mul_expr expradd
+
+   61 expradd: %empty
+   62        | ADD mul_expr expradd
+   63        | SUB mul_expr expradd
+
+   64 mul_expr: term multi_term
+
+   65 multi_term: %empty
+   66           | MULT term multi_term
+   67           | DIV term multi_term
+   68           | MOD term multi_term
+
+   69 term: posterm
+   70     | SUB posterm
+   71     | IDENT term_iden
+
+   72 posterm: var
+   73        | NUMBER
+   74        | L_PAREN expression R_PAREN
+
+   75 term_iden: L_PAREN term_ex R_PAREN
+   76          | L_PAREN R_PAREN
+
+   77 term_ex: expression
+   78        | expression COMMA term_ex
+
+   79 var: IDENT
+   80    | IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET
+>>>>>>> Stashed changes
 
 
 Terminals, with rules where they appear
@@ -140,6 +222,7 @@ IF (269) 27
 THEN (270) 27
 ENDIF (271) 29 30
 ELSE (272) 28
+<<<<<<< Updated upstream
 WHILE (273) 31 33
 DO (274) 33
 BEGINLOOP (275) 31 33
@@ -174,6 +257,42 @@ GT (303) 51
 GTE (304) 53
 EQ (305) 48
 NEQ (306) 49
+=======
+WHILE (273) 31 36
+DO (274) 34
+BEGINLOOP (275) 32 34
+ENDLOOP (276) 33 35
+CONTINUE (277) 23
+READ (278) 40 41
+WRITE (279) 44
+TRUE (280) 57
+FALSE (281) 58
+AND (282) 48
+OR (283) 46
+NOT (284) 50
+SEMICOLON (285) 7 9 15 16
+COLON (286) 10
+COMMA (287) 12 37 38 43 78
+L_PAREN (288) 59 74 75 76
+R_PAREN (289) 59 74 75 76
+L_SQUARE_BRACKET (290) 14 26 38 41 80
+R_SQUARE_BRACKET (291) 14 26 38 41 80
+ASSIGN (292) 25 26
+RETURN (293) 24
+NUMBER (294) 14 73
+IDENT (295) 4 11 12 25 26 37 38 40 41 71 79 80
+MULT (296) 66
+DIV (297) 67
+MOD (298) 68
+ADD (299) 62
+SUB (300) 63 70
+LT (301) 53
+LTE (302) 55
+GT (303) 54
+GTE (304) 56
+EQ (305) 51
+NEQ (306) 52
+>>>>>>> Stashed changes
 
 
 Nonterminals, with rules where they appear
@@ -214,6 +333,7 @@ If_rule (68)
     on left: 29 30, on right: 18
 while_clause (69)
     on left: 31, on right: 32
+<<<<<<< Updated upstream
 while_rule (70)
     on left: 32, on right: 19
 do_while_rule (71)
@@ -253,6 +373,53 @@ Expression1 (87)
     on left: 74 75, on right: 72 75
 var (88)
     on left: 76 77, on right: 69
+=======
+while_clause (70)
+    on left: 32, on right: 33
+while_rule (71)
+    on left: 33, on right: 19
+do_key (72)
+    on left: 34, on right: 35
+do_check (73)
+    on left: 35, on right: 36
+do_while_rule (74)
+    on left: 36, on right: 20
+read_mult (75)
+    on left: 37 38 39, on right: 37 38 40 41
+Read_in (76)
+    on left: 40 41, on right: 21
+ii (77)
+    on left: 42 43, on right: 43 44
+write_rule (78)
+    on left: 44, on right: 22
+boolean_expr (79)
+    on left: 45 46, on right: 27 32 36 46 59
+relation_exprr (80)
+    on left: 47 48, on right: 45 46 48
+relation_expr (81)
+    on left: 49 50, on right: 47 48
+rexpr (82)
+    on left: 51 52 53 54 55 56 57 58 59, on right: 49 50
+expression (83)
+    on left: 60, on right: 24 25 26 38 41 51 52 53 54 55 56 74 77 78
+    80
+expradd (84)
+    on left: 61 62 63, on right: 60 62 63
+mul_expr (85)
+    on left: 64, on right: 60 62 63
+multi_term (86)
+    on left: 65 66 67 68, on right: 64 66 67 68
+term (87)
+    on left: 69 70 71, on right: 64 66 67 68
+posterm (88)
+    on left: 72 73 74, on right: 43 44 69 70
+term_iden (89)
+    on left: 75 76, on right: 71
+term_ex (90)
+    on left: 77 78, on right: 75 78
+var (91)
+    on left: 79 80, on right: 72
+>>>>>>> Stashed changes
 
 
 State 0
@@ -528,6 +695,7 @@ State 31
     RETURN    shift, and go to state 39
     IDENT     shift, and go to state 40
 
+<<<<<<< Updated upstream
     Statement1      go to state 41
     Statement       go to state 42
     assign_rule     go to state 43
@@ -539,19 +707,40 @@ State 31
     do_while_rule   go to state 49
     Read_in         go to state 50
     write_rule      go to state 51
+=======
+    statements     go to state 41
+    statement      go to state 42
+    assign_rule    go to state 43
+    if_clause      go to state 44
+    else_if        go to state 45
+    If_rule        go to state 46
+    while_key      go to state 47
+    while_clause   go to state 48
+    while_rule     go to state 49
+    do_key         go to state 50
+    do_check       go to state 51
+    do_while_rule  go to state 52
+    Read_in        go to state 53
+    write_rule     go to state 54
+>>>>>>> Stashed changes
 
 
 State 32
 
    14 Type: ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET . OF INTEGER
 
+<<<<<<< Updated upstream
     OF  shift, and go to state 52
+=======
+    OF  shift, and go to state 55
+>>>>>>> Stashed changes
 
 
 State 33
 
    27 if_condition: IF . Bool-Expr THEN
 
+<<<<<<< Updated upstream
     TRUE     shift, and go to state 53
     FALSE    shift, and go to state 54
     NOT      shift, and go to state 55
@@ -569,6 +758,25 @@ State 33
     term               go to state 66
     Normal             go to state 67
     var                go to state 68
+=======
+    TRUE     shift, and go to state 56
+    FALSE    shift, and go to state 57
+    NOT      shift, and go to state 58
+    L_PAREN  shift, and go to state 59
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    boolean_expr    go to state 63
+    relation_exprr  go to state 64
+    relation_expr   go to state 65
+    rexpr           go to state 66
+    expression      go to state 67
+    mul_expr        go to state 68
+    term            go to state 69
+    posterm         go to state 70
+    var             go to state 71
+>>>>>>> Stashed changes
 
 
 State 34
@@ -598,26 +806,44 @@ State 35
 
    33 do_while_rule: DO . BEGINLOOP Statement1 ENDLOOP WHILE Bool-Expr
 
+<<<<<<< Updated upstream
     BEGINLOOP  shift, and go to state 70
+=======
+    BEGINLOOP  shift, and go to state 72
+>>>>>>> Stashed changes
 
 
 State 36
 
+<<<<<<< Updated upstream
    23 Statement: CONTINUE .
 
     $default  reduce using rule 23 (Statement)
+=======
+   23 statement: CONTINUE .
+
+    $default  reduce using rule 23 (statement)
+>>>>>>> Stashed changes
 
 
 State 37
 
+<<<<<<< Updated upstream
    37 Read_in: READ . IDENT read_mult
    38        | READ . IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET read_mult
 
     IDENT  shift, and go to state 71
+=======
+   40 Read_in: READ . IDENT read_mult
+   41        | READ . IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET read_mult
+
+    IDENT  shift, and go to state 73
+>>>>>>> Stashed changes
 
 
 State 38
 
+<<<<<<< Updated upstream
    41 write_rule: WRITE . Normal comma_mult
 
     L_PAREN  shift, and go to state 72
@@ -626,10 +852,21 @@ State 38
 
     Normal  go to state 74
     var     go to state 68
+=======
+   44 write_rule: WRITE . posterm ii
+
+    L_PAREN  shift, and go to state 74
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 75
+
+    posterm  go to state 76
+    var      go to state 71
+>>>>>>> Stashed changes
 
 
 State 39
 
+<<<<<<< Updated upstream
    24 Statement: RETURN . Expression
 
     L_PAREN  shift, and go to state 72
@@ -642,22 +879,48 @@ State 39
     term            go to state 66
     Normal          go to state 67
     var             go to state 68
+=======
+   24 statement: RETURN . expression
+
+    L_PAREN  shift, and go to state 74
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    expression  go to state 77
+    mul_expr    go to state 68
+    term        go to state 69
+    posterm     go to state 70
+    var         go to state 71
+>>>>>>> Stashed changes
 
 
 State 40
 
+<<<<<<< Updated upstream
    25 assign_rule: IDENT . ASSIGN Expression
    26            | IDENT . L_SQUARE_BRACKET Expression R_SQUARE_BRACKET ASSIGN Expression
 
     L_SQUARE_BRACKET  shift, and go to state 76
     ASSIGN            shift, and go to state 77
+=======
+   25 assign_rule: IDENT . ASSIGN expression
+   26            | IDENT . L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression
+
+    L_SQUARE_BRACKET  shift, and go to state 78
+    ASSIGN            shift, and go to state 79
+>>>>>>> Stashed changes
 
 
 State 41
 
     7 Function: FUNCTION IDENT $@1 SEMICOLON beginparam Declaration1 endparam BEGIN_LOCALS Declaration1 END_LOCALS BEGIN_BODY Statement1 . END_BODY
 
+<<<<<<< Updated upstream
     END_BODY  shift, and go to state 78
+=======
+    END_BODY  shift, and go to state 80
+>>>>>>> Stashed changes
 
 
 State 42
@@ -665,20 +928,33 @@ State 42
    15 Statement1: Statement . SEMICOLON Statement1
    16           | Statement . SEMICOLON
 
+<<<<<<< Updated upstream
     SEMICOLON  shift, and go to state 79
+=======
+    SEMICOLON  shift, and go to state 81
+>>>>>>> Stashed changes
 
 
 State 43
 
+<<<<<<< Updated upstream
    17 Statement: assign_rule .
+=======
+   17 statement: assign_rule .
+>>>>>>> Stashed changes
 
     $default  reduce using rule 17 (Statement)
 
 
 State 44
 
+<<<<<<< Updated upstream
    28 else_condition: if_condition . Statement1 ELSE
    29 If_rule: if_condition . Statement1 ENDIF
+=======
+   28 else_if: if_clause . statements ELSE
+   29 If_rule: if_clause . statements ENDIF
+>>>>>>> Stashed changes
 
     IF        shift, and go to state 33
     WHILE     shift, and go to state 34
@@ -689,6 +965,7 @@ State 44
     RETURN    shift, and go to state 39
     IDENT     shift, and go to state 40
 
+<<<<<<< Updated upstream
     Statement1      go to state 80
     Statement       go to state 42
     assign_rule     go to state 43
@@ -700,11 +977,31 @@ State 44
     do_while_rule   go to state 49
     Read_in         go to state 50
     write_rule      go to state 51
+=======
+    statements     go to state 82
+    statement      go to state 42
+    assign_rule    go to state 43
+    if_clause      go to state 44
+    else_if        go to state 45
+    If_rule        go to state 46
+    while_key      go to state 47
+    while_clause   go to state 48
+    while_rule     go to state 49
+    do_key         go to state 50
+    do_check       go to state 51
+    do_while_rule  go to state 52
+    Read_in        go to state 53
+    write_rule     go to state 54
+>>>>>>> Stashed changes
 
 
 State 45
 
+<<<<<<< Updated upstream
    30 If_rule: else_condition . Statement1 ENDIF
+=======
+   30 If_rule: else_if . statements ENDIF
+>>>>>>> Stashed changes
 
     IF        shift, and go to state 33
     WHILE     shift, and go to state 34
@@ -715,6 +1012,7 @@ State 45
     RETURN    shift, and go to state 39
     IDENT     shift, and go to state 40
 
+<<<<<<< Updated upstream
     Statement1      go to state 81
     Statement       go to state 42
     assign_rule     go to state 43
@@ -726,18 +1024,65 @@ State 45
     do_while_rule   go to state 49
     Read_in         go to state 50
     write_rule      go to state 51
+=======
+    statements     go to state 83
+    statement      go to state 42
+    assign_rule    go to state 43
+    if_clause      go to state 44
+    else_if        go to state 45
+    If_rule        go to state 46
+    while_key      go to state 47
+    while_clause   go to state 48
+    while_rule     go to state 49
+    do_key         go to state 50
+    do_check       go to state 51
+    do_while_rule  go to state 52
+    Read_in        go to state 53
+    write_rule     go to state 54
+>>>>>>> Stashed changes
 
 
 State 46
 
+<<<<<<< Updated upstream
    18 Statement: If_rule .
+=======
+   18 statement: If_rule .
+>>>>>>> Stashed changes
 
     $default  reduce using rule 18 (Statement)
 
 
 State 47
 
+<<<<<<< Updated upstream
    32 while_rule: while_clause . Statement1 ENDLOOP
+=======
+   32 while_clause: while_key . boolean_expr BEGINLOOP
+
+    TRUE     shift, and go to state 56
+    FALSE    shift, and go to state 57
+    NOT      shift, and go to state 58
+    L_PAREN  shift, and go to state 59
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    boolean_expr    go to state 84
+    relation_exprr  go to state 64
+    relation_expr   go to state 65
+    rexpr           go to state 66
+    expression      go to state 67
+    mul_expr        go to state 68
+    term            go to state 69
+    posterm         go to state 70
+    var             go to state 71
+
+
+State 48
+
+   33 while_rule: while_clause . statements ENDLOOP
+>>>>>>> Stashed changes
 
     IF        shift, and go to state 33
     WHILE     shift, and go to state 34
@@ -748,6 +1093,7 @@ State 47
     RETURN    shift, and go to state 39
     IDENT     shift, and go to state 40
 
+<<<<<<< Updated upstream
     Statement1      go to state 82
     Statement       go to state 42
     assign_rule     go to state 43
@@ -766,11 +1112,31 @@ State 48
    19 Statement: while_rule .
 
     $default  reduce using rule 19 (Statement)
+=======
+    statements     go to state 85
+    statement      go to state 42
+    assign_rule    go to state 43
+    if_clause      go to state 44
+    else_if        go to state 45
+    If_rule        go to state 46
+    while_key      go to state 47
+    while_clause   go to state 48
+    while_rule     go to state 49
+    do_key         go to state 50
+    do_check       go to state 51
+    do_while_rule  go to state 52
+    Read_in        go to state 53
+    write_rule     go to state 54
+>>>>>>> Stashed changes
 
 
 State 49
 
+<<<<<<< Updated upstream
    20 Statement: do_while_rule .
+=======
+   19 statement: while_rule .
+>>>>>>> Stashed changes
 
     $default  reduce using rule 20 (Statement)
 
@@ -779,39 +1145,75 @@ State 50
 
    21 Statement: Read_in .
 
+<<<<<<< Updated upstream
     $default  reduce using rule 21 (Statement)
+=======
+    statements     go to state 86
+    statement      go to state 42
+    assign_rule    go to state 43
+    if_clause      go to state 44
+    else_if        go to state 45
+    If_rule        go to state 46
+    while_key      go to state 47
+    while_clause   go to state 48
+    while_rule     go to state 49
+    do_key         go to state 50
+    do_check       go to state 51
+    do_while_rule  go to state 52
+    Read_in        go to state 53
+    write_rule     go to state 54
+>>>>>>> Stashed changes
 
 
 State 51
 
+<<<<<<< Updated upstream
    22 Statement: write_rule .
 
     $default  reduce using rule 22 (Statement)
+=======
+   36 do_while_rule: do_check . WHILE boolean_expr
+
+    WHILE  shift, and go to state 87
+>>>>>>> Stashed changes
 
 
 State 52
 
+<<<<<<< Updated upstream
    14 Type: ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF . INTEGER
+=======
+   20 statement: do_while_rule .
+>>>>>>> Stashed changes
 
     INTEGER  shift, and go to state 83
 
 
 State 53
 
+<<<<<<< Updated upstream
    54 Relation_Expr: TRUE .
+=======
+   21 statement: Read_in .
+>>>>>>> Stashed changes
 
     $default  reduce using rule 54 (Relation_Expr)
 
 
 State 54
 
+<<<<<<< Updated upstream
    55 Relation_Expr: FALSE .
+=======
+   22 statement: write_rule .
+>>>>>>> Stashed changes
 
     $default  reduce using rule 55 (Relation_Expr)
 
 
 State 55
 
+<<<<<<< Updated upstream
    47 Relation-Exprs: NOT . Relation_Expr
 
     TRUE     shift, and go to state 53
@@ -827,10 +1229,16 @@ State 55
     term            go to state 66
     Normal          go to state 67
     var             go to state 68
+=======
+   14 assign: ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF . INTEGER
+
+    INTEGER  shift, and go to state 88
+>>>>>>> Stashed changes
 
 
 State 56
 
+<<<<<<< Updated upstream
    56 Relation_Expr: L_PAREN . Bool-Expr R_PAREN
    71 Normal: L_PAREN . Expression R_PAREN
 
@@ -851,17 +1259,29 @@ State 56
     term               go to state 66
     Normal             go to state 67
     var                go to state 68
+=======
+   57 rexpr: TRUE .
+
+    $default  reduce using rule 57 (rexpr)
+>>>>>>> Stashed changes
 
 
 State 57
 
+<<<<<<< Updated upstream
    70 Normal: NUMBER .
 
     $default  reduce using rule 70 (Normal)
+=======
+   58 rexpr: FALSE .
+
+    $default  reduce using rule 58 (rexpr)
+>>>>>>> Stashed changes
 
 
 State 58
 
+<<<<<<< Updated upstream
    68 term: IDENT . Term_1
    76 var: IDENT .
    77    | IDENT . L_SQUARE_BRACKET Expression R_SQUARE_BRACKET
@@ -872,10 +1292,28 @@ State 58
     $default  reduce using rule 76 (var)
 
     Term_1  go to state 89
+=======
+   50 relation_expr: NOT . rexpr
+
+    TRUE     shift, and go to state 56
+    FALSE    shift, and go to state 57
+    L_PAREN  shift, and go to state 59
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    rexpr       go to state 89
+    expression  go to state 67
+    mul_expr    go to state 68
+    term        go to state 69
+    posterm     go to state 70
+    var         go to state 71
+>>>>>>> Stashed changes
 
 
 State 59
 
+<<<<<<< Updated upstream
    67 term: SUB . Normal
 
     L_PAREN  shift, and go to state 72
@@ -884,43 +1322,104 @@ State 59
 
     Normal  go to state 90
     var     go to state 68
+=======
+   59 rexpr: L_PAREN . boolean_expr R_PAREN
+   74 posterm: L_PAREN . expression R_PAREN
+
+    TRUE     shift, and go to state 56
+    FALSE    shift, and go to state 57
+    NOT      shift, and go to state 58
+    L_PAREN  shift, and go to state 59
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    boolean_expr    go to state 90
+    relation_exprr  go to state 64
+    relation_expr   go to state 65
+    rexpr           go to state 66
+    expression      go to state 91
+    mul_expr        go to state 68
+    term            go to state 69
+    posterm         go to state 70
+    var             go to state 71
+>>>>>>> Stashed changes
 
 
 State 60
 
+<<<<<<< Updated upstream
    27 if_condition: IF Bool-Expr . THEN
    43 Bool-Expr: Bool-Expr . OR Relation_And_Expr
 
     THEN  shift, and go to state 91
     OR    shift, and go to state 92
+=======
+   73 posterm: NUMBER .
+
+    $default  reduce using rule 73 (posterm)
+>>>>>>> Stashed changes
 
 
 State 61
 
+<<<<<<< Updated upstream
    42 Bool-Expr: Relation_And_Expr .
    45 Relation_And_Expr: Relation_And_Expr . AND Relation-Exprs
 
     AND  shift, and go to state 93
 
     $default  reduce using rule 42 (Bool-Expr)
+=======
+   71 term: IDENT . term_iden
+   79 var: IDENT .
+   80    | IDENT . L_SQUARE_BRACKET expression R_SQUARE_BRACKET
+
+    L_PAREN           shift, and go to state 92
+    L_SQUARE_BRACKET  shift, and go to state 93
+
+    $default  reduce using rule 79 (var)
+>>>>>>> Stashed changes
+
+    term_iden  go to state 94
 
 
-State 62
-
+<<<<<<< Updated upstream
    44 Relation_And_Expr: Relation-Exprs .
 
     $default  reduce using rule 44 (Relation_And_Expr)
+=======
+State 62
 
+   70 term: SUB . posterm
+>>>>>>> Stashed changes
 
-State 63
+    L_PAREN  shift, and go to state 74
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 75
 
+    posterm  go to state 95
+    var      go to state 71
+
+<<<<<<< Updated upstream
    46 Relation-Exprs: Relation_Expr .
 
     $default  reduce using rule 46 (Relation-Exprs)
+=======
+
+State 63
+
+   27 if_clause: IF boolean_expr . THEN
+   46 boolean_expr: boolean_expr . OR relation_exprr
+
+    THEN  shift, and go to state 96
+    OR    shift, and go to state 97
+>>>>>>> Stashed changes
 
 
 State 64
 
+<<<<<<< Updated upstream
    48 Relation_Expr: Expression . EQ Expression
    49              | Expression . NEQ Expression
    50              | Expression . LT Expression
@@ -934,10 +1433,19 @@ State 64
     GTE  shift, and go to state 97
     EQ   shift, and go to state 98
     NEQ  shift, and go to state 99
+=======
+   45 boolean_expr: relation_exprr .
+   48 relation_exprr: relation_exprr . AND relation_expr
+
+    AND  shift, and go to state 98
+
+    $default  reduce using rule 45 (boolean_expr)
+>>>>>>> Stashed changes
 
 
 State 65
 
+<<<<<<< Updated upstream
    57 Expression: Term_Mult-Expr . expradd
 
     ADD  shift, and go to state 100
@@ -946,10 +1454,16 @@ State 65
     $default  reduce using rule 58 (expradd)
 
     expradd  go to state 102
+=======
+   47 relation_exprr: relation_expr .
+
+    $default  reduce using rule 47 (relation_exprr)
+>>>>>>> Stashed changes
 
 
 State 66
 
+<<<<<<< Updated upstream
    61 Term_Mult-Expr: term . Multiplicative-Expr
 
     MULT  shift, and go to state 103
@@ -959,33 +1473,71 @@ State 66
     $default  reduce using rule 62 (Multiplicative-Expr)
 
     Multiplicative-Expr  go to state 106
+=======
+   49 relation_expr: rexpr .
+
+    $default  reduce using rule 49 (relation_expr)
+>>>>>>> Stashed changes
 
 
 State 67
 
+<<<<<<< Updated upstream
    66 term: Normal .
 
     $default  reduce using rule 66 (term)
+=======
+   51 rexpr: expression . EQ expression
+   52      | expression . NEQ expression
+   53      | expression . LT expression
+   54      | expression . GT expression
+   55      | expression . LTE expression
+   56      | expression . GTE expression
+
+    LT   shift, and go to state 99
+    LTE  shift, and go to state 100
+    GT   shift, and go to state 101
+    GTE  shift, and go to state 102
+    EQ   shift, and go to state 103
+    NEQ  shift, and go to state 104
+>>>>>>> Stashed changes
 
 
 State 68
 
+<<<<<<< Updated upstream
    69 Normal: var .
 
     $default  reduce using rule 69 (Normal)
+=======
+   60 expression: mul_expr . expradd
 
+    ADD  shift, and go to state 105
+    SUB  shift, and go to state 106
+>>>>>>> Stashed changes
 
-State 69
+    $default  reduce using rule 61 (expradd)
 
+    expradd  go to state 107
+
+<<<<<<< Updated upstream
    31 while_clause: WHILE Bool-Expr . BEGINLOOP
    43 Bool-Expr: Bool-Expr . OR Relation_And_Expr
 
     BEGINLOOP  shift, and go to state 107
     OR         shift, and go to state 92
+=======
 
+State 69
+>>>>>>> Stashed changes
 
-State 70
+   64 mul_expr: term . multi_term
 
+    MULT  shift, and go to state 108
+    DIV   shift, and go to state 109
+    MOD   shift, and go to state 110
+
+<<<<<<< Updated upstream
    33 do_while_rule: DO BEGINLOOP . Statement1 ENDLOOP WHILE Bool-Expr
 
     IF        shift, and go to state 33
@@ -1008,10 +1560,20 @@ State 70
     do_while_rule   go to state 49
     Read_in         go to state 50
     write_rule      go to state 51
+=======
+    $default  reduce using rule 65 (multi_term)
+
+    multi_term  go to state 111
 
 
-State 71
+State 70
+>>>>>>> Stashed changes
 
+   69 term: posterm .
+
+    $default  reduce using rule 69 (term)
+
+<<<<<<< Updated upstream
    37 Read_in: READ IDENT . read_mult
    38        | READ IDENT . L_SQUARE_BRACKET Expression R_SQUARE_BRACKET read_mult
 
@@ -1021,10 +1583,19 @@ State 71
     $default  reduce using rule 36 (read_mult)
 
     read_mult  go to state 111
+=======
+
+State 71
+
+   72 posterm: var .
+
+    $default  reduce using rule 72 (posterm)
+>>>>>>> Stashed changes
 
 
 State 72
 
+<<<<<<< Updated upstream
    71 Normal: L_PAREN . Expression R_PAREN
 
     L_PAREN  shift, and go to state 72
@@ -1052,23 +1623,41 @@ State 73
 State 74
 
    41 write_rule: WRITE Normal . comma_mult
+=======
+   34 do_key: DO BEGINLOOP .
+>>>>>>> Stashed changes
 
     COMMA  shift, and go to state 113
 
     $default  reduce using rule 39 (comma_mult)
 
+<<<<<<< Updated upstream
     comma_mult  go to state 114
 
 
 State 75
+=======
+State 73
+
+   40 Read_in: READ IDENT . read_mult
+   41        | READ IDENT . L_SQUARE_BRACKET expression R_SQUARE_BRACKET read_mult
+
+    COMMA             shift, and go to state 112
+    L_SQUARE_BRACKET  shift, and go to state 113
+>>>>>>> Stashed changes
 
    24 Statement: RETURN Expression .
 
+<<<<<<< Updated upstream
     $default  reduce using rule 24 (Statement)
+=======
+    read_mult  go to state 114
+>>>>>>> Stashed changes
 
 
-State 76
+State 74
 
+<<<<<<< Updated upstream
    26 assign_rule: IDENT L_SQUARE_BRACKET . Expression R_SQUARE_BRACKET ASSIGN Expression
 
     L_PAREN  shift, and go to state 72
@@ -1081,10 +1670,25 @@ State 76
     term            go to state 66
     Normal          go to state 67
     var             go to state 68
+=======
+   74 posterm: L_PAREN . expression R_PAREN
+
+    L_PAREN  shift, and go to state 74
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    expression  go to state 115
+    mul_expr    go to state 68
+    term        go to state 69
+    posterm     go to state 70
+    var         go to state 71
+>>>>>>> Stashed changes
 
 
-State 77
+State 75
 
+<<<<<<< Updated upstream
    25 assign_rule: IDENT ASSIGN . Expression
 
     L_PAREN  shift, and go to state 72
@@ -1097,20 +1701,39 @@ State 77
     term            go to state 66
     Normal          go to state 67
     var             go to state 68
+=======
+   79 var: IDENT .
+   80    | IDENT . L_SQUARE_BRACKET expression R_SQUARE_BRACKET
+
+    L_SQUARE_BRACKET  shift, and go to state 93
+
+    $default  reduce using rule 79 (var)
+>>>>>>> Stashed changes
 
 
-State 78
+State 76
 
+<<<<<<< Updated upstream
     7 Function: FUNCTION IDENT $@1 SEMICOLON beginparam Declaration1 endparam BEGIN_LOCALS Declaration1 END_LOCALS BEGIN_BODY Statement1 END_BODY .
 
     $default  reduce using rule 7 (Function)
+=======
+   44 write_rule: WRITE posterm . ii
+
+    COMMA  shift, and go to state 116
+>>>>>>> Stashed changes
 
 
+<<<<<<< Updated upstream
 State 79
+=======
+    ii  go to state 117
+>>>>>>> Stashed changes
 
    15 Statement1: Statement SEMICOLON . Statement1
    16           | Statement SEMICOLON .
 
+<<<<<<< Updated upstream
     IF        shift, and go to state 33
     WHILE     shift, and go to state 34
     DO        shift, and go to state 35
@@ -1133,56 +1756,152 @@ State 79
     do_while_rule   go to state 49
     Read_in         go to state 50
     write_rule      go to state 51
+=======
+State 77
+
+   24 statement: RETURN expression .
+
+    $default  reduce using rule 24 (statement)
+>>>>>>> Stashed changes
 
 
-State 80
+State 78
 
+<<<<<<< Updated upstream
    28 else_condition: if_condition Statement1 . ELSE
    29 If_rule: if_condition Statement1 . ENDIF
 
     ENDIF  shift, and go to state 118
     ELSE   shift, and go to state 119
+=======
+   26 assign_rule: IDENT L_SQUARE_BRACKET . expression R_SQUARE_BRACKET ASSIGN expression
+
+    L_PAREN  shift, and go to state 74
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    expression  go to state 118
+    mul_expr    go to state 68
+    term        go to state 69
+    posterm     go to state 70
+    var         go to state 71
+>>>>>>> Stashed changes
 
 
-State 81
+State 79
 
+<<<<<<< Updated upstream
    30 If_rule: else_condition Statement1 . ENDIF
 
     ENDIF  shift, and go to state 120
+=======
+   25 assign_rule: IDENT ASSIGN . expression
+
+    L_PAREN  shift, and go to state 74
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    expression  go to state 119
+    mul_expr    go to state 68
+    term        go to state 69
+    posterm     go to state 70
+    var         go to state 71
+>>>>>>> Stashed changes
 
 
-State 82
+State 80
 
    32 while_rule: while_clause Statement1 . ENDLOOP
 
     ENDLOOP  shift, and go to state 121
 
 
-State 83
+State 81
 
    14 Type: ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER .
 
+<<<<<<< Updated upstream
     $default  reduce using rule 14 (Type)
+=======
+    IF        shift, and go to state 33
+    WHILE     shift, and go to state 34
+    DO        shift, and go to state 35
+    CONTINUE  shift, and go to state 36
+    READ      shift, and go to state 37
+    WRITE     shift, and go to state 38
+    RETURN    shift, and go to state 39
+    IDENT     shift, and go to state 40
+
+    $default  reduce using rule 16 (statements)
+
+    statements     go to state 120
+    statement      go to state 42
+    assign_rule    go to state 43
+    if_clause      go to state 44
+    else_if        go to state 45
+    If_rule        go to state 46
+    while_key      go to state 47
+    while_clause   go to state 48
+    while_rule     go to state 49
+    do_key         go to state 50
+    do_check       go to state 51
+    do_while_rule  go to state 52
+    Read_in        go to state 53
+    write_rule     go to state 54
+>>>>>>> Stashed changes
+
+
+State 82
+
+<<<<<<< Updated upstream
+   47 Relation-Exprs: NOT Relation_Expr .
+
+    $default  reduce using rule 47 (Relation-Exprs)
+=======
+   28 else_if: if_clause statements . ELSE
+   29 If_rule: if_clause statements . ENDIF
+
+    ENDIF  shift, and go to state 121
+    ELSE   shift, and go to state 122
+
+
+State 83
+
+   30 If_rule: else_if statements . ENDIF
+
+    ENDIF  shift, and go to state 123
 
 
 State 84
 
-   47 Relation-Exprs: NOT Relation_Expr .
+   32 while_clause: while_key boolean_expr . BEGINLOOP
+   46 boolean_expr: boolean_expr . OR relation_exprr
 
-    $default  reduce using rule 47 (Relation-Exprs)
+    BEGINLOOP  shift, and go to state 124
+    OR         shift, and go to state 97
+>>>>>>> Stashed changes
 
 
 State 85
 
+<<<<<<< Updated upstream
    43 Bool-Expr: Bool-Expr . OR Relation_And_Expr
    56 Relation_Expr: L_PAREN Bool-Expr . R_PAREN
 
     OR       shift, and go to state 92
     R_PAREN  shift, and go to state 122
+=======
+   33 while_rule: while_clause statements . ENDLOOP
+
+    ENDLOOP  shift, and go to state 125
+>>>>>>> Stashed changes
 
 
 State 86
 
+<<<<<<< Updated upstream
    48 Relation_Expr: Expression . EQ Expression
    49              | Expression . NEQ Expression
    50              | Expression . LT Expression
@@ -1198,10 +1917,16 @@ State 86
     GTE      shift, and go to state 97
     EQ       shift, and go to state 98
     NEQ      shift, and go to state 99
+=======
+   35 do_check: do_key statements . ENDLOOP
+
+    ENDLOOP  shift, and go to state 126
+>>>>>>> Stashed changes
 
 
 State 87
 
+<<<<<<< Updated upstream
    72 Term_1: L_PAREN . Expression1 R_PAREN
    73       | L_PAREN . R_PAREN
 
@@ -1217,16 +1942,43 @@ State 87
     Normal          go to state 67
     Expression1     go to state 126
     var             go to state 68
+=======
+   36 do_while_rule: do_check WHILE . boolean_expr
+
+    TRUE     shift, and go to state 56
+    FALSE    shift, and go to state 57
+    NOT      shift, and go to state 58
+    L_PAREN  shift, and go to state 59
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    boolean_expr    go to state 127
+    relation_exprr  go to state 64
+    relation_expr   go to state 65
+    rexpr           go to state 66
+    expression      go to state 67
+    mul_expr        go to state 68
+    term            go to state 69
+    posterm         go to state 70
+    var             go to state 71
+>>>>>>> Stashed changes
 
 
 State 88
 
+<<<<<<< Updated upstream
    77 var: IDENT L_SQUARE_BRACKET . Expression R_SQUARE_BRACKET
 
     L_PAREN  shift, and go to state 72
     NUMBER   shift, and go to state 57
     IDENT    shift, and go to state 58
     SUB      shift, and go to state 59
+=======
+   14 assign: ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER .
+
+    $default  reduce using rule 14 (assign)
+>>>>>>> Stashed changes
 
     Expression      go to state 127
     Term_Mult-Expr  go to state 65
@@ -1235,29 +1987,62 @@ State 88
     var             go to state 68
 
 
+<<<<<<< Updated upstream
 State 89
 
    68 term: IDENT Term_1 .
 
     $default  reduce using rule 68 (term)
+=======
+   50 relation_expr: NOT rexpr .
+
+    $default  reduce using rule 50 (relation_expr)
+>>>>>>> Stashed changes
 
 
 State 90
 
+<<<<<<< Updated upstream
    67 term: SUB Normal .
 
     $default  reduce using rule 67 (term)
+=======
+   46 boolean_expr: boolean_expr . OR relation_exprr
+   59 rexpr: L_PAREN boolean_expr . R_PAREN
+
+    OR       shift, and go to state 97
+    R_PAREN  shift, and go to state 128
+>>>>>>> Stashed changes
 
 
 State 91
 
+<<<<<<< Updated upstream
    27 if_condition: IF Bool-Expr THEN .
 
     $default  reduce using rule 27 (if_condition)
+=======
+   51 rexpr: expression . EQ expression
+   52      | expression . NEQ expression
+   53      | expression . LT expression
+   54      | expression . GT expression
+   55      | expression . LTE expression
+   56      | expression . GTE expression
+   74 posterm: L_PAREN expression . R_PAREN
+
+    R_PAREN  shift, and go to state 129
+    LT       shift, and go to state 99
+    LTE      shift, and go to state 100
+    GT       shift, and go to state 101
+    GTE      shift, and go to state 102
+    EQ       shift, and go to state 103
+    NEQ      shift, and go to state 104
+>>>>>>> Stashed changes
 
 
 State 92
 
+<<<<<<< Updated upstream
    43 Bool-Expr: Bool-Expr OR . Relation_And_Expr
 
     TRUE     shift, and go to state 53
@@ -1276,10 +2061,28 @@ State 92
     term               go to state 66
     Normal             go to state 67
     var                go to state 68
+=======
+   75 term_iden: L_PAREN . term_ex R_PAREN
+   76          | L_PAREN . R_PAREN
+
+    L_PAREN  shift, and go to state 74
+    R_PAREN  shift, and go to state 130
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    expression  go to state 131
+    mul_expr    go to state 68
+    term        go to state 69
+    posterm     go to state 70
+    term_ex     go to state 132
+    var         go to state 71
+>>>>>>> Stashed changes
 
 
 State 93
 
+<<<<<<< Updated upstream
    45 Relation_And_Expr: Relation_And_Expr AND . Relation-Exprs
 
     TRUE     shift, and go to state 53
@@ -1297,10 +2100,23 @@ State 93
     term            go to state 66
     Normal          go to state 67
     var             go to state 68
+=======
+   80 var: IDENT L_SQUARE_BRACKET . expression R_SQUARE_BRACKET
+
+    L_PAREN  shift, and go to state 74
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+>>>>>>> Stashed changes
+
+    expression  go to state 133
+    mul_expr    go to state 68
+    term        go to state 69
+    posterm     go to state 70
+    var         go to state 71
 
 
-State 94
-
+<<<<<<< Updated upstream
    50 Relation_Expr: Expression LT . Expression
 
     L_PAREN  shift, and go to state 72
@@ -1313,10 +2129,18 @@ State 94
     term            go to state 66
     Normal          go to state 67
     var             go to state 68
+=======
+State 94
+
+   71 term: IDENT term_iden .
+
+    $default  reduce using rule 71 (term)
+>>>>>>> Stashed changes
 
 
 State 95
 
+<<<<<<< Updated upstream
    52 Relation_Expr: Expression LTE . Expression
 
     L_PAREN  shift, and go to state 72
@@ -1329,10 +2153,16 @@ State 95
     term            go to state 66
     Normal          go to state 67
     var             go to state 68
+=======
+   70 term: SUB posterm .
+
+    $default  reduce using rule 70 (term)
+>>>>>>> Stashed changes
 
 
 State 96
 
+<<<<<<< Updated upstream
    51 Relation_Expr: Expression GT . Expression
 
     L_PAREN  shift, and go to state 72
@@ -1345,10 +2175,16 @@ State 96
     term            go to state 66
     Normal          go to state 67
     var             go to state 68
+=======
+   27 if_clause: IF boolean_expr THEN .
+
+    $default  reduce using rule 27 (if_clause)
+>>>>>>> Stashed changes
 
 
 State 97
 
+<<<<<<< Updated upstream
    53 Relation_Expr: Expression GTE . Expression
 
     L_PAREN  shift, and go to state 72
@@ -1361,10 +2197,31 @@ State 97
     term            go to state 66
     Normal          go to state 67
     var             go to state 68
+=======
+   46 boolean_expr: boolean_expr OR . relation_exprr
+
+    TRUE     shift, and go to state 56
+    FALSE    shift, and go to state 57
+    NOT      shift, and go to state 58
+    L_PAREN  shift, and go to state 59
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    relation_exprr  go to state 134
+    relation_expr   go to state 65
+    rexpr           go to state 66
+    expression      go to state 67
+    mul_expr        go to state 68
+    term            go to state 69
+    posterm         go to state 70
+    var             go to state 71
+>>>>>>> Stashed changes
 
 
 State 98
 
+<<<<<<< Updated upstream
    48 Relation_Expr: Expression EQ . Expression
 
     L_PAREN  shift, and go to state 72
@@ -1377,10 +2234,30 @@ State 98
     term            go to state 66
     Normal          go to state 67
     var             go to state 68
+=======
+   48 relation_exprr: relation_exprr AND . relation_expr
+
+    TRUE     shift, and go to state 56
+    FALSE    shift, and go to state 57
+    NOT      shift, and go to state 58
+    L_PAREN  shift, and go to state 59
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    relation_expr  go to state 135
+    rexpr          go to state 66
+    expression     go to state 67
+    mul_expr       go to state 68
+    term           go to state 69
+    posterm        go to state 70
+    var            go to state 71
+>>>>>>> Stashed changes
 
 
 State 99
 
+<<<<<<< Updated upstream
    49 Relation_Expr: Expression NEQ . Expression
 
     L_PAREN  shift, and go to state 72
@@ -1393,10 +2270,25 @@ State 99
     term            go to state 66
     Normal          go to state 67
     var             go to state 68
+=======
+   53 rexpr: expression LT . expression
+
+    L_PAREN  shift, and go to state 74
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    expression  go to state 136
+    mul_expr    go to state 68
+    term        go to state 69
+    posterm     go to state 70
+    var         go to state 71
+>>>>>>> Stashed changes
 
 
 State 100
 
+<<<<<<< Updated upstream
    59 expradd: ADD . Term_Mult-Expr expradd
 
     L_PAREN  shift, and go to state 72
@@ -1408,10 +2300,25 @@ State 100
     term            go to state 66
     Normal          go to state 67
     var             go to state 68
+=======
+   55 rexpr: expression LTE . expression
+
+    L_PAREN  shift, and go to state 74
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    expression  go to state 137
+    mul_expr    go to state 68
+    term        go to state 69
+    posterm     go to state 70
+    var         go to state 71
+>>>>>>> Stashed changes
 
 
 State 101
 
+<<<<<<< Updated upstream
    60 expradd: SUB . Term_Mult-Expr expradd
 
     L_PAREN  shift, and go to state 72
@@ -1423,17 +2330,47 @@ State 101
     term            go to state 66
     Normal          go to state 67
     var             go to state 68
+=======
+   54 rexpr: expression GT . expression
+
+    L_PAREN  shift, and go to state 74
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    expression  go to state 138
+    mul_expr    go to state 68
+    term        go to state 69
+    posterm     go to state 70
+    var         go to state 71
+>>>>>>> Stashed changes
 
 
 State 102
 
+<<<<<<< Updated upstream
    57 Expression: Term_Mult-Expr expradd .
 
     $default  reduce using rule 57 (Expression)
+=======
+   56 rexpr: expression GTE . expression
+
+    L_PAREN  shift, and go to state 74
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    expression  go to state 139
+    mul_expr    go to state 68
+    term        go to state 69
+    posterm     go to state 70
+    var         go to state 71
+>>>>>>> Stashed changes
 
 
 State 103
 
+<<<<<<< Updated upstream
    63 Multiplicative-Expr: MULT . term Multiplicative-Expr
 
     L_PAREN  shift, and go to state 72
@@ -1444,10 +2381,25 @@ State 103
     term    go to state 138
     Normal  go to state 67
     var     go to state 68
+=======
+   51 rexpr: expression EQ . expression
+
+    L_PAREN  shift, and go to state 74
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    expression  go to state 140
+    mul_expr    go to state 68
+    term        go to state 69
+    posterm     go to state 70
+    var         go to state 71
+>>>>>>> Stashed changes
 
 
 State 104
 
+<<<<<<< Updated upstream
    64 Multiplicative-Expr: DIV . term Multiplicative-Expr
 
     L_PAREN  shift, and go to state 72
@@ -1458,10 +2410,25 @@ State 104
     term    go to state 139
     Normal  go to state 67
     var     go to state 68
+=======
+   52 rexpr: expression NEQ . expression
+
+    L_PAREN  shift, and go to state 74
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    expression  go to state 141
+    mul_expr    go to state 68
+    term        go to state 69
+    posterm     go to state 70
+    var         go to state 71
+>>>>>>> Stashed changes
 
 
 State 105
 
+<<<<<<< Updated upstream
    65 Multiplicative-Expr: MOD . term Multiplicative-Expr
 
     L_PAREN  shift, and go to state 72
@@ -1472,39 +2439,99 @@ State 105
     term    go to state 140
     Normal  go to state 67
     var     go to state 68
+=======
+   62 expradd: ADD . mul_expr expradd
+
+    L_PAREN  shift, and go to state 74
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    mul_expr  go to state 142
+    term      go to state 69
+    posterm   go to state 70
+    var       go to state 71
+>>>>>>> Stashed changes
 
 
 State 106
 
+<<<<<<< Updated upstream
    61 Term_Mult-Expr: term Multiplicative-Expr .
 
     $default  reduce using rule 61 (Term_Mult-Expr)
+=======
+   63 expradd: SUB . mul_expr expradd
+
+    L_PAREN  shift, and go to state 74
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    mul_expr  go to state 143
+    term      go to state 69
+    posterm   go to state 70
+    var       go to state 71
+>>>>>>> Stashed changes
 
 
 State 107
 
+<<<<<<< Updated upstream
    31 while_clause: WHILE Bool-Expr BEGINLOOP .
 
     $default  reduce using rule 31 (while_clause)
+=======
+   60 expression: mul_expr expradd .
+
+    $default  reduce using rule 60 (expression)
+>>>>>>> Stashed changes
 
 
 State 108
 
+<<<<<<< Updated upstream
    33 do_while_rule: DO BEGINLOOP Statement1 . ENDLOOP WHILE Bool-Expr
 
     ENDLOOP  shift, and go to state 141
+=======
+   66 multi_term: MULT . term multi_term
+
+    L_PAREN  shift, and go to state 74
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    term     go to state 144
+    posterm  go to state 70
+    var      go to state 71
+>>>>>>> Stashed changes
 
 
 State 109
 
+<<<<<<< Updated upstream
    34 read_mult: COMMA . IDENT read_mult
    35          | COMMA . IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET read_mult
 
     IDENT  shift, and go to state 142
+=======
+   67 multi_term: DIV . term multi_term
+
+    L_PAREN  shift, and go to state 74
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    term     go to state 145
+    posterm  go to state 70
+    var      go to state 71
+>>>>>>> Stashed changes
 
 
 State 110
 
+<<<<<<< Updated upstream
    38 Read_in: READ IDENT L_SQUARE_BRACKET . Expression R_SQUARE_BRACKET read_mult
 
     L_PAREN  shift, and go to state 72
@@ -1517,24 +2544,50 @@ State 110
     term            go to state 66
     Normal          go to state 67
     var             go to state 68
+=======
+   68 multi_term: MOD . term multi_term
+
+    L_PAREN  shift, and go to state 74
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    term     go to state 146
+    posterm  go to state 70
+    var      go to state 71
+>>>>>>> Stashed changes
 
 
 State 111
 
+<<<<<<< Updated upstream
    37 Read_in: READ IDENT read_mult .
 
     $default  reduce using rule 37 (Read_in)
+=======
+   64 mul_expr: term multi_term .
+
+    $default  reduce using rule 64 (mul_expr)
+>>>>>>> Stashed changes
 
 
 State 112
 
+<<<<<<< Updated upstream
    71 Normal: L_PAREN Expression . R_PAREN
 
     R_PAREN  shift, and go to state 123
+=======
+   37 read_mult: COMMA . IDENT read_mult
+   38          | COMMA . IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET read_mult
+
+    IDENT  shift, and go to state 147
+>>>>>>> Stashed changes
 
 
 State 113
 
+<<<<<<< Updated upstream
    40 comma_mult: COMMA . Normal comma_mult
 
     L_PAREN  shift, and go to state 72
@@ -1543,170 +2596,331 @@ State 113
 
     Normal  go to state 144
     var     go to state 68
+=======
+   41 Read_in: READ IDENT L_SQUARE_BRACKET . expression R_SQUARE_BRACKET read_mult
+
+    L_PAREN  shift, and go to state 74
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    expression  go to state 148
+    mul_expr    go to state 68
+    term        go to state 69
+    posterm     go to state 70
+    var         go to state 71
+>>>>>>> Stashed changes
 
 
 State 114
 
+<<<<<<< Updated upstream
    41 write_rule: WRITE Normal comma_mult .
 
     $default  reduce using rule 41 (write_rule)
+=======
+   40 Read_in: READ IDENT read_mult .
+
+    $default  reduce using rule 40 (Read_in)
+>>>>>>> Stashed changes
 
 
 State 115
 
+<<<<<<< Updated upstream
    26 assign_rule: IDENT L_SQUARE_BRACKET Expression . R_SQUARE_BRACKET ASSIGN Expression
 
     R_SQUARE_BRACKET  shift, and go to state 145
+=======
+   74 posterm: L_PAREN expression . R_PAREN
+
+    R_PAREN  shift, and go to state 129
+>>>>>>> Stashed changes
 
 
 State 116
 
+<<<<<<< Updated upstream
    25 assign_rule: IDENT ASSIGN Expression .
 
     $default  reduce using rule 25 (assign_rule)
+=======
+   43 ii: COMMA . posterm ii
+
+    L_PAREN  shift, and go to state 74
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 75
+
+    posterm  go to state 149
+    var      go to state 71
+>>>>>>> Stashed changes
 
 
 State 117
 
+<<<<<<< Updated upstream
    15 Statement1: Statement SEMICOLON Statement1 .
 
     $default  reduce using rule 15 (Statement1)
+=======
+   44 write_rule: WRITE posterm ii .
+
+    $default  reduce using rule 44 (write_rule)
+>>>>>>> Stashed changes
 
 
 State 118
 
+<<<<<<< Updated upstream
    29 If_rule: if_condition Statement1 ENDIF .
 
     $default  reduce using rule 29 (If_rule)
+=======
+   26 assign_rule: IDENT L_SQUARE_BRACKET expression . R_SQUARE_BRACKET ASSIGN expression
+
+    R_SQUARE_BRACKET  shift, and go to state 150
+>>>>>>> Stashed changes
 
 
 State 119
 
+<<<<<<< Updated upstream
    28 else_condition: if_condition Statement1 ELSE .
 
     $default  reduce using rule 28 (else_condition)
+=======
+   25 assign_rule: IDENT ASSIGN expression .
+
+    $default  reduce using rule 25 (assign_rule)
+>>>>>>> Stashed changes
 
 
 State 120
 
+<<<<<<< Updated upstream
    30 If_rule: else_condition Statement1 ENDIF .
 
     $default  reduce using rule 30 (If_rule)
+=======
+   15 statements: statement SEMICOLON statements .
+
+    $default  reduce using rule 15 (statements)
+>>>>>>> Stashed changes
 
 
 State 121
 
+<<<<<<< Updated upstream
    32 while_rule: while_clause Statement1 ENDLOOP .
 
     $default  reduce using rule 32 (while_rule)
+=======
+   29 If_rule: if_clause statements ENDIF .
+
+    $default  reduce using rule 29 (If_rule)
+>>>>>>> Stashed changes
 
 
 State 122
 
+<<<<<<< Updated upstream
    56 Relation_Expr: L_PAREN Bool-Expr R_PAREN .
 
     $default  reduce using rule 56 (Relation_Expr)
+=======
+   28 else_if: if_clause statements ELSE .
+
+    $default  reduce using rule 28 (else_if)
+>>>>>>> Stashed changes
 
 
 State 123
 
+<<<<<<< Updated upstream
    71 Normal: L_PAREN Expression R_PAREN .
 
     $default  reduce using rule 71 (Normal)
+=======
+   30 If_rule: else_if statements ENDIF .
+
+    $default  reduce using rule 30 (If_rule)
+>>>>>>> Stashed changes
 
 
 State 124
 
+<<<<<<< Updated upstream
    73 Term_1: L_PAREN R_PAREN .
 
     $default  reduce using rule 73 (Term_1)
+=======
+   32 while_clause: while_key boolean_expr BEGINLOOP .
+
+    $default  reduce using rule 32 (while_clause)
+>>>>>>> Stashed changes
 
 
 State 125
 
+<<<<<<< Updated upstream
    74 Expression1: Expression .
    75            | Expression . COMMA Expression1
 
     COMMA  shift, and go to state 146
 
     $default  reduce using rule 74 (Expression1)
+=======
+   33 while_rule: while_clause statements ENDLOOP .
+
+    $default  reduce using rule 33 (while_rule)
+>>>>>>> Stashed changes
 
 
 State 126
 
+<<<<<<< Updated upstream
    72 Term_1: L_PAREN Expression1 . R_PAREN
 
     R_PAREN  shift, and go to state 147
+=======
+   35 do_check: do_key statements ENDLOOP .
+
+    $default  reduce using rule 35 (do_check)
+>>>>>>> Stashed changes
 
 
 State 127
 
+<<<<<<< Updated upstream
    77 var: IDENT L_SQUARE_BRACKET Expression . R_SQUARE_BRACKET
 
     R_SQUARE_BRACKET  shift, and go to state 148
+=======
+   36 do_while_rule: do_check WHILE boolean_expr .
+   46 boolean_expr: boolean_expr . OR relation_exprr
+
+    OR  shift, and go to state 97
+
+    $default  reduce using rule 36 (do_while_rule)
+>>>>>>> Stashed changes
 
 
 State 128
 
+<<<<<<< Updated upstream
    43 Bool-Expr: Bool-Expr OR Relation_And_Expr .
    45 Relation_And_Expr: Relation_And_Expr . AND Relation-Exprs
 
     AND  shift, and go to state 93
+=======
+   59 rexpr: L_PAREN boolean_expr R_PAREN .
+
+    $default  reduce using rule 59 (rexpr)
+>>>>>>> Stashed changes
 
     $default  reduce using rule 43 (Bool-Expr)
 
 
+<<<<<<< Updated upstream
 State 129
 
    45 Relation_And_Expr: Relation_And_Expr AND Relation-Exprs .
 
     $default  reduce using rule 45 (Relation_And_Expr)
+=======
+   74 posterm: L_PAREN expression R_PAREN .
+
+    $default  reduce using rule 74 (posterm)
+>>>>>>> Stashed changes
 
 
 State 130
 
+<<<<<<< Updated upstream
    50 Relation_Expr: Expression LT Expression .
 
     $default  reduce using rule 50 (Relation_Expr)
+=======
+   76 term_iden: L_PAREN R_PAREN .
+
+    $default  reduce using rule 76 (term_iden)
+>>>>>>> Stashed changes
 
 
 State 131
 
+<<<<<<< Updated upstream
    52 Relation_Expr: Expression LTE Expression .
 
     $default  reduce using rule 52 (Relation_Expr)
+=======
+   77 term_ex: expression .
+   78        | expression . COMMA term_ex
+
+    COMMA  shift, and go to state 151
+
+    $default  reduce using rule 77 (term_ex)
+>>>>>>> Stashed changes
 
 
 State 132
 
+<<<<<<< Updated upstream
    51 Relation_Expr: Expression GT Expression .
 
     $default  reduce using rule 51 (Relation_Expr)
+=======
+   75 term_iden: L_PAREN term_ex . R_PAREN
+
+    R_PAREN  shift, and go to state 152
+>>>>>>> Stashed changes
 
 
 State 133
 
+<<<<<<< Updated upstream
    53 Relation_Expr: Expression GTE Expression .
 
     $default  reduce using rule 53 (Relation_Expr)
+=======
+   80 var: IDENT L_SQUARE_BRACKET expression . R_SQUARE_BRACKET
+
+    R_SQUARE_BRACKET  shift, and go to state 153
+>>>>>>> Stashed changes
 
 
 State 134
 
+<<<<<<< Updated upstream
    48 Relation_Expr: Expression EQ Expression .
 
     $default  reduce using rule 48 (Relation_Expr)
+=======
+   46 boolean_expr: boolean_expr OR relation_exprr .
+   48 relation_exprr: relation_exprr . AND relation_expr
+
+    AND  shift, and go to state 98
+
+    $default  reduce using rule 46 (boolean_expr)
+>>>>>>> Stashed changes
 
 
 State 135
 
+<<<<<<< Updated upstream
    49 Relation_Expr: Expression NEQ Expression .
 
     $default  reduce using rule 49 (Relation_Expr)
+=======
+   48 relation_exprr: relation_exprr AND relation_expr .
+
+    $default  reduce using rule 48 (relation_exprr)
+>>>>>>> Stashed changes
 
 
 State 136
 
+<<<<<<< Updated upstream
    59 expradd: ADD Term_Mult-Expr . expradd
 
     ADD  shift, and go to state 100
@@ -1715,10 +2929,16 @@ State 136
     $default  reduce using rule 58 (expradd)
 
     expradd  go to state 149
+=======
+   53 rexpr: expression LT expression .
+
+    $default  reduce using rule 53 (rexpr)
+>>>>>>> Stashed changes
 
 
 State 137
 
+<<<<<<< Updated upstream
    60 expradd: SUB Term_Mult-Expr . expradd
 
     ADD  shift, and go to state 100
@@ -1727,10 +2947,16 @@ State 137
     $default  reduce using rule 58 (expradd)
 
     expradd  go to state 150
+=======
+   55 rexpr: expression LTE expression .
+
+    $default  reduce using rule 55 (rexpr)
+>>>>>>> Stashed changes
 
 
 State 138
 
+<<<<<<< Updated upstream
    63 Multiplicative-Expr: MULT term . Multiplicative-Expr
 
     MULT  shift, and go to state 103
@@ -1740,10 +2966,16 @@ State 138
     $default  reduce using rule 62 (Multiplicative-Expr)
 
     Multiplicative-Expr  go to state 151
+=======
+   54 rexpr: expression GT expression .
+
+    $default  reduce using rule 54 (rexpr)
+>>>>>>> Stashed changes
 
 
 State 139
 
+<<<<<<< Updated upstream
    64 Multiplicative-Expr: DIV term . Multiplicative-Expr
 
     MULT  shift, and go to state 103
@@ -1753,10 +2985,16 @@ State 139
     $default  reduce using rule 62 (Multiplicative-Expr)
 
     Multiplicative-Expr  go to state 152
+=======
+   56 rexpr: expression GTE expression .
+
+    $default  reduce using rule 56 (rexpr)
+>>>>>>> Stashed changes
 
 
 State 140
 
+<<<<<<< Updated upstream
    65 Multiplicative-Expr: MOD term . Multiplicative-Expr
 
     MULT  shift, and go to state 103
@@ -1766,17 +3004,29 @@ State 140
     $default  reduce using rule 62 (Multiplicative-Expr)
 
     Multiplicative-Expr  go to state 153
+=======
+   51 rexpr: expression EQ expression .
+
+    $default  reduce using rule 51 (rexpr)
+>>>>>>> Stashed changes
 
 
 State 141
 
+<<<<<<< Updated upstream
    33 do_while_rule: DO BEGINLOOP Statement1 ENDLOOP . WHILE Bool-Expr
 
     WHILE  shift, and go to state 154
+=======
+   52 rexpr: expression NEQ expression .
+
+    $default  reduce using rule 52 (rexpr)
+>>>>>>> Stashed changes
 
 
 State 142
 
+<<<<<<< Updated upstream
    34 read_mult: COMMA IDENT . read_mult
    35          | COMMA IDENT . L_SQUARE_BRACKET Expression R_SQUARE_BRACKET read_mult
 
@@ -1786,17 +3036,39 @@ State 142
     $default  reduce using rule 36 (read_mult)
 
     read_mult  go to state 156
+=======
+   62 expradd: ADD mul_expr . expradd
+
+    ADD  shift, and go to state 105
+    SUB  shift, and go to state 106
+
+    $default  reduce using rule 61 (expradd)
+
+    expradd  go to state 154
+>>>>>>> Stashed changes
 
 
 State 143
 
+<<<<<<< Updated upstream
    38 Read_in: READ IDENT L_SQUARE_BRACKET Expression . R_SQUARE_BRACKET read_mult
 
     R_SQUARE_BRACKET  shift, and go to state 157
+=======
+   63 expradd: SUB mul_expr . expradd
+
+    ADD  shift, and go to state 105
+    SUB  shift, and go to state 106
+
+    $default  reduce using rule 61 (expradd)
+
+    expradd  go to state 155
+>>>>>>> Stashed changes
 
 
 State 144
 
+<<<<<<< Updated upstream
    40 comma_mult: COMMA Normal . comma_mult
 
     COMMA  shift, and go to state 113
@@ -1804,17 +3076,41 @@ State 144
     $default  reduce using rule 39 (comma_mult)
 
     comma_mult  go to state 158
+=======
+   66 multi_term: MULT term . multi_term
+
+    MULT  shift, and go to state 108
+    DIV   shift, and go to state 109
+    MOD   shift, and go to state 110
+
+    $default  reduce using rule 65 (multi_term)
+
+    multi_term  go to state 156
+>>>>>>> Stashed changes
 
 
 State 145
 
+<<<<<<< Updated upstream
    26 assign_rule: IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET . ASSIGN Expression
 
     ASSIGN  shift, and go to state 159
+=======
+   67 multi_term: DIV term . multi_term
+
+    MULT  shift, and go to state 108
+    DIV   shift, and go to state 109
+    MOD   shift, and go to state 110
+
+    $default  reduce using rule 65 (multi_term)
+
+    multi_term  go to state 157
+>>>>>>> Stashed changes
 
 
 State 146
 
+<<<<<<< Updated upstream
    75 Expression1: Expression COMMA . Expression1
 
     L_PAREN  shift, and go to state 72
@@ -1828,59 +3124,133 @@ State 146
     Normal          go to state 67
     Expression1     go to state 160
     var             go to state 68
+=======
+   68 multi_term: MOD term . multi_term
+
+    MULT  shift, and go to state 108
+    DIV   shift, and go to state 109
+    MOD   shift, and go to state 110
+
+    $default  reduce using rule 65 (multi_term)
+
+    multi_term  go to state 158
+>>>>>>> Stashed changes
 
 
 State 147
 
+<<<<<<< Updated upstream
    72 Term_1: L_PAREN Expression1 R_PAREN .
 
     $default  reduce using rule 72 (Term_1)
+=======
+   37 read_mult: COMMA IDENT . read_mult
+   38          | COMMA IDENT . L_SQUARE_BRACKET expression R_SQUARE_BRACKET read_mult
+
+    COMMA             shift, and go to state 112
+    L_SQUARE_BRACKET  shift, and go to state 159
+
+    $default  reduce using rule 39 (read_mult)
+
+    read_mult  go to state 160
+>>>>>>> Stashed changes
 
 
 State 148
 
+<<<<<<< Updated upstream
    77 var: IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET .
 
     $default  reduce using rule 77 (var)
+=======
+   41 Read_in: READ IDENT L_SQUARE_BRACKET expression . R_SQUARE_BRACKET read_mult
+
+    R_SQUARE_BRACKET  shift, and go to state 161
+>>>>>>> Stashed changes
 
 
 State 149
 
+<<<<<<< Updated upstream
    59 expradd: ADD Term_Mult-Expr expradd .
 
     $default  reduce using rule 59 (expradd)
+=======
+   43 ii: COMMA posterm . ii
+
+    COMMA  shift, and go to state 116
+
+    $default  reduce using rule 42 (ii)
+
+    ii  go to state 162
+>>>>>>> Stashed changes
 
 
 State 150
 
+<<<<<<< Updated upstream
    60 expradd: SUB Term_Mult-Expr expradd .
 
     $default  reduce using rule 60 (expradd)
+=======
+   26 assign_rule: IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET . ASSIGN expression
+
+    ASSIGN  shift, and go to state 163
+>>>>>>> Stashed changes
 
 
 State 151
 
+<<<<<<< Updated upstream
    63 Multiplicative-Expr: MULT term Multiplicative-Expr .
 
     $default  reduce using rule 63 (Multiplicative-Expr)
+=======
+   78 term_ex: expression COMMA . term_ex
+
+    L_PAREN  shift, and go to state 74
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    expression  go to state 131
+    mul_expr    go to state 68
+    term        go to state 69
+    posterm     go to state 70
+    term_ex     go to state 164
+    var         go to state 71
+>>>>>>> Stashed changes
 
 
 State 152
 
+<<<<<<< Updated upstream
    64 Multiplicative-Expr: DIV term Multiplicative-Expr .
 
     $default  reduce using rule 64 (Multiplicative-Expr)
+=======
+   75 term_iden: L_PAREN term_ex R_PAREN .
+
+    $default  reduce using rule 75 (term_iden)
+>>>>>>> Stashed changes
 
 
 State 153
 
+<<<<<<< Updated upstream
    65 Multiplicative-Expr: MOD term Multiplicative-Expr .
 
     $default  reduce using rule 65 (Multiplicative-Expr)
+=======
+   80 var: IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET .
+
+    $default  reduce using rule 80 (var)
+>>>>>>> Stashed changes
 
 
 State 154
 
+<<<<<<< Updated upstream
    33 do_while_rule: DO BEGINLOOP Statement1 ENDLOOP WHILE . Bool-Expr
 
     TRUE     shift, and go to state 53
@@ -1900,10 +3270,16 @@ State 154
     term               go to state 66
     Normal             go to state 67
     var                go to state 68
+=======
+   62 expradd: ADD mul_expr expradd .
+
+    $default  reduce using rule 62 (expradd)
+>>>>>>> Stashed changes
 
 
 State 155
 
+<<<<<<< Updated upstream
    35 read_mult: COMMA IDENT L_SQUARE_BRACKET . Expression R_SQUARE_BRACKET read_mult
 
     L_PAREN  shift, and go to state 72
@@ -1916,17 +3292,29 @@ State 155
     term            go to state 66
     Normal          go to state 67
     var             go to state 68
+=======
+   63 expradd: SUB mul_expr expradd .
+
+    $default  reduce using rule 63 (expradd)
+>>>>>>> Stashed changes
 
 
 State 156
 
+<<<<<<< Updated upstream
    34 read_mult: COMMA IDENT read_mult .
 
     $default  reduce using rule 34 (read_mult)
+=======
+   66 multi_term: MULT term multi_term .
+
+    $default  reduce using rule 66 (multi_term)
+>>>>>>> Stashed changes
 
 
 State 157
 
+<<<<<<< Updated upstream
    38 Read_in: READ IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET . read_mult
 
     COMMA  shift, and go to state 109
@@ -1934,17 +3322,27 @@ State 157
     $default  reduce using rule 36 (read_mult)
 
     read_mult  go to state 163
+=======
+   67 multi_term: DIV term multi_term .
+
+    $default  reduce using rule 67 (multi_term)
+>>>>>>> Stashed changes
 
 
 State 158
 
+<<<<<<< Updated upstream
    40 comma_mult: COMMA Normal comma_mult .
+=======
+   68 multi_term: MOD term multi_term .
+>>>>>>> Stashed changes
 
     $default  reduce using rule 40 (comma_mult)
 
 
 State 159
 
+<<<<<<< Updated upstream
    26 assign_rule: IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET ASSIGN . Expression
 
     L_PAREN  shift, and go to state 72
@@ -1974,41 +3372,123 @@ State 161
     OR  shift, and go to state 92
 
     $default  reduce using rule 33 (do_while_rule)
+=======
+   38 read_mult: COMMA IDENT L_SQUARE_BRACKET . expression R_SQUARE_BRACKET read_mult
+
+    L_PAREN  shift, and go to state 74
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    expression  go to state 165
+    mul_expr    go to state 68
+    term        go to state 69
+    posterm     go to state 70
+    var         go to state 71
+>>>>>>> Stashed changes
 
 
-State 162
+State 160
 
    35 read_mult: COMMA IDENT L_SQUARE_BRACKET Expression . R_SQUARE_BRACKET read_mult
 
     R_SQUARE_BRACKET  shift, and go to state 165
 
 
-State 163
+State 161
 
+<<<<<<< Updated upstream
    38 Read_in: READ IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET read_mult .
 
     $default  reduce using rule 38 (Read_in)
+=======
+   41 Read_in: READ IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET . read_mult
+
+    COMMA  shift, and go to state 112
+
+    $default  reduce using rule 39 (read_mult)
+
+    read_mult  go to state 166
+>>>>>>> Stashed changes
 
 
-State 164
+State 162
 
    26 assign_rule: IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET ASSIGN Expression .
 
     $default  reduce using rule 26 (assign_rule)
 
 
-State 165
+State 163
 
+<<<<<<< Updated upstream
    35 read_mult: COMMA IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET . read_mult
 
     COMMA  shift, and go to state 109
 
     $default  reduce using rule 36 (read_mult)
+=======
+   26 assign_rule: IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN . expression
 
-    read_mult  go to state 166
+    L_PAREN  shift, and go to state 74
+    NUMBER   shift, and go to state 60
+    IDENT    shift, and go to state 61
+    SUB      shift, and go to state 62
+
+    expression  go to state 167
+    mul_expr    go to state 68
+    term        go to state 69
+    posterm     go to state 70
+    var         go to state 71
+
+
+State 164
+
+   78 term_ex: expression COMMA term_ex .
+
+    $default  reduce using rule 78 (term_ex)
+
+
+State 165
+
+   38 read_mult: COMMA IDENT L_SQUARE_BRACKET expression . R_SQUARE_BRACKET read_mult
+
+    R_SQUARE_BRACKET  shift, and go to state 168
 
 
 State 166
+
+   41 Read_in: READ IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET read_mult .
+
+    $default  reduce using rule 41 (Read_in)
+>>>>>>> Stashed changes
+
+    read_mult  go to state 166
+
+<<<<<<< Updated upstream
+
+State 166
+=======
+State 167
+
+   26 assign_rule: IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression .
+
+    $default  reduce using rule 26 (assign_rule)
+
+
+State 168
+
+   38 read_mult: COMMA IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET . read_mult
+
+    COMMA  shift, and go to state 112
+
+    $default  reduce using rule 39 (read_mult)
+
+    read_mult  go to state 169
+
+
+State 169
+>>>>>>> Stashed changes
 
    35 read_mult: COMMA IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET read_mult .
 
