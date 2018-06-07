@@ -73,25 +73,30 @@ void grab_operators_frm_vector();
 extern int linenum;
 extern int col;
 
+<<<<<<< HEAD
 int param_val = 0; 
 vector <string> function_table; 
+=======
+
+std::vector <string> function_table; 
+>>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
 std::vector <string> symbol_table; 
 std::vector <string> symbol_type; 
 std::vector <string> parameter_table; 
 bool go_to_param_table = false; 
 std::vector <string> oper_vector;
 std::vector <string> mil_vector; 
-string temp_string; 
-int temp_count; 
-int label_count; 
-vector <vector <string> > if_label; 
-vector <vector <string> > loop_label; 
-stack <string> param_queue;
-stack <string> read_queue; 
-stringstream m; 
+std::string temp_string; 
+int param_val = 0; 
+int temp_count, label_count; 
+std::vector <vector <string> > if_label; 
+std::vector <vector <string> > loop_label; 
+std::stack <string> param_queue;
+std::stack <string> read_queue; 
+stringstream my_string; 
 
 //grabs the variables for the COMP rules  
-string new_temp_var; 
+string new_temp_variable; 
 //grabs appropriate operation from rule 
 string grab_operation;
 
@@ -1425,6 +1430,7 @@ yyreduce:
   case 8:
 #line 81 "mini_l.y" /* yacc.c:1646  */
     {
+<<<<<<< HEAD
 			for(unsigned int j=0;j<symbol_table.size();j++)
 			{
 				if(symbol_type.at(j)=="INTEGER")
@@ -1432,6 +1438,15 @@ yyreduce:
 
 				else
 					cout<<".[] "<<symbol_table.at(j)<<", "<<symbol_type.at(j)<<endl;
+=======
+			for(unsigned int i=0;i<symbol_table.size();i++)
+			{
+				if(symbol_type.at(i)=="INTEGER")
+					cout<<". "<<symbol_table.at(i)<<endl;
+
+				else
+					cout<<".[] "<<symbol_table.at(i)<<", "<<symbol_type.at(i)<<endl;
+>>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
 			}
             		while(!parameter_table.empty())
             		{
@@ -1439,7 +1454,7 @@ yyreduce:
                 		parameter_table.erase(parameter_table.begin());
                 		param_val++;
             		}
-            		//STATEMENT PRINT
+            		
             		for(unsigned i=0;i<mil_vector.size();i++)
                 		cout<<mil_vector.at(i)<<endl;
             		cout<<"endfunc"<<endl;
@@ -1447,7 +1462,11 @@ yyreduce:
             		symbol_table.clear();
             		symbol_type.clear();
             		parameter_table.clear();
+<<<<<<< HEAD
            		param_val=0;
+=======
+           			param_val=0;
+>>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
 		}
 #line 1453 "mini_l.tab.c" /* yacc.c:1646  */
     break;
@@ -1455,9 +1474,15 @@ yyreduce:
   case 14:
 #line 121 "mini_l.y" /* yacc.c:1646  */
     {
+<<<<<<< HEAD
 					symbol_table.push_back(std::string("_") + strdup((yyvsp[0].sval)));
             			if(go_to_param_table)
                 			parameter_table.push_back(std::string("_") + strdup((yyvsp[0].sval)));
+=======
+					symbol_table.push_back( strdup((yyvsp[0].sval)));
+            			if(go_to_param_table)
+                			parameter_table.push_back(strdup((yyvsp[0].sval)));
+>>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
 				}
 #line 1463 "mini_l.tab.c" /* yacc.c:1646  */
     break;
@@ -1465,7 +1490,11 @@ yyreduce:
   case 15:
 #line 127 "mini_l.y" /* yacc.c:1646  */
     {
+<<<<<<< HEAD
 					symbol_table.push_back(std::string("_") + strdup((yyvsp[-2].sval)));
+=======
+					symbol_table.push_back(strdup((yyvsp[-2].sval)));
+>>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
 					symbol_type.push_back("INTEGER");
 				}
 #line 1472 "mini_l.tab.c" /* yacc.c:1646  */
@@ -1516,7 +1545,11 @@ yyreduce:
   case 26:
 #line 172 "mini_l.y" /* yacc.c:1646  */
     {
+<<<<<<< HEAD
             		string var = std::string("_") + strdup((yyvsp[-2].sval));
+=======
+            		string var = strdup((yyvsp[-2].sval));
+>>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
             		mil_vector.push_back("= " + var + ", " + oper_vector.back() );
             		oper_vector.pop_back();
         		}
@@ -1526,12 +1559,20 @@ yyreduce:
   case 27:
 #line 178 "mini_l.y" /* yacc.c:1646  */
     {
+<<<<<<< HEAD
             		string var = std::string("_") + strdup((yyvsp[-5].sval));
+=======
+            		string var = strdup((yyvsp[-5].sval));
+>>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
             		string array_result_expression = oper_vector.back();
             		oper_vector.pop_back();
             		string array_expression = oper_vector.back();
             		oper_vector.pop_back();
+<<<<<<< HEAD
             		mil_vector.push_back(std::string("[]= _") + strdup((yyvsp[-5].sval))+", " + array_expression + ", " + array_result_expression); 
+=======
+            		mil_vector.push_back(std::string("[]= ") + strdup((yyvsp[-5].sval))+", " + array_expression + ", " + array_result_expression); 
+>>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
         		}
 #line 1537 "mini_l.tab.c" /* yacc.c:1646  */
     break;
@@ -1540,12 +1581,12 @@ yyreduce:
 #line 190 "mini_l.y" /* yacc.c:1646  */
     {
             		label_count++;    
-            		m.str("");
-            		m.clear();     
-            		m<<label_count;
-            		string label_1 = "if_condition_true_"+m.str(); 
-            		string label_2 = "if_condition_false_"+m.str();
-            		string label_3 = "end_if_"+m.str();
+            		my_string.str("");
+            		my_string.clear();     
+            		my_string<<label_count;
+            		string label_1 = "if_condition_true_"+my_string.str(); 
+            		string label_2 = "if_condition_false_"+my_string.str();
+            		string label_3 = "end_if_"+my_string.str();
             		vector<string> temp;        //temp label vector
             		temp.push_back(label_1);    
             		temp.push_back(label_2);    
@@ -1590,13 +1631,13 @@ yyreduce:
 #line 230 "mini_l.y" /* yacc.c:1646  */
     {
             	label_count++;
-            	m.str("");
-            	m.clear();      
-            	m<<label_count;
-            	string label_1 = "while_loop_"+m.str();
-            	string label_2 = "conditional_true_"+m.str();
-            	string label_3 = "conditional_false_"+m.str();
-            	vector<string> temp;        //temp label vector
+            	my_string.str("");
+            	my_string.clear();      
+            	my_string<<label_count;
+            	string label_1 = "while_loop_"+my_string.str();
+            	string label_2 = "conditional_true_"+my_string.str();
+            	string label_3 = "conditional_false_"+my_string.str();
+            	vector<string> temp;        
             	temp.push_back(label_1);    
             	temp.push_back(label_2);  
             	temp.push_back(label_3);  
@@ -1631,11 +1672,11 @@ yyreduce:
 #line 265 "mini_l.y" /* yacc.c:1646  */
     {
             label_count++; 
-            m.str("");
-            m.clear();     
-            m<<label_count;
-            string label_1 = "do_while_loop_"+m.str();
-            string label_2 = "do_while_conditional_check"+m.str();
+            my_string.str("");
+            my_string.clear();     
+            my_string<<label_count;
+            string label_1 = "do_while_loop_"+my_string.str();
+            string label_2 = "do_while_conditional_check"+my_string.str();
             vector <string> temp;
             temp.push_back(label_1);
             temp.push_back(label_2);
@@ -1666,8 +1707,8 @@ yyreduce:
   case 38:
 #line 295 "mini_l.y" /* yacc.c:1646  */
     {
-                string var = std::string("_") + strdup((yyvsp[-1].sval));
-                read_queue.push(std::string(".< _") + strdup((yyvsp[-1].sval)));
+                string var = strdup((yyvsp[-1].sval));
+                read_queue.push(strdup((yyvsp[-1].sval)));
 
             }
 #line 1674 "mini_l.tab.c" /* yacc.c:1646  */
@@ -1676,10 +1717,15 @@ yyreduce:
   case 39:
 #line 302 "mini_l.y" /* yacc.c:1646  */
     {
-                string var = std::string("_") + strdup((yyvsp[-4].sval));
+                string var = strdup((yyvsp[-4].sval));
                 grab_variables();  
+<<<<<<< HEAD
                 read_queue.push(".< "+new_temp_var);
                 read_queue.push(std::string("[]= _") + strdup((yyvsp[-4].sval)) + ", " + oper_vector.back() + ", " + new_temp_var);
+=======
+                read_queue.push(".< "+new_temp_variable);
+                read_queue.push(std::string("[]= ") + strdup((yyvsp[-4].sval)) + ", " + oper_vector.back() + ", " + new_temp_variable);
+>>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
                 oper_vector.pop_back();
             }
 #line 1686 "mini_l.tab.c" /* yacc.c:1646  */
@@ -1688,8 +1734,13 @@ yyreduce:
   case 41:
 #line 313 "mini_l.y" /* yacc.c:1646  */
     {                                      
+<<<<<<< HEAD
             	string var = std::string("_") + strdup((yyvsp[-1].sval));            
             	mil_vector.push_back(std::string(".< _") + strdup((yyvsp[-1].sval)));
+=======
+            	string var = strdup((yyvsp[-1].sval));            
+            	mil_vector.push_back(std::string(".< ") + strdup((yyvsp[-1].sval)));
+>>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
             	while(!read_queue.empty())
             	{
                 	mil_vector.push_back(read_queue.top());
@@ -1702,10 +1753,17 @@ yyreduce:
   case 42:
 #line 323 "mini_l.y" /* yacc.c:1646  */
     {
+<<<<<<< HEAD
             	string var = std::string("_") + strdup((yyvsp[-4].sval));
             	grab_variables();      
             	mil_vector.push_back(std::string(".< ") +new_temp_var);
             	mil_vector.push_back(std::string("[]= _") + strdup((yyvsp[-4].sval))+ ", " + oper_vector.back() + ", " + new_temp_var);
+=======
+            	string var = strdup((yyvsp[-4].sval));
+            	grab_variables();      
+            	mil_vector.push_back(std::string(".< ") +new_temp_variable);
+            	mil_vector.push_back(std::string("[]= ") + strdup((yyvsp[-4].sval))+ ", " + oper_vector.back() + ", " + new_temp_variable);
+>>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
             	oper_vector.pop_back();
             	while(!read_queue.empty())
             	{
@@ -1756,8 +1814,13 @@ yyreduce:
 	    			grab_variables(); 
             		string op1 = oper_vector.back();
             		oper_vector.pop_back();        
+<<<<<<< HEAD
            	        mil_vector.push_back("! "+new_temp_var+", "+op1); 
             		oper_vector.push_back(new_temp_var);
+=======
+           	        mil_vector.push_back("! "+new_temp_variable+", "+op1); 
+            		oper_vector.push_back(new_temp_variable);
+>>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
 				}
 #line 1763 "mini_l.tab.c" /* yacc.c:1646  */
     break;
@@ -1775,8 +1838,13 @@ yyreduce:
 #line 389 "mini_l.y" /* yacc.c:1646  */
     {
 					grab_variables();             
+<<<<<<< HEAD
 	    			mil_vector.push_back("= "+new_temp_var+", 1");
             		oper_vector.push_back(new_temp_var);
+=======
+	    			mil_vector.push_back("= "+new_temp_variable+", 1");
+            		oper_vector.push_back(new_temp_variable);
+>>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
 				}
 #line 1782 "mini_l.tab.c" /* yacc.c:1646  */
     break;
@@ -1785,8 +1853,13 @@ yyreduce:
 #line 396 "mini_l.y" /* yacc.c:1646  */
     {
 					grab_variables();             
+<<<<<<< HEAD
 	    			mil_vector.push_back("= "+new_temp_var+", 0"); 
             		oper_vector.push_back(new_temp_var);
+=======
+	    			mil_vector.push_back("= "+new_temp_variable+", 0"); 
+            		oper_vector.push_back(new_temp_variable);
+>>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
 				}
 #line 1792 "mini_l.tab.c" /* yacc.c:1646  */
     break;
@@ -1887,9 +1960,15 @@ yyreduce:
 #line 461 "mini_l.y" /* yacc.c:1646  */
     {
  		    		grab_variables();                    
+<<<<<<< HEAD
                     mil_vector.push_back("- "+ new_temp_var + ", 0, " +oper_vector.back());    
                     oper_vector.pop_back(); 
                     oper_vector.push_back(new_temp_var); 
+=======
+                    mil_vector.push_back("- "+ new_temp_variable + ", 0, " +oper_vector.back());    
+                    oper_vector.pop_back(); 
+                    oper_vector.push_back(new_temp_variable); 
+>>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
 
                 }
 #line 1896 "mini_l.tab.c" /* yacc.c:1646  */
@@ -1899,8 +1978,13 @@ yyreduce:
 #line 469 "mini_l.y" /* yacc.c:1646  */
     {
                     grab_variables();                     
+<<<<<<< HEAD
 		    		mil_vector.push_back(std::string("call ") + strdup((yyvsp[-1].sval)) + ", " + new_temp_var);
                     oper_vector.push_back(new_temp_var); 
+=======
+		    		mil_vector.push_back(std::string("call ") + strdup((yyvsp[-1].sval)) + ", " + new_temp_variable);
+                    oper_vector.push_back(new_temp_variable); 
+>>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
                 }
 #line 1906 "mini_l.tab.c" /* yacc.c:1646  */
     break;
@@ -1929,11 +2013,17 @@ yyreduce:
                     grab_variables();  
                     string op1=oper_vector.back();       
                     if(op1.at(0)=='[') 
-                        mil_vector.push_back("=[] "+new_temp_var+", "+op1.substr(3,op1.length()-3));
+                        mil_vector.push_back("=[] "+new_temp_variable+", "+op1.substr(3,op1.length()-3));
                     else 
+<<<<<<< HEAD
                         mil_vector.push_back("= "+ new_temp_var+", "+oper_vector.back());    
                     oper_vector.pop_back(); 
                     oper_vector.push_back(new_temp_var);
+=======
+                        mil_vector.push_back("= "+ new_temp_variable+", "+oper_vector.back());    
+                    oper_vector.pop_back(); 
+                    oper_vector.push_back(new_temp_variable);
+>>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
                 }
 #line 1939 "mini_l.tab.c" /* yacc.c:1646  */
     break;
@@ -1944,8 +2034,13 @@ yyreduce:
                     grab_variables();  
                     stringstream ss;
                     ss << (yyvsp[0].num_val);
+<<<<<<< HEAD
                     mil_vector.push_back("= "+ new_temp_var +", "+ ss.str());
                     oper_vector.push_back(new_temp_var);
+=======
+                    mil_vector.push_back("= "+ new_temp_variable +", "+ ss.str());
+                    oper_vector.push_back(new_temp_variable);
+>>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
                 }
 #line 1951 "mini_l.tab.c" /* yacc.c:1646  */
     break;
@@ -1971,7 +2066,11 @@ yyreduce:
   case 81:
 #line 523 "mini_l.y" /* yacc.c:1646  */
     {
+<<<<<<< HEAD
                     string var = std::string("_") + strdup((yyvsp[0].sval)); 
+=======
+                    string var = strdup((yyvsp[0].sval)); 
+>>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
                     oper_vector.push_back(var);
                 }
 #line 1978 "mini_l.tab.c" /* yacc.c:1646  */
@@ -1982,7 +2081,11 @@ yyreduce:
     {
                     string op1 = oper_vector.back();
                     oper_vector.pop_back();
+<<<<<<< HEAD
                     string var = std::string("_") + strdup((yyvsp[-3].sval));
+=======
+                    string var = strdup((yyvsp[-3].sval));
+>>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
                     oper_vector.push_back("[] " + var + ", " + op1);
                 }
 #line 1989 "mini_l.tab.c" /* yacc.c:1646  */
@@ -2220,22 +2323,36 @@ yyreturn:
 #line 536 "mini_l.y" /* yacc.c:1906  */
 
 void grab_variables() {
-            m.str("");
-            m.clear();   
-            m<<temp_count;   
+            my_string.str("");
+            my_string.clear();   
+            my_string<<temp_count;   
             temp_count++;
+<<<<<<< HEAD
             new_temp_var=std::string("_temp_")+ m.str();  
             symbol_table.push_back(new_temp_var);  
+=======
+            new_temp_variable=std::string("_temp_")+ my_string.str();  
+            symbol_table.push_back(new_temp_variable);  
+>>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
             symbol_type.push_back("INTEGER"); 
 }
 
 void grab_operators_frm_vector(){
+<<<<<<< HEAD
 	    string op2 = oper_vector.back();
             oper_vector.pop_back();
             string op1 = oper_vector.back();
             oper_vector.pop_back();
             mil_vector.push_back(grab_operation + new_temp_var + ", "+op1+", "+op2);    
             oper_vector.push_back(new_temp_var);
+=======
+	    	string temp_oper_value = oper_vector.back();
+            oper_vector.pop_back();
+            string temp_nextoper_value = oper_vector.back();
+            oper_vector.pop_back();
+            mil_vector.push_back(grab_operation + new_temp_variable + ", "+temp_nextoper_value+", "+ temp_oper_value);    
+            oper_vector.push_back(new_temp_variable);
+>>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
 }
 
 void yyerror(const char* s)
