@@ -5,6 +5,11 @@ int yylex(void);
 void yyerror(const char *s); 
 extern int linenum;
 extern int col;
+
+std::vector <string> sym_table; 
+std::vector <string> sym_type; 
+std::vector <string> param_table; 
+bool add_to_param_table = false; 
 //FILE *yyin;  
 %}
 
@@ -45,10 +50,22 @@ Program:	Functions{}
 		;
 
 Functions:	/*empty*/ {}
-         	| Function Functions {}
+         	| Function Functions 
+		{}
          	;
 
-Function:	FUNCTION IDENT {cout << "func " << strdup($2) << endl;} SEMICOLON BEGIN_PARAMS Declaration1 END_PARAMS BEGIN_LOCALS Declaration1  END_LOCALS BEGIN_BODY Statement1  END_BODY  {cout << "endfunc" << endl;} 
+Function:	FUNCTION IDENT {cout << "func " << strdup($2) << endl;} SEMICOLON BEGIN_PARAMS Declaration1 END_PARAMS BEGIN_LOCALS Declaration1  END_LOCALS BEGIN_BODY Statement1  END_BODY 
+		 {		   
+		   for (unsigned int j=0; j<sym_table.size(); ++j){
+		       if(sym_type.at(j) == "INTEGER") {
+		          cout << ". " << sym_table.at(j) << endl; 
+                       }
+		       else {
+		          cout << ".[] " << sym_table.at(j) << ", " << sym_type.at(j) << endl; 
+		       }
+		   }
+                   cout <<"endfunc" << endl; 
+		 } 
          	| error{ yyerrok; yyclearin;}
 		;
 
@@ -64,54 +81,100 @@ Statement1: Statement SEMICOLON Statement1 {}
             ;
 
 
-Identifier:  identifier {}
-            | identifier COMMA Identifier {}
-	;
+Identifier:  IDENT 
+	    { 
+		sym_table.push_back("_" + *($1));
+	        if(add_to_param_table) 
+		   param_table.push_back("_"+*($1)); 
+	    }
+            | IDENT COMMA Identifier 
+	      { sym_table.push_back("_" + *($1));
+		sym_type.push_back("INTEGER");
+	      }
+	    ;
 
-identifier:  IDENT {cout <<  "." << strdup($1) << endl;}
+/*
+identifier:  IDENT 
+	     {/*cout <<  "." << strdup($1) << endl;
+	       sym_table.push_back("_" + *($1)); 
+	     }
 	;         
 
+*/ 
+
 /*part of Declaration*/ 
-Type:	     INTEGER {}   
-	    | ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER {}
+Type:	     INTEGER 
+	     {
+		sym_type.push_back("INTEGER"); 
+	     }   
+	    | ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER 
+	    {
+	       stringstream ss; 
+               ss << $3; 
+               string s = ss.str(); 
+               sym_type.push_back(s); 
+	    }
             ;
 
-Statement: Var1 ASSIGN Expression {} 
-           | IF-STMT {}
-           | WHILE Bool-Expr BEGINLOOP Statement1 ENDLOOP {}
-           | DO BEGINLOOP Statement1 ENDLOOP WHILE Bool-Expr {} 
-           | READ {cout << ".<";} Var1
-           | WRITE {cout << ".>";} Var1
-           | CONTINUE
-           | RETURN Expression{cout << "ret src" << endl; }
-	   | error {yyerrok; yyclearin;}
-           ;
+Statement:	Var ASSIGN Expression {} 
+           	| if_rule {}
+           	| while_rule {}
+           	| do_while_rule {} 
+           	| read_in 
+           	| WRITE comma_mult
+           	| CONTINUE
+           	| RETURN Expression
+	   	| error {yyerrok; yyclearin;}
+           	;
 
-IF-STMT:   IF Bool-Expr THEN Statement1 ENDIF
-           | IF Bool-Expr THEN Statement1 ELSE Statement1 ENDIF
-          ; 
+if_rule:	if_condition Statement1 ENDIF
+		| else_condition Statement1 ENDIF
+		;
 
+if_condition:	IF Bool-Expr THEN
+		;
+
+else_condition:	if_condition Statement1 ELSE   
+		; 
+
+while_rule:	while_condition Statement1 ENDLOOP
+		; 
+
+while_condition:	WHILE Bool-Expr BEGINLOOP
+			;
+
+do_while_rule:	DO BEGINLOOP Statement1 ENDLOOP WHILE Bool-Expr
+		;
+
+read_in:	READ comma_mult 
+		; 
+
+comma_mult:	Var
+	      	| Var COMMA comma_mult 
+		; 
+		
+/* 
 Var1: Var COMMA Var1
      | Var
      ;
+*/ 
+Bool-Expr:	Relation_Exprs {}
+         	| Bool-Expr OR Relation_Exprs {} 
+         	; 
 
-Bool-Expr: Relation_And_Expr {}
-           | Relation_And_Expr OR {cout << "|| ";} Bool-Expr
-         ; 
+Relation_And_Expr:	Relation_Exprs {}
+                  	| Relation_And_Expr AND Relation-Exprs {} 
+                  	;
 
-Relation_And_Expr: Relation_Exprs {}
-                  | Relation_Exprs AND {cout << "&& ";} Relation_And_Expr
-                  ;
+Relation_Exprs:		NOT Relation_Expr {}
+                	| Relation_Expr {}
+			; 
 
-Relation_Exprs:	NOT {cout << "! ";} Relation_Expr {}
-                | Relation_Expr {}
-		; 
-
-Relation_Expr:	Expression Comp Expression {}
-              	| TRUE {}
-             	| FALSE {}
-              	| L_PAREN Bool-Expr R_PAREN {}
-              	; 
+Relation_Expr:		Expression Comp Expression {}
+              		| TRUE {}
+             		| FALSE {}
+              		| L_PAREN Bool-Expr R_PAREN {}
+              		; 
 
 Comp:	EQ
     	| NEQ 
@@ -121,23 +184,28 @@ Comp:	EQ
         | GTE
         ;  
 
-Expression: 	Multiplicative-Expr ADD {cout << "+ ";} Expression
- 		| Multiplicative-Expr SUB {cout << "- ";} Expression
+Expression: 	Multiplicative-Expr ADD Expression {}
+ 		| Multiplicative-Expr SUB Expression {} 
    		| Multiplicative-Expr {}
  		; 
-           
-Multiplicative-Expr:	Term MULT {cout << "* ";} Term 
-			| Term DIV {cout << "/ ";} Term
-                        | Term MOD {cout << "% "; }Term
-                        | Term {} 
+
+Term_Mult-Expr:		Term Multiplicative-Expr {} 
+			; 
+
+Multiplicative-Expr:	/*empty*/ {} 
+			| MULT Term Term_Mult-Expr {} 
+			| DIV Term Term_Mult-Expr {}
+                        | MOD Term Term_Mult-Expr {}
 			; 
 
 Term:		Normal{} /*can call Normal aka Term2 to reduce conflit/reduce*/ 
-      		| SUB Var
-		| SUB NUMBER 
-                | SUB L_PAREN Expression R_PAREN       	        
-		| identifier L_PAREN Expression1 R_PAREN {}
+      		| SUB Normal    	        
+		| /*identifier*/ IDENT Term_1 {}
       		;
+
+Term_1:		L_PAREN Expression1 R_PAREN {} 
+		| L_PAREN R_PAREN {} 
+		; 
 
 /*-----form of Term2-------*/ 
 Normal:		Var {}
@@ -149,8 +217,8 @@ Expression1:	Expression COMMA Expression1 {}
              	| Expression {}
              	| /*empty*/ {}
 
-Var:	identifier {}
-     	| identifier L_SQUARE_BRACKET Expression R_SQUARE_BRACKET {}
+Var:	/*identifier*/IDENT {}
+     	| /*identifier*/ IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET {}
      	;
             
 %%
