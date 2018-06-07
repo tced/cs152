@@ -9,12 +9,12 @@ extern int linenum;
 extern int col;
 
 int param_val = 0; 
-vector <string> func_table; 
-std::vector <string> sym_table; 
-std::vector <string> sym_type; 
-std::vector <string> param_table; 
-bool add_to_param_table = false; 
-std::vector <string> op;
+vector <string> function_table; 
+std::vector <string> symbol_table; 
+std::vector <string> symbol_type; 
+std::vector <string> parameter_table; 
+bool go_to_param_table = false; 
+std::vector <string> oper_vector;
 std::vector <string> mil_vector; 
 string temp_string; 
 int temp_count; 
@@ -71,26 +71,26 @@ Functions:	/*empty*/
 		
 		;
 
-beginparam:	BEGIN_PARAMS { add_to_param_table=true;}
+beginparam:	BEGIN_PARAMS { go_to_param_table=true;}
           	;
 
-endparam:	END_PARAMS{ add_to_param_table=false;}
+endparam:	END_PARAMS{ go_to_param_table=false;}
 		;
 
-Function:	FUNCTION IDENT {func_table.push_back(strdup($2)); cout << "func " << strdup($2) << endl;} SEMICOLON beginparam Declaration1 endparam BEGIN_LOCALS Declaration1 END_LOCALS BEGIN_BODY Statement1 END_BODY 
+Function:	FUNCTION IDENT {function_table.push_back(strdup($2)); cout << "func " << strdup($2) << endl;} SEMICOLON beginparam Declaration1 endparam BEGIN_LOCALS Declaration1 END_LOCALS BEGIN_BODY Statement1 END_BODY 
 		{
-			for(unsigned int j=0;j<sym_table.size();j++)
+			for(unsigned int j=0;j<symbol_table.size();j++)
 			{
-				if(sym_type.at(j)=="INTEGER")
-					cout<<". "<<sym_table.at(j)<<endl;
+				if(symbol_type.at(j)=="INTEGER")
+					cout<<". "<<symbol_table.at(j)<<endl;
 
 				else
-					cout<<".[] "<<sym_table.at(j)<<", "<<sym_type.at(j)<<endl;
+					cout<<".[] "<<symbol_table.at(j)<<", "<<symbol_type.at(j)<<endl;
 			}
-            		while(!param_table.empty())
+            		while(!parameter_table.empty())
             		{
-                		cout<<"= "<<param_table.front()<<", $"<<param_val<<endl;
-                		param_table.erase(param_table.begin());
+                		cout<<"= "<<parameter_table.front()<<", $"<<param_val<<endl;
+                		parameter_table.erase(parameter_table.begin());
                 		param_val++;
             		}
             		//STATEMENT PRINT
@@ -98,9 +98,9 @@ Function:	FUNCTION IDENT {func_table.push_back(strdup($2)); cout << "func " << s
                 		cout<<mil_vector.at(i)<<endl;
             		cout<<"endfunc"<<endl;
             		mil_vector.clear();
-            		sym_table.clear();
-            		sym_type.clear();
-            		param_table.clear();
+            		symbol_table.clear();
+            		symbol_type.clear();
+            		parameter_table.clear();
            		param_val=0;
 		}
 		; 
@@ -119,27 +119,27 @@ Statement1:	Statement SEMICOLON Statement1
 
 identifier:		IDENT 
 				{
-					sym_table.push_back(std::string("_") + strdup($1));
-            			if(add_to_param_table)
-                			param_table.push_back(std::string("_") + strdup($1));
+					symbol_table.push_back(std::string("_") + strdup($1));
+            			if(go_to_param_table)
+                			parameter_table.push_back(std::string("_") + strdup($1));
 				}
 				| IDENT COMMA identifier
 				{
-					sym_table.push_back(std::string("_") + strdup($1));
-					sym_type.push_back("INTEGER");
+					symbol_table.push_back(std::string("_") + strdup($1));
+					symbol_type.push_back("INTEGER");
 				}
 				;
 
 TYPE:		INTEGER 
 			{ 
-				sym_type.push_back("INTEGER");
+				symbol_type.push_back("INTEGER");
 			}
 			| ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER 
 			{
 				stringstream ss;
 				ss << $3;
 				string s = ss.str();
-				sym_type.push_back(s);
+				symbol_type.push_back(s);
 			}	 
 			;
 
@@ -163,24 +163,24 @@ Statement:  	assign_rule
 
         		| RETURN expression
         		{
-            		mil_vector.push_back("ret "+op.back());
-            		op.pop_back();
+            		mil_vector.push_back("ret "+oper_vector.back());
+            		oper_vector.pop_back();
         		}
 				;
 
 assign_rule:	IDENT ASSIGN expression
         		{
             		string var = std::string("_") + strdup($1);
-            		mil_vector.push_back("= " + var + ", " + op.back() );
-            		op.pop_back();
+            		mil_vector.push_back("= " + var + ", " + oper_vector.back() );
+            		oper_vector.pop_back();
         		}
        			| IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression
         		{
             		string var = std::string("_") + strdup($1);
-            		string array_result_expression = op.back();
-            		op.pop_back();
-            		string array_expression = op.back();
-            		op.pop_back();
+            		string array_result_expression = oper_vector.back();
+            		oper_vector.pop_back();
+            		string array_expression = oper_vector.back();
+            		oper_vector.pop_back();
             		mil_vector.push_back(std::string("[]= _") + strdup($1)+", " + array_expression + ", " + array_result_expression); 
         		}
         		;
@@ -200,8 +200,8 @@ if_clause:		IF Bool-Expr THEN
             		temp.push_back(label_2);    
            			temp.push_back(label_3);
             		if_label.push_back(temp);   //pushing temp vector onto if label
-            		mil_vector.push_back("?:= "+if_label.back().at(0)+", "+op.back());
-            		op.pop_back();
+            		mil_vector.push_back("?:= "+if_label.back().at(0)+", "+oper_vector.back());
+            		oper_vector.pop_back();
             		mil_vector.push_back(":= "+if_label.back().at(1)); 
             		mil_vector.push_back(": "+if_label.back().at(0));    
 				}
@@ -246,8 +246,8 @@ while_key:  WHILE
 
 while_clause: while_key Bool-Expr BEGINLOOP
             {
-                mil_vector.push_back("?:= "+loop_label.back().at(1)+", "+op.back());
-                op.pop_back();
+                mil_vector.push_back("?:= "+loop_label.back().at(1)+", "+oper_vector.back());
+                oper_vector.pop_back();
                 mil_vector.push_back(":= "+loop_label.back().at(2));
                 mil_vector.push_back(": "+loop_label.back().at(1));
             }
@@ -285,8 +285,8 @@ do_check: do_key Statement1 ENDLOOP
 
 do_while_rule:	     do_check WHILE Bool-Expr 
 					{
-            			mil_vector.push_back("?:= "+ loop_label.back().at(0)+", "+op.back());
-            			op.pop_back();
+            			mil_vector.push_back("?:= "+ loop_label.back().at(0)+", "+oper_vector.back());
+            			oper_vector.pop_back();
             			loop_label.pop_back();
         			}
         			;
@@ -303,8 +303,8 @@ read_mult:  COMMA IDENT read_mult
                 string var = std::string("_") + strdup($2);
                 grab_variables();  
                 read_queue.push(".< "+new_temp_var);
-                read_queue.push(std::string("[]= _") + strdup($2) + ", " + op.back() + ", " + new_temp_var);
-                op.pop_back();
+                read_queue.push(std::string("[]= _") + strdup($2) + ", " + oper_vector.back() + ", " + new_temp_var);
+                oper_vector.pop_back();
             }
             | /*empty*/
             ;
@@ -324,8 +324,8 @@ Read_in:	READ IDENT read_mult
             	string var = std::string("_") + strdup($2);
             	grab_variables();      
             	mil_vector.push_back(std::string(".< ") +new_temp_var);
-            	mil_vector.push_back(std::string("[]= _") + strdup($2)+ ", " + op.back() + ", " + new_temp_var);
-            	op.pop_back();
+            	mil_vector.push_back(std::string("[]= _") + strdup($2)+ ", " + oper_vector.back() + ", " + new_temp_var);
+            	oper_vector.pop_back();
             	while(!read_queue.empty())
             	{
                 	mil_vector.push_back(read_queue.top());
@@ -340,13 +340,13 @@ comma_mult:		/*empty*/
 
 write_rule:		WRITE Normal comma_mult
         		{
-            		while(!op.empty())
+            		while(!oper_vector.empty())
             		{
-            			string s= op.front();
-                		op.erase(op.begin());
+            			string s= oper_vector.front();
+                		oper_vector.erase(oper_vector.begin());
                 		mil_vector.push_back(".> "+ s);
             		}
-            		op.clear();
+            		oper_vector.clear();
         		}
 				;
 
@@ -372,10 +372,10 @@ relation_expr:	Relation_Expr
 				| NOT Relation_Expr 
         		{
 	    			grab_variables(); 
-            		string op1 = op.back();
-            		op.pop_back();        
+            		string op1 = oper_vector.back();
+            		oper_vector.pop_back();        
            	        mil_vector.push_back("! "+new_temp_var+", "+op1); 
-            		op.push_back(new_temp_var);
+            		oper_vector.push_back(new_temp_var);
 				}
 				;
 
@@ -389,14 +389,14 @@ Relation_Expr:	expression Comp expression
 				{
 					grab_variables();             
 	    			mil_vector.push_back("= "+new_temp_var+", 1");
-            		op.push_back(new_temp_var);
+            		oper_vector.push_back(new_temp_var);
 				};
 
 				| FALSE 
 				{
 					grab_variables();             
 	    			mil_vector.push_back("= "+new_temp_var+", 0"); 
-            		op.push_back(new_temp_var);
+            		oper_vector.push_back(new_temp_var);
 				};	
 				| L_PAREN Bool-Expr R_PAREN 
 				; 
@@ -460,16 +460,16 @@ term:           Normal  { }
                 | SUB Normal
                 {
  		    		grab_variables();                    
-                    mil_vector.push_back("- "+ new_temp_var + ", 0, " +op.back());    
-                    op.pop_back(); 
-                    op.push_back(new_temp_var); 
+                    mil_vector.push_back("- "+ new_temp_var + ", 0, " +oper_vector.back());    
+                    oper_vector.pop_back(); 
+                    oper_vector.push_back(new_temp_var); 
 
                 }
                 | IDENT Term_1
                 {
                     grab_variables();                     
 		    		mil_vector.push_back(std::string("call ") + strdup($1) + ", " + new_temp_var);
-                    op.push_back(new_temp_var); 
+                    oper_vector.push_back(new_temp_var); 
                 }
                 ;
 
@@ -488,13 +488,13 @@ Term_1:		L_PAREN Expression1 R_PAREN
 Normal:		var 
                 {
                     grab_variables();  
-                    string op1=op.back();       
+                    string op1=oper_vector.back();       
                     if(op1.at(0)=='[') 
                         mil_vector.push_back("=[] "+new_temp_var+", "+op1.substr(3,op1.length()-3));
                     else 
-                        mil_vector.push_back("= "+ new_temp_var+", "+op.back());    
-                    op.pop_back(); 
-                    op.push_back(new_temp_var);
+                        mil_vector.push_back("= "+ new_temp_var+", "+oper_vector.back());    
+                    oper_vector.pop_back(); 
+                    oper_vector.push_back(new_temp_var);
                 }
                 | NUMBER
                 {
@@ -502,34 +502,34 @@ Normal:		var
                     stringstream ss;
                     ss << $1;
                     mil_vector.push_back("= "+ new_temp_var +", "+ ss.str());
-                    op.push_back(new_temp_var);
+                    oper_vector.push_back(new_temp_var);
                 }
                 | L_PAREN expression R_PAREN
                 ;
 
 Expression1:    expression
                 {
-                    param_queue.push(op.back());
-                    op.pop_back();
+                    param_queue.push(oper_vector.back());
+                    oper_vector.pop_back();
                 }
                 | expression COMMA Expression1
                 {
-                    param_queue.push(op.back());
-                    op.pop_back();
+                    param_queue.push(oper_vector.back());
+                    oper_vector.pop_back();
                 }
                 ;
 
 var:            IDENT
                 {
                     string var = std::string("_") + strdup($1); 
-                    op.push_back(var);
+                    oper_vector.push_back(var);
                 }
                 | IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET
                 {
-                    string op1 = op.back();
-                    op.pop_back();
+                    string op1 = oper_vector.back();
+                    oper_vector.pop_back();
                     string var = std::string("_") + strdup($1);
-                    op.push_back("[] " + var + ", " + op1);
+                    oper_vector.push_back("[] " + var + ", " + op1);
                 }
                 ;
                 
@@ -540,17 +540,17 @@ void grab_variables() {
             m<<temp_count;   
             temp_count++;
             new_temp_var=std::string("_temp_")+ m.str();  
-            sym_table.push_back(new_temp_var);  
-            sym_type.push_back("INTEGER"); 
+            symbol_table.push_back(new_temp_var);  
+            symbol_type.push_back("INTEGER"); 
 }
 
 void grab_operators_frm_vector(){
-	    string op2 = op.back();
-            op.pop_back();
-            string op1 = op.back();
-            op.pop_back();
+	    string op2 = oper_vector.back();
+            oper_vector.pop_back();
+            string op1 = oper_vector.back();
+            oper_vector.pop_back();
             mil_vector.push_back(grab_operation + new_temp_var + ", "+op1+", "+op2);    
-            op.push_back(new_temp_var);
+            oper_vector.push_back(new_temp_var);
 }
 
 void yyerror(const char* s)
