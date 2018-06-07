@@ -256,6 +256,7 @@ do_while_rule:	DO BEGINLOOP Statement1 ENDLOOP WHILE Bool-Expr
 read_in:	READ comma_mult 
 		; 
 
+/*not sure how to edit this*/ 
 comma_mult:	Var
 	      	| Var COMMA comma_mult 
 		; 
@@ -266,14 +267,58 @@ Var1: Var COMMA Var1
      ;
 */ 
 Bool-Expr:	Relation_Exprs {}
-         	| Bool-Expr OR Relation_And_Expr {} 
+         	| Bool-Expr OR Relation_And_Expr 
+			{
+				 m.str("");
+            			m.clear();                              //clearing string stream for conversion from int to str
+            			m<<temp_var_count;                      //feeding int to stringstream
+            			temp_var_count++;
+            			string new_temp_var='t'+ m.str();       //creating temp variable name
+            			sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+            			sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+            			string op2 = op.back();
+            			op.pop_back();
+            			string op1 =op.back();
+            			op.pop_back();
+            			stmnt_vctr.push_back("|| "+ new_temp_var + ", "+op1+", "+op2);    
+            			op.push_back(new_temp_var); //pushing new temp variable
+			} 
          	; 
 
 Relation_And_Expr:	Relation_Exprs {}
-                  	| Relation_Exprs AND Relation_And_Expr {} 
+                  	| Relation_Exprs AND Relation_And_Expr 
+				{
+					 m.str("");
+            				m.clear();                              //clearing string stream for conversion from int to str
+            				m<<temp_var_count;                      //feeding int to stringstream
+            				temp_var_count++;
+            				string new_temp_var='t'+ m.str();       //creating temp variable name
+            				sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+            				sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+            				string op2 = op.back();
+            				op.pop_back();
+            				string op1 =op.back();
+            				op.pop_back();
+            				stmnt_vctr.push_back("&& "+ new_temp_var + ", "+op1+", "+op2);    
+            				op.push_back(new_temp_var); //pushing new temp variable
+				} 
                   	;
 
-Relation_Exprs:		NOT Relation_Expr {}
+Relation_Exprs:		NOT Relation_Expr 
+				{
+					m.str("");
+            				m.clear();                              //clearing string stream for conversion from int to str
+            				m<<temp_var_count;                      //feeding int to stringstream
+            				temp_var_count++;
+            				string new_temp_var='t'+ m.str();       //creating temp variable name
+            				sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+            				sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+            				string op1 = op.back();
+            				op.pop_back();                          //removing last variable as it has already been used
+            				stmnt_vctr.push_back("! "+new_temp_var+", "+op1);   //equating the the logical NOT of the last variable on the stack
+                                                                //to the new temporary variable that will be added to the stack
+            				op.push_back(new_temp_var);
+				}
                 	| Relation_Expr {}
 			; 
 
@@ -283,6 +328,7 @@ Relation_Expr:		Expression Comp Expression {}
               		| L_PAREN Bool-Expr R_PAREN {}
               		; 
 
+/*not sure if i should change this*/
 Comp:	EQ
     	| NEQ 
 	| LT
@@ -291,6 +337,7 @@ Comp:	EQ
         | GTE
         ;  
 
+/*not sure if i should change this*/
 Expression: 	Multiplicative-Expr ADD Expression {}
  		| Multiplicative-Expr SUB Expression {} 
    		| Multiplicative-Expr {}
@@ -300,28 +347,140 @@ Term_Mult-Expr:		Term Multiplicative-Expr {}
 			; 
 
 Multiplicative-Expr:	/*empty*/ {} 
-			| MULT Term Term_Mult-Expr {} 
-			| DIV Term Term_Mult-Expr {}
-                        | MOD Term Term_Mult-Expr {}
+			| MULT Term Term_Mult-Expr 
+				{
+					 m.str("");
+            				m.clear();                              //clearing string stream for conversion from int to str
+            				m<<temp_var_count;                      //feeding int to stringstream
+            				temp_var_count++;
+            				string new_temp_var='t'+ m.str();       //creating temp variable name
+            				sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+            				sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+            				string op2 = op.back();
+            				op.pop_back();
+            				string op1 =op.back();
+            				op.pop_back();
+            				stmnt_vctr.push_back("* "+ new_temp_var + ", "+op1+", "+op2);    
+            				op.push_back(new_temp_var); //pushing new temp variable
+				} 
+			| DIV Term Term_Mult-Expr 
+				{
+					m.str("");
+            				m.clear();                              //clearing string stream for conversion from int to str
+            				m<<temp_var_count;                      //feeding int to stringstream
+            				temp_var_count++;
+            				string new_temp_var='t'+ m.str();       //creating temp variable name
+            				sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+            				sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+            				string op2 = op.back();
+            				op.pop_back();
+            				string op1 =op.back();
+            				op.pop_back();
+            				stmnt_vctr.push_back("/ "+ new_temp_var + ", "+op1+", "+op2);    
+            				op.push_back(new_temp_var); //pushing new temp variable
+				}
+                        | MOD Term Term_Mult-Expr 
+				{
+					m.str("");
+            				m.clear();                              //clearing string stream for conversion from int to str
+            				m<<temp_var_count;                      //feeding int to stringstream
+            				temp_var_count++;
+            				string new_temp_var='t'+ m.str();       //creating temp variable name
+            				sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+            				sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+            				string op2 = op.back();
+            				op.pop_back();
+            				string op1 =op.back();
+            				op.pop_back();
+            				stmnt_vctr.push_back("% "+ new_temp_var + ", "+op1+", "+op2);    
+            				op.push_back(new_temp_var); //pushing new temp variable
+				}
 			; 
 
 Term:		Normal{} /*can call Normal aka Term2 to reduce conflit/reduce*/ 
-      		| SUB Normal    	        
-		| /*identifier*/ IDENT Term_1 {}
+      		| SUB Normal    
+			{
+				m.str("");
+                    		m.clear();                              //clearing string stream for conversion from int to str
+                    		m<<temp_var_count;                      //feeding int to stringstream
+                    		temp_var_count++;
+                    		string new_temp_var='t'+ m.str();       //creating temp variable name
+                    		sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+                    		sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table 
+                    		stmnt_vctr.push_back("- "+ new_temp_var + ", 0, " +op.back());    
+                    		op.pop_back();  //removing the old variable and replacing with new temp variable 
+                    		op.push_back(new_temp_var); //pushing new temp variable
+			}	        
+		| /*identifier*/ IDENT Term_1 
+			{
+				m.str("");
+                    		m.clear();                       //clearing string stream for conversion from int to str
+                    		m<<temp_var_count;                  //feeding int to stringstream
+                    		temp_var_count++;
+                    		string new_temp_var='t'+ m.str();       //creating temp variable name
+                    		sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+                    		sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+                    		stmnt_vctr.push_back("call " + *($1) + ", " +new_temp_var);
+                    		op.push_back(new_temp_var); 
+			}
       		;
 
-Term_1:		L_PAREN Expression1 R_PAREN {} 
+Term_1:		L_PAREN Expression1 R_PAREN 
+			{
+				while(!param_queue.empty())
+                    		{
+                        		stmnt_vctr.push_back("param "+param_queue.top());
+                        		param_queue.pop();
+                    		}
+			} 
 		| L_PAREN R_PAREN {} 
 		; 
 
 /*-----form of Term2-------*/ 
-Normal:		Var {}
-		| NUMBER {}
+Normal:		Var 
+			{
+				m.str("");
+                    		m.clear();                       
+                    		m<<temp_var_count;                  
+                    		temp_var_count++;
+                    		string new_temp_var='t'+ m.str();       
+                    		sym_table.push_back(new_temp_var);     
+                    		sym_type.push_back("INTEGER");          
+                    		string op1=op.back();       
+                    		if(op1.at(0)=='[')                  
+                        		stmnt_vctr.push_back("=[] "+new_temp_var+", "+op1.substr(3,op1.length()-3));
+                    		else                                    
+                        		stmnt_vctr.push_back("= "+ new_temp_var+", "+op.back());    
+                    		op.pop_back();  
+                    		op.push_back(new_temp_var); 
+			}
+		| NUMBER 
+			{
+				  m.str("");
+                    		  m.clear();                          
+                    		  m<<temp_var_count;              
+                    		  temp_var_count++;                   
+                    		  string new_temp_var='t'+ m.str();       
+                    		  sym_table.push_back(new_temp_var);      
+                    		  sym_type.push_back("INTEGER");         
+                    		  stringstream ss;
+                    		  ss << $1;
+                    		  stmnt_vctr.push_back("= "+ new_temp_var +", "+ ss.str());
+                    		  op.push_back(new_temp_var);
+			}
 		| L_PAREN Expression1 R_PAREN {}
 		;
 
-Expression1:	Expression {} 
-		| Expression COMMA Expression1 {}
+Expression1:	Expression 
+			{
+				param_queue.push(op.back());
+                    		op.pop_back();
+			} 
+		| Expression COMMA Expression1 
+			{	
+				param_queue.push(op.back());
+                    		op.pop_back();
+			}
 		; 
 
 Var:	/*identifier*/
