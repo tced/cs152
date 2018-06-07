@@ -107,87 +107,87 @@ Function:	FUNCTION IDENT {func_table.push_back(strdup($2)); cout << "func " << s
 
 
 Declaration1:	/*empty*/ 
-		| Declaration SEMICOLON Declaration1 
-		;
+				| Declaration SEMICOLON Declaration1 
+				;
 
 Declaration:	identifier COLON TYPE 
-		;
+				;
 
 Statement1:	Statement SEMICOLON Statement1
-		| Statement SEMICOLON 
-		;
+			| Statement SEMICOLON 
+			;
 
-identifier:	IDENT 
-		{
-			sym_table.push_back(std::string("_") + strdup($1));
-            		if(add_to_param_table)
-                		param_table.push_back(std::string("_") + strdup($1));
-		}
-		| IDENT COMMA identifier
-		{
-			sym_table.push_back(std::string("_") + strdup($1));
-			sym_type.push_back("INTEGER");
-		}
-		;
+identifier:		IDENT 
+				{
+					sym_table.push_back(std::string("_") + strdup($1));
+            			if(add_to_param_table)
+                			param_table.push_back(std::string("_") + strdup($1));
+				}
+				| IDENT COMMA identifier
+				{
+					sym_table.push_back(std::string("_") + strdup($1));
+					sym_type.push_back("INTEGER");
+				}
+				;
 
 TYPE:		INTEGER 
-		{ 
-			sym_type.push_back("INTEGER");
-		}
-		| ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER 
-		{
-			stringstream ss;
-			ss << $3;
-			string s = ss.str();
-			sym_type.push_back(s);
-		} 
-		;
+			{ 
+				sym_type.push_back("INTEGER");
+			}
+			| ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER 
+			{
+				stringstream ss;
+				ss << $3;
+				string s = ss.str();
+				sym_type.push_back(s);
+			}	 
+			;
 
 Statement:  	assign_rule
-		| If_rule
-		| while_rule
-		| do_while_rule
-	       	| Read_in
-	        | write_rule
+				| If_rule
+				| while_rule
+				| do_while_rule
+	       		| Read_in
+	        	| write_rule
                 | CONTINUE
-		{
-			if (!loop_label.empty())
+				{
+					if (!loop_label.empty())
             		{
-				if(loop_label.back().at(0).at(0)=='d')
+						if(loop_label.back().at(0).at(0)=='d')
                     			mil_vector.push_back(":= "+ loop_label.back().at(1)); 
                 		else
                     			mil_vector.push_back(":= "+ loop_label.back().at(0));
             		}
-        	}
-		;
+        		}
+				;
 
-        	| RETURN expression
-        	{
+        		| RETURN expression
+        		{
             		mil_vector.push_back("ret "+op.back());
             		op.pop_back();
-        	}
-		;
+        		}
+				;
 
 assign_rule:	IDENT ASSIGN expression
-        	{
+        		{
             		string var = std::string("_") + strdup($1);
             		mil_vector.push_back("= " + var + ", " + op.back() );
             		op.pop_back();
-        	}
-       		| IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression
-        	{
+        		}
+       			| IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression
+        		{
             		string var = std::string("_") + strdup($1);
             		string array_result_expression = op.back();
             		op.pop_back();
             		string array_expression = op.back();
             		op.pop_back();
             		mil_vector.push_back(std::string("[]= _") + strdup($1)+", " + array_expression + ", " + array_result_expression); 
-        	}
-        	;
+        		}
+        		;
 
 
-if_clause:	IF Bool-Expr THEN
-        	{
+if_clause:		IF Bool-Expr THEN
+        		{
             		label_count++;    
             		m.str("");
             		m.clear();     
@@ -198,33 +198,33 @@ if_clause:	IF Bool-Expr THEN
             		vector<string> temp;        //temp label vector
             		temp.push_back(label_1);    
             		temp.push_back(label_2);    
-           		temp.push_back(label_3);
+           			temp.push_back(label_3);
             		if_label.push_back(temp);   //pushing temp vector onto if label
             		mil_vector.push_back("?:= "+if_label.back().at(0)+", "+op.back());
             		op.pop_back();
             		mil_vector.push_back(":= "+if_label.back().at(1)); 
             		mil_vector.push_back(": "+if_label.back().at(0));    
-		}
-        	;
+				}
+        		;
 
-else_if:	if_clause Statement1 ELSE
+else_if:		if_clause Statement1 ELSE
             	{
                		mil_vector.push_back(":= "+if_label.back().at(2));
                 	mil_vector.push_back(": "+if_label.back().at(1));
             	}	
             	;
 
-If_rule:	if_clause Statement1 ENDIF
-        	{
+If_rule:		if_clause Statement1 ENDIF
+        		{
             		mil_vector.push_back(": "+if_label.back().at(1));
             		if_label.pop_back();
-        	}
-        	|else_if Statement1 ENDIF 
-		{
-           		mil_vector.push_back(": "+if_label.back().at(2));
-           		if_label.pop_back();
-        	}
-        	;	
+        		}
+        		|else_if Statement1 ENDIF 
+				{
+           			mil_vector.push_back(": "+if_label.back().at(2));
+           			if_label.pop_back();
+        		}
+        		;	
 
 while_key:  WHILE
             {
@@ -253,16 +253,16 @@ while_clause: while_key Bool-Expr BEGINLOOP
             }
             ;
 
-while_rule:		 while_clause Statement1 ENDLOOP 
-		{
-            mil_vector.push_back(":= "+loop_label.back().at(0));
-            mil_vector.push_back(": "+loop_label.back().at(2));
-            loop_label.pop_back();
-        }
-        ;
+while_rule:	while_clause Statement1 ENDLOOP 
+			{
+            	mil_vector.push_back(":= "+loop_label.back().at(0));
+            	mil_vector.push_back(": "+loop_label.back().at(2));
+            	loop_label.pop_back();
+        	}
+        	;
 
-do_key: DO BEGINLOOP
-      {
+do_key:	DO BEGINLOOP
+      	{
             label_count++; 
             m.str("");
             m.clear();     
@@ -278,23 +278,26 @@ do_key: DO BEGINLOOP
         ;
 
 do_check: do_key Statement1 ENDLOOP
-        {
-            mil_vector.push_back(": "+ loop_label.back().at(1));
-        }
+          {
+            	mil_vector.push_back(": "+ loop_label.back().at(1));
+          }
+          ;
+
 do_while_rule:	     do_check WHILE Bool-Expr 
-		{
-            mil_vector.push_back("?:= "+ loop_label.back().at(0)+", "+op.back());
-            op.pop_back();
-            loop_label.pop_back();
-        }
-        ;
+					{
+            			mil_vector.push_back("?:= "+ loop_label.back().at(0)+", "+op.back());
+            			op.pop_back();
+            			loop_label.pop_back();
+        			}
+        			;
 
 read_mult:  COMMA IDENT read_mult
             {
                 string var = std::string("_") + strdup($2);
                 read_queue.push(std::string(".< _") + strdup($2));
 
-            }
+            }; 
+
             | COMMA IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET read_mult
             {
                 string var = std::string("_") + strdup($2);
@@ -306,103 +309,97 @@ read_mult:  COMMA IDENT read_mult
             | /*empty*/
             ;
                                                     
-Read_in:		READ IDENT read_mult
-        {                                      
-            string var = std::string("_") + strdup($2);            
-            mil_vector.push_back(std::string(".< _") + strdup($2));
-            while(!read_queue.empty())
-            {
-                mil_vector.push_back(read_queue.top());
-                read_queue.pop();
-            }
-        }
-        |READ IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET read_mult
-        {
-            string var = std::string("_") + strdup($2);
-            grab_variables();      
-            mil_vector.push_back(std::string(".< ") +new_temp_var);
-            mil_vector.push_back(std::string("[]= _") + strdup($2)+ ", " + op.back() + ", " + new_temp_var);
-            op.pop_back();
-            while(!read_queue.empty())
-            {
-                mil_vector.push_back(read_queue.top());
-                read_queue.pop();
-            }
-        }
-	    ;
+Read_in:	READ IDENT read_mult
+        	{                                      
+            	string var = std::string("_") + strdup($2);            
+            	mil_vector.push_back(std::string(".< _") + strdup($2));
+            	while(!read_queue.empty())
+            	{
+                	mil_vector.push_back(read_queue.top());
+                	read_queue.pop();
+            	}
+        	}; 
+        	|READ IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET read_mult
+        	{
+            	string var = std::string("_") + strdup($2);
+            	grab_variables();      
+            	mil_vector.push_back(std::string(".< ") +new_temp_var);
+            	mil_vector.push_back(std::string("[]= _") + strdup($2)+ ", " + op.back() + ", " + new_temp_var);
+            	op.pop_back();
+            	while(!read_queue.empty())
+            	{
+                	mil_vector.push_back(read_queue.top());
+                	read_queue.pop();
+            	}
+        	}
+	    	;
 
 comma_mult:		/*empty*/ 
-		| COMMA Normal comma_mult 
-		
-        ;
+				| COMMA Normal comma_mult 
+				;
 
 write_rule:		WRITE Normal comma_mult
-        {
-            while(!op.empty())
-            {
-            	string s= op.front();
-                op.erase(op.begin());
-                mil_vector.push_back(".> "+ s);
-            }
-            op.clear();
-        }
-	;
+        		{
+            		while(!op.empty())
+            		{
+            			string s= op.front();
+                		op.erase(op.begin());
+                		mil_vector.push_back(".> "+ s);
+            		}
+            		op.clear();
+        		}
+				;
 
 Bool-Expr:	relation_exprr
-		| Bool-Expr OR relation_exprr 
-		{
+			| Bool-Expr OR relation_exprr 
+			{
             		grab_variables();     
             		grab_operation = "|| "; 
             		grab_operators_frm_vector();  
-		}
+			}
         	;
 
 relation_exprr:	relation_expr 
-		| relation_exprr AND relation_expr 
-		{
-		 	grab_operation = "&& "; 
+				| relation_exprr AND relation_expr 
+				{
+		 			grab_operation = "&& "; 
             		grab_variables(); 
-			grab_operators_frm_vector();  
+					grab_operators_frm_vector();  
             	}
-        	;
+        		;
 
 relation_expr:	Relation_Expr 
-		| NOT Relation_Expr 
-        	{
-	    		grab_variables(); 
+				| NOT Relation_Expr 
+        		{
+	    			grab_variables(); 
             		string op1 = op.back();
             		op.pop_back();        
            	        mil_vector.push_back("! "+new_temp_var+", "+op1); 
             		op.push_back(new_temp_var);
-
-        	}
-		;
+				}
+				;
 
 Relation_Expr:	expression Comp expression
-		{
-			grab_variables();
-			grab_operators_frm_vector(); 
-			
-		};
+				{
+					grab_variables();
+					grab_operators_frm_vector(); 
+				};
 
-		| TRUE
-		{
-			grab_variables();             
-	    		mil_vector.push_back("= "+new_temp_var+", 1");
+				| TRUE
+				{
+					grab_variables();             
+	    			mil_vector.push_back("= "+new_temp_var+", 1");
             		op.push_back(new_temp_var);
+				};
 
-		};
-
-		| FALSE 
-		{
-			grab_variables();             
-	    		mil_vector.push_back("= "+new_temp_var+", 0"); 
+				| FALSE 
+				{
+					grab_variables();             
+	    			mil_vector.push_back("= "+new_temp_var+", 0"); 
             		op.push_back(new_temp_var);
-
-		}
-		;	
-		| L_PAREN Bool-Expr R_PAREN 
-		; 
+				};	
+				| L_PAREN Bool-Expr R_PAREN 
+				; 
 
 Comp:	EQ {grab_operation = "== ";};  
 	| NEQ {grab_operation = "!= ";};
@@ -418,17 +415,17 @@ expression:	mul_expr expradd
 
 expradd:	/*empty*/ 
 		| ADD mul_expr expradd
-        	{
+        {
 			grab_operation = "+ "; 
-            		grab_variables();  
-            	        grab_operators_frm_vector(); 	
-        	}
+            grab_variables();  
+           	grab_operators_frm_vector(); 	
+        }
 		| SUB mul_expr expradd
-        	{
+        {
 			grab_operation = "- "; 
-            		grab_variables();             
-	    		grab_operators_frm_vector();  
-        	}	
+            grab_variables();             
+	    	grab_operators_frm_vector();  
+        }	
 		;
 
 mul_expr:	term multi_term 
@@ -436,25 +433,25 @@ mul_expr:	term multi_term
 
 multi_term:	/*empty*/ 
 		| MULT term multi_term 
-        	{
+        {
 			grab_operation = "* "; 
-           		grab_variables(); 
-	    	  	grab_operators_frm_vector();       	
+           	grab_variables(); 
+	    	grab_operators_frm_vector();       	
 		}
 		; 
 
 		| DIV term multi_term
-        	{
+        {
 			grab_operation = "/ "; 
-            		grab_variables();  
-                	grab_operators_frm_vector(); 
+            grab_variables();  
+            grab_operators_frm_vector(); 
 		}
 		;
 
 		| MOD term multi_term
-        	{
+        {
 			grab_operation = "% ";
-            		grab_variables(); 
+            grab_variables(); 
 			grab_operators_frm_vector(); 
 	   	}
 		;
@@ -462,7 +459,7 @@ multi_term:	/*empty*/
 term:           Normal  { }
                 | SUB Normal
                 {
- 		    grab_variables();                    
+ 		    		grab_variables();                    
                     mil_vector.push_back("- "+ new_temp_var + ", 0, " +op.back());    
                     op.pop_back(); 
                     op.push_back(new_temp_var); 
@@ -471,7 +468,7 @@ term:           Normal  { }
                 | IDENT Term_1
                 {
                     grab_variables();                     
-		    mil_vector.push_back(std::string("call ") + strdup($1) + ", " + new_temp_var);
+		    		mil_vector.push_back(std::string("call ") + strdup($1) + ", " + new_temp_var);
                     op.push_back(new_temp_var); 
                 }
                 ;
@@ -535,7 +532,7 @@ var:            IDENT
                     op.push_back("[] " + var + ", " + op1);
                 }
                 ;
-          
+                
 %%
 void grab_variables() {
             m.str("");
