@@ -6,11 +6,22 @@ void yyerror(const char *s);
 extern int linenum;
 extern int col;
 
+int param_val = 0; 
+std::vector <string> func_table; 
 std::vector <string> sym_table; 
 std::vector <string> sym_type; 
 std::vector <string> param_table; 
 bool add_to_param_table = false; 
 std::vector <string> op;
+std::vector <string> stmnt_vctr; 
+string temp_string; 
+int temp_var_count; 
+int label_count; 
+vector <vector <string> > if_label; 
+vector <vector <string> > loop_label; 
+stack <string> param_queue;
+stack <string> read_queue; 
+stringstream m; 
 //FILE *yyin;  
 %}
 
@@ -56,16 +67,30 @@ Functions:	/*empty*/ {}
          	;
 
 Function:	FUNCTION IDENT {cout << "func " << strdup($2) << endl;} SEMICOLON BEGIN_PARAMS Declaration1 END_PARAMS BEGIN_LOCALS Declaration1  END_LOCALS BEGIN_BODY Statement1  END_BODY 
-		 {		   
-		   for (unsigned int j=0; j<sym_table.size(); ++j){
-		       if(sym_type.at(j) == "INTEGER") {
-		          cout << ". " << sym_table.at(j) << endl; 
-                       }
-		       else {
-		          cout << ".[] " << sym_table.at(j) << ", " << sym_type.at(j) << endl; 
-		       }
-		   }
-                   cout <<"endfunc" << endl; 
+		 {
+			for (unsigned int j=0; j<sym_table.size(); ++j){
+				if(sym_type.at(j) == "INTEGER") {
+		          		cout << ". " << sym_table.at(j) << endl; 
+                       		}
+		       		else {
+		          		cout << ".[] " << sym_table.at(j) << ", " << sym_type.at(j) << endl; 
+		       		}
+		   	}
+	
+		   	while(!param_table.empty()){
+                		cout<<"= "<<param_table.front()<<", $"<<param_val<<endl;
+                		param_table.erase(param_table.begin());
+                		param_val++;
+            	   	}
+		   	//STATEMENT PRINT
+            	   	for(unsigned i=0;i<stmnt_vctr.size();i++)
+                		cout<<stmnt_vctr.at(i)<<endl;
+                   	cout <<"endfunc" << endl; 
+		   	stmnt_vctr.clear();
+            	   	sym_table.clear();
+            	   	sym_type.clear();
+            	   	param_table.clear();
+            	   	param_val=0;
 		 } 
          	| error{ yyerrok; yyclearin;}
 		;
@@ -74,8 +99,9 @@ Declaration1:	/*empty*/ {}
             	| Declaration SEMICOLON Declaration1 {}
                 ; 
 
-Declaration:  Identifier COLON Type {}
+Declaration:	Identifier COLON Type {}
 		| error{yyerrok; yyclearin;}
+		;
 
 Statement1: Statement SEMICOLON Statement1 {} 
             | Statement SEMICOLON {}
@@ -104,44 +130,124 @@ identifier:  IDENT
 */ 
 
 /*part of Declaration*/ 
-Type:	     INTEGER 
-	     {
-		sym_type.push_back("INTEGER"); 
-	     }   
-	    | ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER 
-	    {
-	       stringstream ss; 
-               ss << $3; 
-               string s = ss.str(); 
-               sym_type.push_back(s); 
-	    }
-            ;
+Type:		INTEGER 
+	     	{
+			sym_type.push_back("INTEGER"); 
+	     	}   
+	    	| ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER 
+	    	{
+	       		stringstream ss; 
+               		ss << $3; 
+               		string s = ss.str(); 
+               		sym_type.push_back(s); 
+	    	}
+            	;
 
-Statement:	Var ASSIGN Expression {} 
-           	| if_rule {}
-           	| while_rule {}
-           	| do_while_rule {} 
+Statement:	Var ASSIGN Expression 
+		{
+			
+		} 
+           	| if_rule
+           	| while_rule
+           	| do_while_rule  
            	| read_in 
            	| WRITE comma_mult
+			{
+				while(!op.empty())
+           			{
+            				string s= op.front();
+                			op.erase(op.begin());
+                			stmnt_vctr.push_back(".> "+ s);
+                		}
+            			op.clear();
+		  	}
            	| CONTINUE
+			{
+				  if (!loop_label.empty())
+            			  {
+                			if(loop_label.back().at(0).at(0)=='d')
+                    				stmnt_vctr.push_back(":= "+ loop_label.back().at(1)); 
+                			else
+                    				stmnt_vctr.push_back(":= "+ loop_label.back().at(0));
+            			  }
+			}
            	| RETURN Expression
+			{
+				stmnt_vctr.push_back("ret "+op.back());
+            			op.pop_back();
+			}
 	   	| error {yyerrok; yyclearin;}
            	;
 
 if_rule:	if_condition Statement1 ENDIF
+			{
+				stmnt_vctr.push_back(": "+if_label.back().at(1));
+            			if_label.pop_back(); 
+			}
 		| else_condition Statement1 ENDIF
+			{
+				stmnt_vctr.push_back(": "+if_label.back().at(2));
+           			if_label.pop_back();             
+			}
 		;
 
 if_condition:	IF Bool-Expr THEN
+			{
+				label_count++;
+            			m.str("");
+            			m.clear();     
+            			m<<label_count;
+            			string label_1 = "if_condition_true_"+m.str(); 
+            			string label_2 = "if_condition_false_"+m.str();
+            			string label_3 = "end_if_"+m.str();   
+            			vector<string> temp;       
+            			temp.push_back(label_1);    
+            			temp.push_back(label_2);    
+            			temp.push_back(label_3);
+            			if_label.push_back(temp);  
+            			stmnt_vctr.push_back("?:= "+if_label.back().at(0)+", "+op.back());
+            			op.pop_back();
+            			stmnt_vctr.push_back(":= "+if_label.back().at(1));  
+            			stmnt_vctr.push_back(": "+if_label.back().at(0));      
+			}
 		;
 
 else_condition:	if_condition Statement1 ELSE   
+			{
+				stmnt_vctr.push_back(":= "+if_label.back().at(2));
+                		stmnt_vctr.push_back(": "+if_label.back().at(1));
+			}
 		; 
 
 while_rule:	while_condition Statement1 ENDLOOP
+			{
+				  stmnt_vctr.push_back(":= "+loop_label.back().at(0));
+            			  stmnt_vctr.push_back(": "+loop_label.back().at(2));
+            			  loop_label.pop_back();
+			}
 		; 
 
 while_condition:	WHILE Bool-Expr BEGINLOOP
+			{
+				label_count++; 
+            			m.str("");
+            			m.clear(); 
+            			m<<label_count;
+            			string label_1 = "while_loop_"+m.str();
+            			string label_2 = "conditional_true_"+m.str(); 
+            			string label_3 = "conditional_false_"+m.str();
+            			vector<string> temp;   
+            			temp.push_back(label_1);
+            			temp.push_back(label_2);   
+            			temp.push_back(label_3);   
+            			loop_label.push_back(temp);   
+            			stmnt_vctr.push_back(": "+loop_label.back().at(0));  
+			
+				stmnt_vctr.push_back("?:= "+loop_label.back().at(1)+", "+op.back());
+                		op.pop_back();
+                		stmnt_vctr.push_back(":= "+loop_label.back().at(2));
+                		stmnt_vctr.push_back(": "+loop_label.back().at(1));
+			}
 			;
 
 do_while_rule:	DO BEGINLOOP Statement1 ENDLOOP WHILE Bool-Expr
@@ -224,7 +330,13 @@ Var:	/*identifier*/
 		string var = "_" + *($1);
 		op.push_back(var);  
 	}
-     	| /*identifier*/ IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET {}
+     	| /*identifier*/ IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET 
+	{
+		string op1 = op.back();
+                op.pop_back();
+                string var = "_"+*($1);
+                op.push_back("[] " + var + ", " + op1);
+	}
      	;
             
 %%

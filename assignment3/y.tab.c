@@ -71,14 +71,25 @@ void yyerror(const char *s);
 extern int linenum;
 extern int col;
 
+int param_val = 0; 
+std::vector <string> func_table; 
 std::vector <string> sym_table; 
 std::vector <string> sym_type; 
 std::vector <string> param_table; 
 bool add_to_param_table = false; 
 std::vector <string> op;
+std::vector <string> stmnt_vctr; 
+string temp_string; 
+int temp_var_count; 
+int label_count; 
+vector <vector <string> > if_label; 
+vector <vector <string> > loop_label; 
+stack <string> param_queue;
+stack <string> read_queue; 
+stringstream m; 
 //FILE *yyin;  
 
-#line 82 "y.tab.c" /* yacc.c:339  */
+#line 93 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -170,12 +181,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 17 "mini_l.y" /* yacc.c:355  */
+#line 28 "mini_l.y" /* yacc.c:355  */
 
    int num_val;
    char* sval; 
 
-#line 179 "y.tab.c" /* yacc.c:355  */
+#line 190 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -192,7 +203,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 196 "y.tab.c" /* yacc.c:358  */
+#line 207 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -492,16 +503,16 @@ static const yytype_uint8 yytranslate[] =
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_uint16 yyrline[] =
 {
-       0,    50,    50,    53,    54,    58,    58,    70,    73,    74,
-      77,    78,    80,    81,    85,    91,   107,   111,   120,   121,
-     122,   123,   124,   125,   126,   127,   128,   131,   132,   135,
-     138,   141,   144,   147,   150,   153,   154,   162,   163,   166,
-     167,   170,   171,   174,   175,   176,   177,   180,   181,   182,
-     183,   184,   185,   188,   189,   190,   193,   196,   197,   198,
-     199,   202,   203,   204,   207,   208,   212,   213,   214,   217,
-     218,   222,   227
+       0,    61,    61,    64,    65,    69,    69,    95,    98,    99,
+     102,   103,   106,   107,   111,   117,   133,   137,   146,   150,
+     151,   152,   153,   154,   164,   174,   179,   182,   187,   194,
+     215,   222,   230,   253,   256,   259,   260,   268,   269,   272,
+     273,   276,   277,   280,   281,   282,   283,   286,   287,   288,
+     289,   290,   291,   294,   295,   296,   299,   302,   303,   304,
+     305,   308,   309,   310,   313,   314,   318,   319,   320,   323,
+     324,   328,   333
 };
 #endif
 
@@ -1375,333 +1386,458 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 50 "mini_l.y" /* yacc.c:1646  */
+#line 61 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1381 "y.tab.c" /* yacc.c:1646  */
+#line 1392 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 53 "mini_l.y" /* yacc.c:1646  */
+#line 64 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1387 "y.tab.c" /* yacc.c:1646  */
+#line 1398 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 55 "mini_l.y" /* yacc.c:1646  */
+#line 66 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1393 "y.tab.c" /* yacc.c:1646  */
+#line 1404 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 58 "mini_l.y" /* yacc.c:1646  */
+#line 69 "mini_l.y" /* yacc.c:1646  */
     {cout << "func " << strdup((yyvsp[0].sval)) << endl;}
-#line 1399 "y.tab.c" /* yacc.c:1646  */
+#line 1410 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 59 "mini_l.y" /* yacc.c:1646  */
-    {		   
-		   for (unsigned int j=0; j<sym_table.size(); ++j){
-		       if(sym_type.at(j) == "INTEGER") {
-		          cout << ". " << sym_table.at(j) << endl; 
-                       }
-		       else {
-		          cout << ".[] " << sym_table.at(j) << ", " << sym_type.at(j) << endl; 
-		       }
-		   }
-                   cout <<"endfunc" << endl; 
+#line 70 "mini_l.y" /* yacc.c:1646  */
+    {
+			for (unsigned int j=0; j<sym_table.size(); ++j){
+				if(sym_type.at(j) == "INTEGER") {
+		          		cout << ". " << sym_table.at(j) << endl; 
+                       		}
+		       		else {
+		          		cout << ".[] " << sym_table.at(j) << ", " << sym_type.at(j) << endl; 
+		       		}
+		   	}
+	
+		   	while(!param_table.empty()){
+                		cout<<"= "<<param_table.front()<<", $"<<param_val<<endl;
+                		param_table.erase(param_table.begin());
+                		param_val++;
+            	   	}
+		   	//STATEMENT PRINT
+            	   	for(unsigned i=0;i<stmnt_vctr.size();i++)
+                		cout<<stmnt_vctr.at(i)<<endl;
+                   	cout <<"endfunc" << endl; 
+		   	stmnt_vctr.clear();
+            	   	sym_table.clear();
+            	   	sym_type.clear();
+            	   	param_table.clear();
+            	   	param_val=0;
 		 }
-#line 1415 "y.tab.c" /* yacc.c:1646  */
+#line 1440 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 70 "mini_l.y" /* yacc.c:1646  */
+#line 95 "mini_l.y" /* yacc.c:1646  */
     { yyerrok; yyclearin;}
-#line 1421 "y.tab.c" /* yacc.c:1646  */
+#line 1446 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 73 "mini_l.y" /* yacc.c:1646  */
+#line 98 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1427 "y.tab.c" /* yacc.c:1646  */
+#line 1452 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 74 "mini_l.y" /* yacc.c:1646  */
+#line 99 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1433 "y.tab.c" /* yacc.c:1646  */
+#line 1458 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 77 "mini_l.y" /* yacc.c:1646  */
+#line 102 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1439 "y.tab.c" /* yacc.c:1646  */
+#line 1464 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 78 "mini_l.y" /* yacc.c:1646  */
+#line 103 "mini_l.y" /* yacc.c:1646  */
     {yyerrok; yyclearin;}
-#line 1445 "y.tab.c" /* yacc.c:1646  */
+#line 1470 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 80 "mini_l.y" /* yacc.c:1646  */
+#line 106 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1451 "y.tab.c" /* yacc.c:1646  */
+#line 1476 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 81 "mini_l.y" /* yacc.c:1646  */
+#line 107 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1457 "y.tab.c" /* yacc.c:1646  */
+#line 1482 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 86 "mini_l.y" /* yacc.c:1646  */
+#line 112 "mini_l.y" /* yacc.c:1646  */
     { 
 		sym_table.push_back("_" + *((yyvsp[0].sval)));
 	        if(add_to_param_table) 
 		   param_table.push_back("_"+*((yyvsp[0].sval))); 
 	    }
-#line 1467 "y.tab.c" /* yacc.c:1646  */
+#line 1492 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 92 "mini_l.y" /* yacc.c:1646  */
+#line 118 "mini_l.y" /* yacc.c:1646  */
     { sym_table.push_back("_" + *((yyvsp[-2].sval)));
 		sym_type.push_back("INTEGER");
 	      }
-#line 1475 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 16:
-#line 108 "mini_l.y" /* yacc.c:1646  */
-    {
-		sym_type.push_back("INTEGER"); 
-	     }
-#line 1483 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 17:
-#line 112 "mini_l.y" /* yacc.c:1646  */
-    {
-	       stringstream ss; 
-               ss << (yyvsp[-3].num_val); 
-               string s = ss.str(); 
-               sym_type.push_back(s); 
-	    }
-#line 1494 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 18:
-#line 120 "mini_l.y" /* yacc.c:1646  */
-    {}
 #line 1500 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 19:
-#line 121 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1506 "y.tab.c" /* yacc.c:1646  */
+  case 16:
+#line 134 "mini_l.y" /* yacc.c:1646  */
+    {
+			sym_type.push_back("INTEGER"); 
+	     	}
+#line 1508 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 20:
-#line 122 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1512 "y.tab.c" /* yacc.c:1646  */
+  case 17:
+#line 138 "mini_l.y" /* yacc.c:1646  */
+    {
+	       		stringstream ss; 
+               		ss << (yyvsp[-3].num_val); 
+               		string s = ss.str(); 
+               		sym_type.push_back(s); 
+	    	}
+#line 1519 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 21:
-#line 123 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1518 "y.tab.c" /* yacc.c:1646  */
+  case 18:
+#line 147 "mini_l.y" /* yacc.c:1646  */
+    {
+			
+		}
+#line 1527 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 23:
+#line 155 "mini_l.y" /* yacc.c:1646  */
+    {
+				while(!op.empty())
+           			{
+            				string s= op.front();
+                			op.erase(op.begin());
+                			stmnt_vctr.push_back(".> "+ s);
+                		}
+            			op.clear();
+		  	}
+#line 1541 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 24:
+#line 165 "mini_l.y" /* yacc.c:1646  */
+    {
+				  if (!loop_label.empty())
+            			  {
+                			if(loop_label.back().at(0).at(0)=='d')
+                    				stmnt_vctr.push_back(":= "+ loop_label.back().at(1)); 
+                			else
+                    				stmnt_vctr.push_back(":= "+ loop_label.back().at(0));
+            			  }
+			}
+#line 1555 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 25:
+#line 175 "mini_l.y" /* yacc.c:1646  */
+    {
+				stmnt_vctr.push_back("ret "+op.back());
+            			op.pop_back();
+			}
+#line 1564 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 128 "mini_l.y" /* yacc.c:1646  */
+#line 179 "mini_l.y" /* yacc.c:1646  */
     {yyerrok; yyclearin;}
-#line 1524 "y.tab.c" /* yacc.c:1646  */
+#line 1570 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 37:
-#line 162 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1530 "y.tab.c" /* yacc.c:1646  */
+  case 27:
+#line 183 "mini_l.y" /* yacc.c:1646  */
+    {
+				stmnt_vctr.push_back(": "+if_label.back().at(1));
+            			if_label.pop_back(); 
+			}
+#line 1579 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 38:
-#line 163 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1536 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 39:
-#line 166 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1542 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 40:
-#line 167 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1548 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 41:
-#line 170 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1554 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 42:
-#line 171 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1560 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 43:
-#line 174 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1566 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 44:
-#line 175 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1572 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 45:
-#line 176 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1578 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 46:
-#line 177 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1584 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 53:
+  case 28:
 #line 188 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1590 "y.tab.c" /* yacc.c:1646  */
+    {
+				stmnt_vctr.push_back(": "+if_label.back().at(2));
+           			if_label.pop_back();             
+			}
+#line 1588 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 54:
-#line 189 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1596 "y.tab.c" /* yacc.c:1646  */
+  case 29:
+#line 195 "mini_l.y" /* yacc.c:1646  */
+    {
+				label_count++;
+            			m.str("");
+            			m.clear();     
+            			m<<label_count;
+            			string label_1 = "if_condition_true_"+m.str(); 
+            			string label_2 = "if_condition_false_"+m.str();
+            			string label_3 = "end_if_"+m.str();   
+            			vector<string> temp;       
+            			temp.push_back(label_1);    
+            			temp.push_back(label_2);    
+            			temp.push_back(label_3);
+            			if_label.push_back(temp);  
+            			stmnt_vctr.push_back("?:= "+if_label.back().at(0)+", "+op.back());
+            			op.pop_back();
+            			stmnt_vctr.push_back(":= "+if_label.back().at(1));  
+            			stmnt_vctr.push_back(": "+if_label.back().at(0));      
+			}
+#line 1611 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 55:
-#line 190 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1602 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 56:
-#line 193 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1608 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 57:
-#line 196 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1614 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 58:
-#line 197 "mini_l.y" /* yacc.c:1646  */
-    {}
+  case 30:
+#line 216 "mini_l.y" /* yacc.c:1646  */
+    {
+				stmnt_vctr.push_back(":= "+if_label.back().at(2));
+                		stmnt_vctr.push_back(": "+if_label.back().at(1));
+			}
 #line 1620 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 59:
-#line 198 "mini_l.y" /* yacc.c:1646  */
+  case 31:
+#line 223 "mini_l.y" /* yacc.c:1646  */
+    {
+				  stmnt_vctr.push_back(":= "+loop_label.back().at(0));
+            			  stmnt_vctr.push_back(": "+loop_label.back().at(2));
+            			  loop_label.pop_back();
+			}
+#line 1630 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 32:
+#line 231 "mini_l.y" /* yacc.c:1646  */
+    {
+				label_count++; 
+            			m.str("");
+            			m.clear(); 
+            			m<<label_count;
+            			string label_1 = "while_loop_"+m.str();
+            			string label_2 = "conditional_true_"+m.str(); 
+            			string label_3 = "conditional_false_"+m.str();
+            			vector<string> temp;   
+            			temp.push_back(label_1);
+            			temp.push_back(label_2);   
+            			temp.push_back(label_3);   
+            			loop_label.push_back(temp);   
+            			stmnt_vctr.push_back(": "+loop_label.back().at(0));  
+			
+				stmnt_vctr.push_back("?:= "+loop_label.back().at(1)+", "+op.back());
+                		op.pop_back();
+                		stmnt_vctr.push_back(":= "+loop_label.back().at(2));
+                		stmnt_vctr.push_back(": "+loop_label.back().at(1));
+			}
+#line 1655 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 37:
+#line 268 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1626 "y.tab.c" /* yacc.c:1646  */
+#line 1661 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 38:
+#line 269 "mini_l.y" /* yacc.c:1646  */
+    {}
+#line 1667 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 39:
+#line 272 "mini_l.y" /* yacc.c:1646  */
+    {}
+#line 1673 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 40:
+#line 273 "mini_l.y" /* yacc.c:1646  */
+    {}
+#line 1679 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 41:
+#line 276 "mini_l.y" /* yacc.c:1646  */
+    {}
+#line 1685 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 42:
+#line 277 "mini_l.y" /* yacc.c:1646  */
+    {}
+#line 1691 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 43:
+#line 280 "mini_l.y" /* yacc.c:1646  */
+    {}
+#line 1697 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 44:
+#line 281 "mini_l.y" /* yacc.c:1646  */
+    {}
+#line 1703 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 45:
+#line 282 "mini_l.y" /* yacc.c:1646  */
+    {}
+#line 1709 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 46:
+#line 283 "mini_l.y" /* yacc.c:1646  */
+    {}
+#line 1715 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 53:
+#line 294 "mini_l.y" /* yacc.c:1646  */
+    {}
+#line 1721 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 54:
+#line 295 "mini_l.y" /* yacc.c:1646  */
+    {}
+#line 1727 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 55:
+#line 296 "mini_l.y" /* yacc.c:1646  */
+    {}
+#line 1733 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 56:
+#line 299 "mini_l.y" /* yacc.c:1646  */
+    {}
+#line 1739 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 57:
+#line 302 "mini_l.y" /* yacc.c:1646  */
+    {}
+#line 1745 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 58:
+#line 303 "mini_l.y" /* yacc.c:1646  */
+    {}
+#line 1751 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 59:
+#line 304 "mini_l.y" /* yacc.c:1646  */
+    {}
+#line 1757 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 60:
-#line 199 "mini_l.y" /* yacc.c:1646  */
+#line 305 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1632 "y.tab.c" /* yacc.c:1646  */
+#line 1763 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 202 "mini_l.y" /* yacc.c:1646  */
+#line 308 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1638 "y.tab.c" /* yacc.c:1646  */
+#line 1769 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 63:
-#line 204 "mini_l.y" /* yacc.c:1646  */
+#line 310 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1644 "y.tab.c" /* yacc.c:1646  */
+#line 1775 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 64:
-#line 207 "mini_l.y" /* yacc.c:1646  */
+#line 313 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1650 "y.tab.c" /* yacc.c:1646  */
+#line 1781 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 65:
-#line 208 "mini_l.y" /* yacc.c:1646  */
+#line 314 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1656 "y.tab.c" /* yacc.c:1646  */
+#line 1787 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 212 "mini_l.y" /* yacc.c:1646  */
+#line 318 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1662 "y.tab.c" /* yacc.c:1646  */
+#line 1793 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 213 "mini_l.y" /* yacc.c:1646  */
+#line 319 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1668 "y.tab.c" /* yacc.c:1646  */
+#line 1799 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 68:
-#line 214 "mini_l.y" /* yacc.c:1646  */
+#line 320 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1674 "y.tab.c" /* yacc.c:1646  */
+#line 1805 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 69:
-#line 217 "mini_l.y" /* yacc.c:1646  */
+#line 323 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1680 "y.tab.c" /* yacc.c:1646  */
+#line 1811 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 70:
-#line 218 "mini_l.y" /* yacc.c:1646  */
+#line 324 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1686 "y.tab.c" /* yacc.c:1646  */
+#line 1817 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 71:
-#line 223 "mini_l.y" /* yacc.c:1646  */
+#line 329 "mini_l.y" /* yacc.c:1646  */
     {
 		string var = "_" + *((yyvsp[0].sval));
 		op.push_back(var);  
 	}
-#line 1695 "y.tab.c" /* yacc.c:1646  */
+#line 1826 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 72:
-#line 227 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1701 "y.tab.c" /* yacc.c:1646  */
+#line 334 "mini_l.y" /* yacc.c:1646  */
+    {
+		string op1 = op.back();
+                op.pop_back();
+                string var = "_"+*((yyvsp[-3].sval));
+                op.push_back("[] " + var + ", " + op1);
+	}
+#line 1837 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1705 "y.tab.c" /* yacc.c:1646  */
+#line 1841 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1929,7 +2065,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 230 "mini_l.y" /* yacc.c:1906  */
+#line 342 "mini_l.y" /* yacc.c:1906  */
 
 void yyerror(const char* s)
 {
