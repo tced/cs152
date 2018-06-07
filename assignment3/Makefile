@@ -1,4 +1,4 @@
-OBJS    = bison.o lex.o main.o
+OBJS    = bison.o lex.o
 
 CC      = g++
 CFLAGS  = -g -Wall -pedantic
@@ -21,8 +21,6 @@ bison.c:        mini_l.y
 		cp mini_l.tab.c bison.c
 		cmp -s mini_l.tab.h tok.h || cp mini_l.tab.h tok.h
 
-main.o:         main.cc
-		$(CC) $(CFLAGS) -c main.cc -o main.o
 
 lex.o yac.o main.o      : heading.h
 lex.o main.o            : tok.h

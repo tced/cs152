@@ -1,0 +1,100 @@
+func main
+** Line 27, position 11: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 28, position 12: syntax error, unexpected IDENT
+** Line 28, position 14: syntax error, unexpected GT, expecting SEMICOLON
+** Line 28, position 16: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 28, position 18: syntax error, unexpected DIV, expecting SEMICOLON
+** Line 28, position 20: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 28, position 30: syntax error, unexpected BEGINLOOP, expecting SEMICOLON
+** Line 29, position 7: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 29, position 10: syntax error, unexpected ASSIGN, expecting SEMICOLON
+** Line 29, position 12: syntax error, unexpected L_PAREN, expecting SEMICOLON
+** Line 29, position 13: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 29, position 14: syntax error, unexpected ADD, expecting SEMICOLON
+** Line 29, position 15: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 29, position 17: syntax error, unexpected DIV, expecting SEMICOLON
+** Line 29, position 19: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 29, position 20: syntax error, unexpected R_PAREN, expecting SEMICOLON
+** Line 29, position 22: syntax error, unexpected DIV, expecting SEMICOLON
+** Line 29, position 24: syntax error, unexpected NUMBER, expecting SEMICOLON
+** Line 30, position 12: syntax error, unexpected ENDLOOP, expecting END_BODY
+** Line 31, position 16: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 34, position 11: syntax error, unexpected NUMBER, expecting SEMICOLON
+** Line 35, position 12: syntax error, unexpected IDENT
+** Line 35, position 15: syntax error, unexpected LTE, expecting SEMICOLON
+** Line 35, position 17: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 35, position 27: syntax error, unexpected BEGINLOOP, expecting SEMICOLON
+** Line 36, position 7: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 36, position 8: syntax error, unexpected L_SQUARE_BRACKET, expecting SEMICOLON
+** Line 36, position 9: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 36, position 10: syntax error, unexpected R_SQUARE_BRACKET, expecting SEMICOLON
+** Line 36, position 13: syntax error, unexpected ASSIGN, expecting SEMICOLON
+** Line 36, position 15: syntax error, unexpected NUMBER, expecting SEMICOLON
+** Line 37, position 12: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 37, position 14: syntax error, unexpected ADD, expecting SEMICOLON
+** Line 37, position 16: syntax error, unexpected NUMBER, expecting SEMICOLON
+** Line 38, position 12: syntax error, unexpected ENDLOOP, expecting END_BODY
+** Line 41, position 11: syntax error, unexpected NUMBER, expecting SEMICOLON
+** Line 42, position 12: syntax error, unexpected IDENT
+** Line 42, position 15: syntax error, unexpected LTE, expecting SEMICOLON
+** Line 42, position 22: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 42, position 32: syntax error, unexpected BEGINLOOP, expecting SEMICOLON
+** Line 43, position 8: syntax error, unexpected IF, expecting SEMICOLON
+** Line 43, position 10: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 43, position 11: syntax error, unexpected L_SQUARE_BRACKET, expecting SEMICOLON
+** Line 43, position 12: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 43, position 13: syntax error, unexpected R_SQUARE_BRACKET, expecting SEMICOLON
+** Line 43, position 16: syntax error, unexpected EQ, expecting SEMICOLON
+** Line 43, position 18: syntax error, unexpected NUMBER, expecting SEMICOLON
+** Line 43, position 23: syntax error, unexpected THEN, expecting SEMICOLON
+** Line 45, position 10: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 45, position 13: syntax error, unexpected ASSIGN, expecting SEMICOLON
+** Line 45, position 15: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 45, position 16: syntax error, unexpected ADD, expecting SEMICOLON
+** Line 45, position 17: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 46, position 16: syntax error, unexpected IDENT
+** Line 46, position 19: syntax error, unexpected LTE, expecting SEMICOLON
+** Line 46, position 21: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 46, position 31: syntax error, unexpected BEGINLOOP, expecting SEMICOLON
+** Line 47, position 11: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 47, position 12: syntax error, unexpected L_SQUARE_BRACKET, expecting SEMICOLON
+** Line 47, position 13: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 47, position 14: syntax error, unexpected R_SQUARE_BRACKET, expecting SEMICOLON
+** Line 47, position 17: syntax error, unexpected ASSIGN, expecting SEMICOLON
+** Line 47, position 19: syntax error, unexpected NUMBER, expecting SEMICOLON
+** Line 48, position 16: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 48, position 17: syntax error, unexpected ADD, expecting SEMICOLON
+** Line 48, position 18: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 49, position 16: syntax error, unexpected ENDLOOP, expecting END_BODY
+** Line 50, position 13: syntax error, unexpected ENDIF, expecting END_BODY
+** Line 51, position 14: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 51, position 16: syntax error, unexpected ADD, expecting SEMICOLON
+** Line 51, position 18: syntax error, unexpected NUMBER, expecting SEMICOLON
+** Line 52, position 12: syntax error, unexpected ENDLOOP, expecting END_BODY
+** Line 55, position 11: syntax error, unexpected NUMBER, expecting SEMICOLON
+** Line 56, position 12: syntax error, unexpected IDENT
+** Line 56, position 15: syntax error, unexpected LTE, expecting SEMICOLON
+** Line 56, position 17: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 56, position 27: syntax error, unexpected BEGINLOOP, expecting SEMICOLON
+** Line 57, position 8: syntax error, unexpected IF, expecting SEMICOLON
+** Line 57, position 10: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 57, position 11: syntax error, unexpected L_SQUARE_BRACKET, expecting SEMICOLON
+** Line 57, position 12: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 57, position 13: syntax error, unexpected R_SQUARE_BRACKET, expecting SEMICOLON
+** Line 57, position 16: syntax error, unexpected EQ, expecting SEMICOLON
+** Line 57, position 18: syntax error, unexpected NUMBER, expecting SEMICOLON
+** Line 57, position 23: syntax error, unexpected THEN, expecting SEMICOLON
+** Line 58, position 14: syntax error, unexpected WRITE, expecting SEMICOLON
+** Line 58, position 16: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 59, position 13: syntax error, unexpected ENDIF, expecting END_BODY
+** Line 60, position 14: syntax error, unexpected IDENT, expecting SEMICOLON
+** Line 60, position 16: syntax error, unexpected ADD, expecting SEMICOLON
+** Line 60, position 18: syntax error, unexpected NUMBER, expecting SEMICOLON
+** Line 61, position 11: syntax error, unexpected ENDLOOP, expecting END_BODY
+. al_false_
+.[] ue_, 1000
+. tional_false_
+. itional_false_
+. lse_
+. || 
+endfunc

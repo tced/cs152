@@ -72,7 +72,7 @@ extern int linenum;
 extern int col;
 
 int param_val = 0; 
-std::vector <string> func_table; 
+vector <string> func_table; 
 std::vector <string> sym_table; 
 std::vector <string> sym_type; 
 std::vector <string> param_table; 
@@ -87,9 +87,8 @@ vector <vector <string> > loop_label;
 stack <string> param_queue;
 stack <string> read_queue; 
 stringstream m; 
-//FILE *yyin;  
 
-#line 93 "mini_l.tab.c" /* yacc.c:339  */
+#line 92 "mini_l.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -181,12 +180,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 28 "mini_l.y" /* yacc.c:355  */
+#line 27 "mini_l.y" /* yacc.c:355  */
 
    int num_val;
    char* sval; 
 
-#line 190 "mini_l.tab.c" /* yacc.c:355  */
+#line 189 "mini_l.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -203,7 +202,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 207 "mini_l.tab.c" /* yacc.c:358  */
+#line 206 "mini_l.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -445,16 +444,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  7
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   177
+#define YYLAST   164
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  52
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  32
+#define YYNNTS  42
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  76
+#define YYNRULES  83
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  158
+#define YYNSTATES  172
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
@@ -505,14 +504,15 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    61,    61,    64,    65,    69,    69,    95,    98,    99,
-     102,   103,   106,   107,   111,   117,   133,   137,   146,   150,
-     151,   152,   153,   154,   164,   174,   179,   182,   187,   194,
-     215,   222,   230,   253,   256,   257,   261,   262,   263,   266,
-     267,   268,   274,   275,   293,   294,   312,   327,   330,   331,
-     332,   333,   334,   335,   336,   337,   338,   351,   352,   353,
-     356,   359,   360,   376,   392,   410,   411,   424,   438,   446,
-     450,   467,   481,   484,   489,   497,   502
+       0,    59,    59,    62,    63,    66,    72,    77,    82,   114,
+     115,   118,   121,   127,   134,   138,   147,   148,   151,   152,
+     153,   154,   155,   156,   157,   158,   160,   168,   180,   210,
+     226,   232,   239,   266,   275,   283,   306,   311,   322,   328,
+     342,   345,   355,   378,   379,   383,   397,   411,   418,   419,
+     438,   439,   459,   460,   479,   496,   514,   531,   548,   565,
+     582,   595,   608,   612,   615,   616,   634,   653,   656,   657,
+     674,   692,   712,   716,   732,   747,   768,   784,   787,   796,
+     802,   807,   814,   821
 };
 #endif
 
@@ -528,13 +528,14 @@ static const char *const yytname[] =
   "AND", "OR", "NOT", "SEMICOLON", "COLON", "COMMA", "L_PAREN", "R_PAREN",
   "L_SQUARE_BRACKET", "R_SQUARE_BRACKET", "ASSIGN", "RETURN", "NUMBER",
   "IDENT", "MULT", "DIV", "MOD", "ADD", "SUB", "LT", "LTE", "GT", "GTE",
-  "EQ", "NEQ", "$accept", "Program", "Functions", "Function", "$@1",
-  "Declaration1", "Declaration", "Statement1", "Identifier", "Type",
-  "Statement", "if_rule", "if_condition", "else_condition", "while_rule",
-  "while_condition", "do_while_rule", "read_in", "comma_mult", "write_to",
-  "Bool-Expr", "Relation_And_Expr", "Relation_Exprs", "Relation_Expr",
-  "Expression", "Term_Mult-Expr", "Multiplicative-Expr", "Term", "Term_1",
-  "Normal", "Expression1", "Var", YY_NULLPTR
+  "EQ", "NEQ", "$accept", "Program", "functions", "function_name",
+  "beginparam", "endparam", "function", "declarations", "declaration",
+  "id", "assign", "statements", "statement", "aa", "if_clause", "else_if",
+  "bb", "while_key", "while_clause", "cc", "do_key", "do_check", "dd",
+  "read_mult", "ee", "ii", "ff", "gg", "hh", "boolean_expr",
+  "relation_exprr", "relation_expr", "rexpr", "expression", "expradd",
+  "mul_expr", "multi_term", "term", "posterm", "term_iden", "term_ex",
+  "var", YY_NULLPTR
 };
 #endif
 
@@ -552,12 +553,12 @@ static const yytype_uint16 yytoknum[] =
 };
 # endif
 
-#define YYPACT_NINF -104
+#define YYPACT_NINF -143
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-104)))
+  (!!((Yystate) == (-143)))
 
-#define YYTABLE_NINF -14
+#define YYTABLE_NINF -1
 
 #define yytable_value_is_error(Yytable_value) \
   0
@@ -566,22 +567,24 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-     130,  -104,   -33,    19,  -104,   130,  -104,  -104,  -104,   -25,
-      24,     5,  -104,     7,    46,    45,    33,    55,    88,     3,
-      98,  -104,    13,  -104,  -104,    56,  -104,   124,    66,   137,
-     114,     8,   136,  -104,    74,    74,   131,  -104,   112,     2,
-      95,   118,   146,   125,  -104,     8,     8,  -104,     8,  -104,
-    -104,   119,   147,  -104,  -104,    51,    74,    73,    73,    73,
-      -3,  -104,  -104,    78,    75,    -4,     8,     1,    95,  -104,
-    -104,  -104,  -104,    95,  -104,    64,   129,   141,   138,    95,
-    -104,  -104,    62,    95,  -104,   109,    34,    73,  -104,  -104,
-      73,    73,  -104,    74,    95,    95,    95,    95,    95,    95,
-      95,    95,  -104,   139,   121,    95,  -104,   128,   127,  -104,
-    -104,  -104,  -104,  -104,  -104,  -104,   132,   133,    80,  -104,
-    -104,  -104,    95,  -104,  -104,   142,  -104,  -104,  -104,  -104,
-    -104,  -104,  -104,  -104,  -104,   148,    17,   134,  -104,  -104,
-      95,  -104,  -104,   140,  -104,    74,    74,    95,  -104,   143,
-    -104,  -104,  -104,   144,   135,  -104,   143,  -104
+      12,    21,    78,  -143,    60,    12,  -143,  -143,   102,  -143,
+    -143,    72,    81,   112,    88,    89,    72,  -143,   110,    72,
+      38,  -143,    72,  -143,  -143,    86,  -143,   113,    85,   119,
+      91,    -5,   115,    44,  -143,   109,  -143,    90,   -10,    35,
+      -1,   123,   103,  -143,    -5,    -5,  -143,    44,    -5,  -143,
+      -5,   114,  -143,  -143,  -143,  -143,  -143,   124,  -143,  -143,
+       6,    44,  -143,     5,   -10,    -4,   107,  -143,  -143,    51,
+     -19,    62,  -143,  -143,  -143,   -29,    35,   101,   105,  -143,
+      35,    35,  -143,    -5,    55,   122,    -8,   118,   120,    44,
+    -143,  -143,    24,    45,    14,    35,  -143,  -143,  -143,    44,
+      44,    35,    35,    35,    35,    35,    35,    35,    35,  -143,
+      35,    35,    35,  -143,   100,    35,  -143,   108,   -10,  -143,
+     111,  -143,  -143,  -143,  -143,  -143,  -143,  -143,  -143,   116,
+    -143,  -143,  -143,   117,   121,   125,   107,  -143,  -143,  -143,
+    -143,  -143,  -143,  -143,   -19,   -19,    62,    62,    62,    25,
+     126,   105,   106,    35,  -143,  -143,  -143,  -143,  -143,  -143,
+    -143,    35,  -143,   127,  -143,    35,  -143,   128,  -143,  -143,
+     127,  -143
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -589,135 +592,141 @@ static const yytype_int16 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,     7,     0,     0,     2,     0,     5,     1,     4,     0,
-       0,     0,    11,    14,     0,     0,     0,     0,     0,     0,
-       0,    15,     0,     9,    16,     0,    10,     0,     0,     0,
-       0,     0,     0,    26,    61,    61,     0,    24,     0,     0,
-      61,    75,     0,     0,    19,     0,     0,    20,     0,    21,
-      22,     0,     0,    54,    55,    61,    61,     0,     0,     0,
-       0,    42,    47,     0,    59,     0,     0,    38,    61,    40,
-      23,    39,    25,    61,     6,     0,     0,     0,     0,    61,
-      17,    46,     0,    61,    71,    75,     0,     0,    65,    70,
-       0,     0,    29,    61,    61,    61,    61,    61,    61,    61,
-      61,    61,    32,     0,     0,    61,    34,     0,     0,    12,
-      27,    30,    28,    31,    18,    56,    73,     0,    61,    67,
-      66,    62,    61,    63,    64,    43,    44,    50,    52,    51,
-      53,    48,    49,    57,    58,     0,    38,     0,    41,    76,
-      61,    72,    69,     0,    60,    61,    61,    61,    36,    38,
-      74,    68,    45,    33,     0,    35,    38,    37
+       3,     0,     0,     2,     0,     3,     5,     1,     0,     4,
+       6,     9,    12,     0,     0,     0,     0,     7,     0,     9,
+       0,    13,     9,    10,    14,     0,    11,     0,     0,     0,
+       0,     0,     0,     0,    32,     0,    46,     0,     0,     0,
+       0,     0,     0,    18,     0,     0,    19,     0,     0,    20,
+       0,     0,    21,    22,    23,    24,    25,     0,    60,    61,
+       0,     0,    76,    82,     0,     0,    48,    50,    52,     0,
+      64,    68,    72,    75,    35,    40,     0,    82,    43,    47,
+       0,     0,     8,    17,     0,     0,     0,     0,     0,     0,
+      15,    53,     0,     0,     0,     0,    74,    73,    28,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,    63,
+       0,     0,     0,    67,     0,     0,    41,     0,     0,    45,
+       0,    26,    16,    30,    29,    31,    33,    34,    36,    37,
+      62,    77,    79,    80,     0,     0,    49,    51,    56,    58,
+      57,    59,    54,    55,    64,    64,    68,    68,    68,    40,
+       0,    43,     0,     0,    78,    83,    65,    66,    69,    70,
+      71,     0,    38,    40,    44,     0,    81,     0,    42,    27,
+      40,    39
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int16 yypgoto[] =
 {
-    -104,  -104,   160,  -104,  -104,   113,  -104,    23,   151,  -104,
-    -104,  -104,  -104,  -104,  -104,  -104,  -104,  -104,   -86,  -104,
-     -35,  -104,   -91,   122,   -39,    57,    54,    82,  -104,    87,
-    -103,   -28
+    -143,  -143,   140,  -143,  -143,  -143,  -143,    63,  -143,   130,
+    -143,   -40,  -143,  -143,  -143,  -143,  -143,  -143,  -143,  -143,
+    -143,  -143,  -143,  -142,  -143,     0,  -143,  -143,  -143,   -45,
+      49,    50,    92,   -39,   -34,     8,   -60,    -3,   -37,  -143,
+       1,  -143
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
-static const yytype_int8 yydefgoto[] =
+static const yytype_int16 yydefgoto[] =
 {
-      -1,     3,     4,     5,     9,    14,    15,    42,    16,    26,
-      43,    44,    45,    46,    47,    48,    49,    50,   106,    70,
-      60,   125,    61,    62,    63,   121,    64,   122,   119,    88,
-     117,    89
+      -1,     2,     3,     4,    11,    18,     5,    13,    14,    15,
+      26,    41,    42,    43,    44,    45,    46,    47,    48,    49,
+      50,    51,    52,   116,    53,   119,    54,    55,    56,    65,
+      66,    67,    68,    69,   109,    70,   113,    71,    72,    96,
+     134,    73
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
      positive, shift that token.  If negative, reduce the rule whose
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
-static const yytype_int16 yytable[] =
+static const yytype_uint8 yytable[] =
 {
-      65,    72,   126,    51,    12,    10,    12,     6,    -8,    33,
-      -8,    71,    92,    -8,    12,   143,   102,    51,    51,     7,
-      51,    82,    34,    -8,    93,    93,    35,    36,    11,   107,
-      37,    38,    39,   104,   108,    68,   105,   150,    51,    17,
-     114,    69,    41,    13,   116,    13,    40,    51,    41,   104,
-     148,    18,   147,    13,   152,   127,   128,   129,   130,   131,
-     132,   133,   134,   155,    20,    33,   137,    83,    76,    77,
-     157,    78,   -13,    84,    41,    19,    53,    54,    34,   116,
-     -13,   -13,    35,    36,    56,   -13,    37,    38,    39,   103,
-      93,    28,    57,    58,    59,    13,   115,    22,   109,    53,
-      54,   116,    40,    55,    41,    30,    83,    56,   154,    24,
-      25,   153,    84,    85,   142,    57,    58,    59,    86,   100,
-     101,    57,    58,    59,    94,    95,    96,    97,    98,    99,
-      -3,     1,    23,     2,    29,    27,    57,    58,    59,    87,
-      90,    91,   118,    31,    73,   110,   111,   123,   124,    52,
-      32,    66,    67,    73,    74,    75,    79,   112,    80,   113,
-     135,   136,   138,   139,   140,     8,   146,   141,    21,   145,
-     149,   156,    93,   120,   151,   104,   144,    81
+      79,    78,    86,   114,    84,    85,   115,   162,    87,    33,
+      88,    98,   126,    34,    35,     1,    92,    36,    37,    38,
+      99,   168,    93,    76,    99,   107,   108,    97,   171,    62,
+      77,    58,    59,    39,    80,    40,    81,   117,    94,    61,
+      95,   120,   121,   122,   129,    62,    63,    76,   132,    24,
+      25,    64,    99,    62,    63,   133,   135,   114,   130,    64,
+     161,     6,   138,   139,   140,   141,   142,   143,    76,    58,
+      59,   123,   124,    60,    62,    63,   150,    61,     7,   131,
+      64,   151,    23,    62,    63,    27,   158,   159,   160,    64,
+       8,   101,   102,   103,   104,   105,   106,   101,   102,   103,
+     104,   105,   106,   110,   111,   112,    10,   146,   147,   148,
+     156,   157,    12,    16,   133,   144,   145,    17,    19,    22,
+      20,    28,   167,    29,    30,    31,   169,    32,    57,    74,
+      75,    82,    89,    83,   100,    90,    95,   118,   125,   127,
+     149,   128,   131,   165,    99,     9,    21,   152,   136,   153,
+     137,   164,    91,     0,   166,   154,     0,     0,     0,   114,
+       0,   155,   163,     0,   170
 };
 
-static const yytype_uint8 yycheck[] =
+static const yytype_int16 yycheck[] =
 {
-      35,    40,    93,    31,     1,    30,     1,    40,     5,     1,
-       5,    39,    15,    10,     1,   118,    20,    45,    46,     0,
-      48,    56,    14,    10,    28,    28,    18,    19,     4,    68,
-      22,    23,    24,    32,    73,    33,    35,   140,    66,    32,
-      79,    39,    40,    40,    83,    40,    38,    75,    40,    32,
-     136,     5,    35,    40,   145,    94,    95,    96,    97,    98,
-      99,   100,   101,   149,    31,     1,   105,    33,    45,    46,
-     156,    48,     8,    39,    40,    30,    25,    26,    14,   118,
-      16,    17,    18,    19,    33,    21,    22,    23,    24,    66,
-      28,    35,    41,    42,    43,    40,    34,     9,    75,    25,
-      26,   140,    38,    29,    40,    39,    33,    33,   147,    11,
-      12,   146,    39,    40,    34,    41,    42,    43,    45,    44,
-      45,    41,    42,    43,    46,    47,    48,    49,    50,    51,
-       0,     1,    19,     3,    10,    22,    41,    42,    43,    57,
-      58,    59,    33,     6,    35,    16,    17,    90,    91,    13,
-      36,    20,    40,    35,     8,    30,    37,    16,    11,    21,
-      21,    40,    34,    36,    32,     5,    18,    34,    17,    27,
-      36,    36,    28,    86,    34,    32,   122,    55
+      39,    38,    47,    32,    44,    45,    35,   149,    48,    14,
+      50,    15,    20,    18,    19,     3,    61,    22,    23,    24,
+      28,   163,    61,    33,    28,    44,    45,    64,   170,    39,
+      40,    25,    26,    38,    35,    40,    37,    76,    33,    33,
+      35,    80,    81,    83,    89,    39,    40,    33,    34,    11,
+      12,    45,    28,    39,    40,    94,    95,    32,    34,    45,
+      35,    40,   101,   102,   103,   104,   105,   106,    33,    25,
+      26,    16,    17,    29,    39,    40,   115,    33,     0,    34,
+      45,   118,    19,    39,    40,    22,   146,   147,   148,    45,
+      30,    46,    47,    48,    49,    50,    51,    46,    47,    48,
+      49,    50,    51,    41,    42,    43,     4,   110,   111,   112,
+     144,   145,    40,    32,   153,   107,   108,     5,    30,     9,
+      31,    35,   161,    10,    39,     6,   165,    36,    13,    20,
+      40,     8,    18,    30,    27,    11,    35,    32,    16,    21,
+      40,    21,    34,    37,    28,     5,    16,    36,    99,    32,
+     100,   151,    60,    -1,   153,    34,    -1,    -1,    -1,    32,
+      -1,    36,    36,    -1,    36
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     1,     3,    53,    54,    55,    40,     0,    54,    56,
-      30,     4,     1,    40,    57,    58,    60,    32,     5,    30,
-      31,    60,     9,    57,    11,    12,    61,    57,    35,    10,
-      39,     6,    36,     1,    14,    18,    19,    22,    23,    24,
-      38,    40,    59,    62,    63,    64,    65,    66,    67,    68,
-      69,    83,    13,    25,    26,    29,    33,    41,    42,    43,
-      72,    74,    75,    76,    78,    72,    20,    40,    33,    39,
-      71,    83,    76,    35,     8,    30,    59,    59,    59,    37,
-      11,    75,    72,    33,    39,    40,    45,    79,    81,    83,
-      79,    79,    15,    28,    46,    47,    48,    49,    50,    51,
-      44,    45,    20,    59,    32,    35,    70,    76,    76,    59,
-      16,    17,    16,    21,    76,    34,    76,    82,    33,    80,
-      81,    77,    79,    77,    77,    73,    74,    76,    76,    76,
-      76,    76,    76,    76,    76,    21,    40,    76,    34,    36,
-      32,    34,    34,    82,    78,    27,    18,    35,    70,    36,
-      82,    34,    74,    72,    76,    70,    36,    70
+       0,     3,    53,    54,    55,    58,    40,     0,    30,    54,
+       4,    56,    40,    59,    60,    61,    32,     5,    57,    30,
+      31,    61,     9,    59,    11,    12,    62,    59,    35,    10,
+      39,     6,    36,    14,    18,    19,    22,    23,    24,    38,
+      40,    63,    64,    65,    66,    67,    68,    69,    70,    71,
+      72,    73,    74,    76,    78,    79,    80,    13,    25,    26,
+      29,    33,    39,    40,    45,    81,    82,    83,    84,    85,
+      87,    89,    90,    93,    20,    40,    33,    40,    90,    85,
+      35,    37,     8,    30,    63,    63,    81,    63,    63,    18,
+      11,    84,    81,    85,    33,    35,    91,    90,    15,    28,
+      27,    46,    47,    48,    49,    50,    51,    44,    45,    86,
+      41,    42,    43,    88,    32,    35,    75,    85,    32,    77,
+      85,    85,    63,    16,    17,    16,    20,    21,    21,    81,
+      34,    34,    34,    85,    92,    85,    82,    83,    85,    85,
+      85,    85,    85,    85,    87,    87,    89,    89,    89,    40,
+      85,    90,    36,    32,    34,    36,    86,    86,    88,    88,
+      88,    35,    75,    36,    77,    37,    92,    85,    75,    85,
+      36,    75
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    52,    53,    54,    54,    56,    55,    55,    57,    57,
-      58,    58,    59,    59,    60,    60,    61,    61,    62,    62,
-      62,    62,    62,    62,    62,    62,    62,    63,    63,    64,
-      65,    66,    67,    68,    69,    69,    70,    70,    70,    71,
-      71,    71,    72,    72,    73,    73,    74,    74,    75,    75,
-      75,    75,    75,    75,    75,    75,    75,    76,    76,    76,
-      77,    78,    78,    78,    78,    79,    79,    79,    80,    80,
-      81,    81,    81,    82,    82,    83,    83
+       0,    52,    53,    54,    54,    55,    56,    57,    58,    59,
+      59,    60,    61,    61,    62,    62,    63,    63,    64,    64,
+      64,    64,    64,    64,    64,    64,    65,    65,    66,    67,
+      68,    68,    69,    70,    71,    72,    73,    74,    75,    75,
+      75,    76,    76,    77,    77,    78,    79,    80,    81,    81,
+      82,    82,    83,    83,    84,    84,    84,    84,    84,    84,
+      84,    84,    84,    85,    86,    86,    86,    87,    88,    88,
+      88,    88,    89,    89,    89,    90,    90,    90,    91,    91,
+      92,    92,    93,    93
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     1,     0,     2,     0,    13,     1,     0,     3,
-       3,     1,     3,     2,     1,     3,     1,     6,     3,     1,
-       1,     1,     1,     2,     1,     2,     1,     3,     3,     3,
-       3,     3,     3,     6,     3,     6,     3,     6,     0,     1,
-       1,     3,     1,     3,     1,     3,     2,     1,     3,     3,
-       3,     3,     3,     3,     1,     1,     3,     3,     3,     1,
-       2,     0,     3,     3,     3,     1,     2,     2,     3,     2,
-       1,     1,     3,     1,     3,     1,     4
+       0,     2,     1,     0,     2,     2,     1,     1,    11,     0,
+       3,     3,     1,     3,     1,     6,     3,     2,     1,     1,
+       1,     1,     1,     1,     1,     1,     3,     6,     3,     3,
+       3,     3,     1,     3,     3,     2,     3,     3,     3,     6,
+       0,     3,     6,     0,     3,     3,     1,     2,     1,     3,
+       1,     3,     1,     2,     3,     3,     3,     3,     3,     3,
+       1,     1,     3,     2,     0,     3,     3,     2,     0,     3,
+       3,     3,     1,     2,     2,     1,     1,     3,     3,     2,
+       1,     3,     1,     4
 };
 
 
@@ -1393,680 +1402,881 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 2:
-#line 61 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1400 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 3:
-#line 64 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1406 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 4:
-#line 66 "mini_l.y" /* yacc.c:1646  */
-    {}
+        case 5:
+#line 67 "mini_l.y" /* yacc.c:1646  */
+    {
+                func_table.push_back(strdup((yyvsp[0].sval)));
+                cout <<"func "<< strdup((yyvsp[0].sval)) <<endl;
+             }
 #line 1412 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
-  case 5:
-#line 69 "mini_l.y" /* yacc.c:1646  */
-    {cout << "func " << (yyvsp[0].sval) << endl;}
-#line 1418 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
   case 6:
-#line 70 "mini_l.y" /* yacc.c:1646  */
+#line 73 "mini_l.y" /* yacc.c:1646  */
     {
-			for (unsigned int j=0; j<sym_table.size(); ++j){
-				if(sym_type.at(j) == "INTEGER") {
-		          		cout << ". " << sym_table.at(j) << endl; 
-                       		}
-		       		else {
-		          		cout << ".[] " << sym_table.at(j) << ", " << sym_type.at(j) << endl; 
-		       		}
-		   	}
-	
-		   	while(!param_table.empty()){
-                		cout<<"= "<<param_table.front()<<", $"<<param_val<<endl;
-                		param_table.erase(param_table.begin());
-                		param_val++;
-            	   	}
-		   	//STATEMENT PRINT
-            	   	for(unsigned i=0;i<stmnt_vctr.size();i++)
-                		cout<<stmnt_vctr.at(i)<<endl;
-                   	cout <<"endfunc" << endl; 
-		   	stmnt_vctr.clear();
-            	   	sym_table.clear();
-            	   	sym_type.clear();
-            	   	param_table.clear();
-            	   	param_val=0;
-		 }
-#line 1448 "mini_l.tab.c" /* yacc.c:1646  */
+              add_to_param_table=true;
+          }
+#line 1420 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 95 "mini_l.y" /* yacc.c:1646  */
-    { yyerrok; yyclearin;}
-#line 1454 "mini_l.tab.c" /* yacc.c:1646  */
+#line 78 "mini_l.y" /* yacc.c:1646  */
+    {
+            add_to_param_table=false;
+        }
+#line 1428 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 98 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1460 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
+#line 83 "mini_l.y" /* yacc.c:1646  */
+    {
+			//func_table.push_back( strdup($2));
+            //cout <<"func "<< strdup($2)<<endl;
+            //VARIABLE AND PARAMETER DECLARATIONS
+			for(unsigned int j=0;j<sym_table.size();j++)
+			{
+				if(sym_type.at(j)=="INTEGER")
+					cout<<". "<<sym_table.at(j)<<endl;
+				else
+					cout<<".[] "<<sym_table.at(j)<<", "<<sym_type.at(j)<<endl;
+			}
+            while(!param_table.empty())
+            {
+                cout<<"= "<<param_table.front()<<", $"<<param_val<<endl;
+                param_table.erase(param_table.begin());
+                param_val++;
+            }
+            //STATEMENT PRINT
+            for(unsigned i=0;i<stmnt_vctr.size();i++)
+                cout<<stmnt_vctr.at(i)<<endl;
+            cout<<"endfunc"<<endl;
+            stmnt_vctr.clear();
+            sym_table.clear();
+            sym_type.clear();
+            param_table.clear();
+            param_val=0;
 
-  case 9:
-#line 99 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1466 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 10:
-#line 102 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1472 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 11:
-#line 103 "mini_l.y" /* yacc.c:1646  */
-    {yyerrok; yyclearin;}
-#line 1478 "mini_l.tab.c" /* yacc.c:1646  */
+		}
+#line 1461 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 106 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1484 "mini_l.tab.c" /* yacc.c:1646  */
+#line 122 "mini_l.y" /* yacc.c:1646  */
+    {
+			sym_table.push_back(std::string("_") + strdup((yyvsp[0].sval)));
+            if(add_to_param_table)
+                param_table.push_back(std::string("_") + strdup((yyvsp[0].sval)));
+		}
+#line 1471 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 107 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1490 "mini_l.tab.c" /* yacc.c:1646  */
+#line 128 "mini_l.y" /* yacc.c:1646  */
+    {
+			sym_table.push_back(std::string("_") + strdup((yyvsp[-2].sval)));
+			sym_type.push_back("INTEGER");
+		}
+#line 1480 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 112 "mini_l.y" /* yacc.c:1646  */
+#line 135 "mini_l.y" /* yacc.c:1646  */
     { 
-		sym_table.push_back("_" + *((yyvsp[0].sval)));
-	        if(add_to_param_table) 
-		   param_table.push_back("_"+*((yyvsp[0].sval))); 
-	    }
-#line 1500 "mini_l.tab.c" /* yacc.c:1646  */
+			sym_type.push_back("INTEGER");
+		}
+#line 1488 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 118 "mini_l.y" /* yacc.c:1646  */
-    { sym_table.push_back("_" + *((yyvsp[-2].sval)));
-		sym_type.push_back("INTEGER");
-	      }
-#line 1508 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 16:
-#line 134 "mini_l.y" /* yacc.c:1646  */
+#line 139 "mini_l.y" /* yacc.c:1646  */
     {
-			sym_type.push_back("INTEGER"); 
-	     	}
-#line 1516 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 17:
-#line 138 "mini_l.y" /* yacc.c:1646  */
-    {
-	       		stringstream ss; 
-               		ss << (yyvsp[-3].num_val); 
-               		string s = ss.str(); 
-               		sym_type.push_back(s); 
-	    	}
-#line 1527 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 18:
-#line 147 "mini_l.y" /* yacc.c:1646  */
-    {
-			
+			stringstream ss;
+			ss << (yyvsp[-3].num_val);
+			string s = ss.str();
+			sym_type.push_back(s);
 		}
-#line 1535 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 23:
-#line 155 "mini_l.y" /* yacc.c:1646  */
-    {
-				while(!op.empty())
-           			{
-            				string s= op.front();
-                			op.erase(op.begin());
-                			stmnt_vctr.push_back(".> "+ s);
-                		}
-            			op.clear();
-		  	}
-#line 1549 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 24:
-#line 165 "mini_l.y" /* yacc.c:1646  */
-    {
-				  if (!loop_label.empty())
-            			  {
-                			if(loop_label.back().at(0).at(0)=='d')
-                    				stmnt_vctr.push_back(":= "+ loop_label.back().at(1)); 
-                			else
-                    				stmnt_vctr.push_back(":= "+ loop_label.back().at(0));
-            			  }
-			}
-#line 1563 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 25:
-#line 175 "mini_l.y" /* yacc.c:1646  */
-    {
-				stmnt_vctr.push_back("ret "+op.back());
-            			op.pop_back();
-			}
-#line 1572 "mini_l.tab.c" /* yacc.c:1646  */
+#line 1499 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 179 "mini_l.y" /* yacc.c:1646  */
-    {yyerrok; yyclearin;}
-#line 1578 "mini_l.tab.c" /* yacc.c:1646  */
+#line 161 "mini_l.y" /* yacc.c:1646  */
+    {
+            string var = std::string("_") + strdup((yyvsp[-2].sval));
+            stmnt_vctr.push_back("= " + var + ", " + op.back() );
+            op.pop_back();
+            //cout<<op.size()<<endl;    TEST
+            //op.clear()  //REMOVE AFTER TESTING
+        }
+#line 1511 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 183 "mini_l.y" /* yacc.c:1646  */
+#line 169 "mini_l.y" /* yacc.c:1646  */
     {
-				stmnt_vctr.push_back(": "+if_label.back().at(1));
-            			if_label.pop_back(); 
-			}
-#line 1587 "mini_l.tab.c" /* yacc.c:1646  */
+            string var = std::string("_") + strdup((yyvsp[-5].sval));
+            string array_result_expression = op.back();
+            op.pop_back();
+            string array_expression = op.back();
+            op.pop_back();
+            stmnt_vctr.push_back(std::string("[]= _") + strdup((yyvsp[-5].sval))+", " + array_expression + ", " + array_result_expression); 
+        }
+#line 1524 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 188 "mini_l.y" /* yacc.c:1646  */
+#line 181 "mini_l.y" /* yacc.c:1646  */
     {
-				stmnt_vctr.push_back(": "+if_label.back().at(2));
-           			if_label.pop_back();             
-			}
-#line 1596 "mini_l.tab.c" /* yacc.c:1646  */
+            //MACHINE LANGUAGE CODE FOR IF STATEMENT
+            /* ?= test_codition_temp_variable, goto first_label
+                =:second_label
+                :first_label
+                ## Statements
+                :second_label
+            */
+            label_count++;     //Generating two discrete labels for this if statement
+            m.str("");
+            m.clear();      //clearing the stringstream buffer
+            m<<label_count;
+            string label_1 = "if_condition_true_"+m.str();  //creating label1
+            string label_2 = "if_condition_false_"+m.str(); //creating label2
+            string label_3 = "end_if_"+m.str();   //creating label3
+            vector<string> temp;        //temp label vector
+            temp.push_back(label_1);    //pushing first label onto temp label vectr
+            temp.push_back(label_2);    //pushing second label onto temp vector
+            temp.push_back(label_3);
+            if_label.push_back(temp);   //pushing temp vector onto if label
+            stmnt_vctr.push_back("?:= "+if_label.back().at(0)+", "+op.back());
+                                        //MC: evaluate if condition and goto first_label
+            op.pop_back();
+            stmnt_vctr.push_back(":= "+if_label.back().at(1));  //MC: goto second_label
+            stmnt_vctr.push_back(": "+if_label.back().at(0));      //MC: declaration first_label
+
+        }
+#line 1556 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 195 "mini_l.y" /* yacc.c:1646  */
+#line 211 "mini_l.y" /* yacc.c:1646  */
     {
-				label_count++;
-            			m.str("");
-            			m.clear();     
-            			m<<label_count;
-            			string label_1 = "if_condition_true_"+m.str(); 
-            			string label_2 = "if_condition_false_"+m.str();
-            			string label_3 = "end_if_"+m.str();   
-            			vector<string> temp;       
-            			temp.push_back(label_1);    
-            			temp.push_back(label_2);    
-            			temp.push_back(label_3);
-            			if_label.push_back(temp);  
-            			stmnt_vctr.push_back("?:= "+if_label.back().at(0)+", "+op.back());
-            			op.pop_back();
-            			stmnt_vctr.push_back(":= "+if_label.back().at(1));  
-            			stmnt_vctr.push_back(": "+if_label.back().at(0));      
-			}
-#line 1619 "mini_l.tab.c" /* yacc.c:1646  */
+                /* Structure of IF-ELSE LOOP:
+                    ?= if_condition_true_[NUM]
+                    =: if_condition_false_[NUM]
+                    //statements
+                    =:end_if_[NUM]
+                    :if_condition_false_[NUM]
+                    //statements
+                    :end_if_[NUM]
+                */
+                stmnt_vctr.push_back(":= "+if_label.back().at(2));
+                stmnt_vctr.push_back(": "+if_label.back().at(1));
+            }
+#line 1574 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 216 "mini_l.y" /* yacc.c:1646  */
+#line 227 "mini_l.y" /* yacc.c:1646  */
     {
-				stmnt_vctr.push_back(":= "+if_label.back().at(2));
-                		stmnt_vctr.push_back(": "+if_label.back().at(1));
-			}
-#line 1628 "mini_l.tab.c" /* yacc.c:1646  */
+            //declare second_label
+            stmnt_vctr.push_back(": "+if_label.back().at(1));
+            if_label.pop_back();
+        }
+#line 1584 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 223 "mini_l.y" /* yacc.c:1646  */
+#line 233 "mini_l.y" /* yacc.c:1646  */
     {
-				  stmnt_vctr.push_back(":= "+loop_label.back().at(0));
-            			  stmnt_vctr.push_back(": "+loop_label.back().at(2));
-            			  loop_label.pop_back();
-			}
-#line 1638 "mini_l.tab.c" /* yacc.c:1646  */
+           stmnt_vctr.push_back(": "+if_label.back().at(2));
+           if_label.pop_back();             //END_LOOP_HERE
+        }
+#line 1593 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 231 "mini_l.y" /* yacc.c:1646  */
+#line 240 "mini_l.y" /* yacc.c:1646  */
     {
-				label_count++; 
-            			m.str("");
-            			m.clear(); 
-            			m<<label_count;
-            			string label_1 = "while_loop_"+m.str();
-            			string label_2 = "conditional_true_"+m.str(); 
-            			string label_3 = "conditional_false_"+m.str();
-            			vector<string> temp;   
-            			temp.push_back(label_1);
-            			temp.push_back(label_2);   
-            			temp.push_back(label_3);   
-            			loop_label.push_back(temp);   
-            			stmnt_vctr.push_back(": "+loop_label.back().at(0));  
-			
-				stmnt_vctr.push_back("?:= "+loop_label.back().at(1)+", "+op.back());
-                		op.pop_back();
-                		stmnt_vctr.push_back(":= "+loop_label.back().at(2));
-                		stmnt_vctr.push_back(": "+loop_label.back().at(1));
-			}
-#line 1663 "mini_l.tab.c" /* yacc.c:1646  */
+            //MACHINE LANGUAGE CODE FOR WHILE STATEMENT
+            /* :while_loop_[NUM]
+                //conditional statements
+                ?= test_codition_temp_variable, conditonal_true_[NUM]
+                =:conditional_false_[NUM]
+                :conditional_true_[NUM]
+                ## Statements
+                =: while_loop_[NUM]
+                :conditional_false[NUM]
+            */
+            label_count++;     //Generating two discrete labels for this if statement
+            m.str("");
+            m.clear();      //clearing the stringstream buffer
+            m<<label_count;
+            string label_1 = "while_loop_"+m.str();  //creating loop label
+            string label_2 = "conditional_true_"+m.str();  //creating entry label
+            string label_3 = "conditional_false_"+m.str();  //creating exit label
+            vector<string> temp;        //temp label vector
+            temp.push_back(label_1);    //pushing first label onto temp label vectr
+            temp.push_back(label_2);    //pushing second label onto temp vector
+            temp.push_back(label_3);    //pushing third label onto temp vector
+            loop_label.push_back(temp);   //pushing temp vector onto if label
+            stmnt_vctr.push_back(": "+loop_label.back().at(0));      //MC: declaration loop_label
+         }
+#line 1623 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 33:
+#line 267 "mini_l.y" /* yacc.c:1646  */
+    {
+                stmnt_vctr.push_back("?:= "+loop_label.back().at(1)+", "+op.back());
+                op.pop_back();
+                stmnt_vctr.push_back(":= "+loop_label.back().at(2));
+                stmnt_vctr.push_back(": "+loop_label.back().at(1));
+            }
+#line 1634 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 256 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1669 "mini_l.tab.c" /* yacc.c:1646  */
+#line 276 "mini_l.y" /* yacc.c:1646  */
+    {
+            stmnt_vctr.push_back(":= "+loop_label.back().at(0));
+            stmnt_vctr.push_back(": "+loop_label.back().at(2));
+            loop_label.pop_back();
+        }
+#line 1644 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 257 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1675 "mini_l.tab.c" /* yacc.c:1646  */
+#line 284 "mini_l.y" /* yacc.c:1646  */
+    {
+             //MACHINE LANGUAGE CODE FOR DO-WHILE STATEMENT
+            /* :do_while_loop_[NUM]
+                =:conditional_false_[NUM]
+                :conditional_true_[NUM]
+                ## Statements
+                ?= test_codition_temp_variable, conditonal_true_[NUM]
+            */
+            label_count++;     //Generating two discrete labels for this if statement
+            m.str("");
+            m.clear();      //clearing the stringstream buffer
+            m<<label_count;
+            string label_1 = "do_while_loop_"+m.str();  //creating loop label
+            string label_2 = "do_while_conditional_check"+m.str();
+            vector <string> temp;
+            temp.push_back(label_1);
+            temp.push_back(label_2);
+            loop_label.push_back(temp);
+            stmnt_vctr.push_back(": "+label_1);
+        }
+#line 1669 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 261 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1681 "mini_l.tab.c" /* yacc.c:1646  */
+#line 307 "mini_l.y" /* yacc.c:1646  */
+    {
+            //Statements for continue statement
+            stmnt_vctr.push_back(": "+ loop_label.back().at(1));
+        }
+#line 1678 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 262 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1687 "mini_l.tab.c" /* yacc.c:1646  */
+#line 312 "mini_l.y" /* yacc.c:1646  */
+    {
+            stmnt_vctr.push_back("?:= "+ loop_label.back().at(0)+", "+op.back());
+            //if condition is false just continue the program execution
+            //the single execution before condition check satisfies do while 
+            //statment's requirement
+            op.pop_back();
+            loop_label.pop_back();
+        }
+#line 1691 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 38:
+#line 323 "mini_l.y" /* yacc.c:1646  */
+    {
+                string var = std::string("_") + strdup((yyvsp[-1].sval));
+                read_queue.push(std::string(".< _") + strdup((yyvsp[-1].sval)));
+
+            }
+#line 1701 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 266 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1693 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 40:
-#line 267 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1699 "mini_l.tab.c" /* yacc.c:1646  */
+#line 329 "mini_l.y" /* yacc.c:1646  */
+    {
+                string var = std::string("_") + strdup((yyvsp[-4].sval));
+                m.str("");
+                m.clear();                              //clearing string stream for conversion from int to str
+                m<<temp_var_count;                      //feeding int to stringstream
+                temp_var_count++;                       
+                string new_temp_var='t'+ m.str();       //creating temp variable name
+                sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+                sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+                read_queue.push(".< "+new_temp_var);
+                read_queue.push(std::string("[]= _") + strdup((yyvsp[-4].sval)) + ", " + op.back() + ", " + new_temp_var);
+                op.pop_back();
+            }
+#line 1719 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 268 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1705 "mini_l.tab.c" /* yacc.c:1646  */
+#line 346 "mini_l.y" /* yacc.c:1646  */
+    {                                       //The new version supports multiple reads
+            string var = std::string("_") + strdup((yyvsp[-1].sval));            
+            stmnt_vctr.push_back(std::string(".< _") + strdup((yyvsp[-1].sval)));
+            while(!read_queue.empty())
+            {
+                stmnt_vctr.push_back(read_queue.top());
+                read_queue.pop();
+            }
+        }
+#line 1733 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 274 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1711 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 43:
-#line 276 "mini_l.y" /* yacc.c:1646  */
+#line 356 "mini_l.y" /* yacc.c:1646  */
     {
-				 m.str("");
-            			m.clear();                              //clearing string stream for conversion from int to str
-            			m<<temp_var_count;                      //feeding int to stringstream
-            			temp_var_count++;
-            			string new_temp_var='t'+ m.str();       //creating temp variable name
-            			sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
-            			sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
-            			string op2 = op.back();
-            			op.pop_back();
-            			string op1 =op.back();
-            			op.pop_back();
-            			stmnt_vctr.push_back("|| "+ new_temp_var + ", "+op1+", "+op2);    
-            			op.push_back(new_temp_var); //pushing new temp variable
-			}
-#line 1731 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 44:
-#line 293 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1737 "mini_l.tab.c" /* yacc.c:1646  */
+            //First equating the input to a temporary variable
+            //then assigning the input to the element in the array
+            string var = std::string("_") + strdup((yyvsp[-4].sval));
+            m.str("");
+            m.clear();                              //clearing string stream for conversion from int to str
+            m<<temp_var_count;                      //feeding int to stringstream
+            temp_var_count++;                       
+            string new_temp_var='t'+ m.str();       //creating temp variable name
+            sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+            sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+            stmnt_vctr.push_back(std::string(".< ") +new_temp_var);
+            stmnt_vctr.push_back(std::string("[]= _") + strdup((yyvsp[-4].sval))+ ", " + op.back() + ", " + new_temp_var);
+            op.pop_back();
+            while(!read_queue.empty())
+            {
+                stmnt_vctr.push_back(read_queue.top());
+                read_queue.pop();
+            }
+        }
+#line 1758 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 295 "mini_l.y" /* yacc.c:1646  */
+#line 384 "mini_l.y" /* yacc.c:1646  */
     {
-					 m.str("");
-            				m.clear();                              //clearing string stream for conversion from int to str
-            				m<<temp_var_count;                      //feeding int to stringstream
-            				temp_var_count++;
-            				string new_temp_var='t'+ m.str();       //creating temp variable name
-            				sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
-            				sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
-            				string op2 = op.back();
-            				op.pop_back();
-            				string op1 =op.back();
-            				op.pop_back();
-            				stmnt_vctr.push_back("&& "+ new_temp_var + ", "+op1+", "+op2);    
-            				op.push_back(new_temp_var); //pushing new temp variable
-				}
-#line 1757 "mini_l.tab.c" /* yacc.c:1646  */
+            while(!op.empty())
+            {
+            	string s= op.front();
+                op.erase(op.begin());
+                // insert symbol table checking here
+                stmnt_vctr.push_back(".> "+ s);
+                //write statements in machine language
+            }
+            op.clear();
+        }
+#line 1774 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 313 "mini_l.y" /* yacc.c:1646  */
+#line 398 "mini_l.y" /* yacc.c:1646  */
     {
-					m.str("");
-            				m.clear();                              //clearing string stream for conversion from int to str
-            				m<<temp_var_count;                      //feeding int to stringstream
-            				temp_var_count++;
-            				string new_temp_var='t'+ m.str();       //creating temp variable name
-            				sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
-            				sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
-            				string op1 = op.back();
-            				op.pop_back();                          //removing last variable as it has already been used
-            				stmnt_vctr.push_back("! "+new_temp_var+", "+op1);   //equating the the logical NOT of the last variable on the stack
-                                                                //to the new temporary variable that will be added to the stack
-            				op.push_back(new_temp_var);
-				}
-#line 1776 "mini_l.tab.c" /* yacc.c:1646  */
+            //Just transfer control back to the head of the most recent while loop
+            //:= while_loop_[NUM]
+            if (!loop_label.empty())
+            {
+                if(loop_label.back().at(0).at(0)=='d')
+                    stmnt_vctr.push_back(":= "+ loop_label.back().at(1)); 
+                else
+                    stmnt_vctr.push_back(":= "+ loop_label.back().at(0));
+            }
+        }
+#line 1790 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 327 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1782 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 48:
-#line 330 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1788 "mini_l.tab.c" /* yacc.c:1646  */
+#line 412 "mini_l.y" /* yacc.c:1646  */
+    {
+            stmnt_vctr.push_back("ret "+op.back());
+            op.pop_back();
+        }
+#line 1799 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 331 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1794 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 50:
-#line 332 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1800 "mini_l.tab.c" /* yacc.c:1646  */
+#line 420 "mini_l.y" /* yacc.c:1646  */
+    {
+            //|| t[temp_var_num],second_to_last_operand,last_operand_from_vector
+            m.str("");
+            m.clear();                              //clearing string stream for conversion from int to str
+            m<<temp_var_count;                      //feeding int to stringstream
+            temp_var_count++;
+            string new_temp_var='t'+ m.str();       //creating temp variable name
+            sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+            sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+            string op2 = op.back();
+            op.pop_back();
+            string op1 =op.back();
+            op.pop_back();
+            stmnt_vctr.push_back("|| "+ new_temp_var + ", "+op1+", "+op2);    
+            op.push_back(new_temp_var); //pushing new temp variable
+        }
+#line 1820 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 333 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1806 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 52:
-#line 334 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1812 "mini_l.tab.c" /* yacc.c:1646  */
+#line 440 "mini_l.y" /* yacc.c:1646  */
+    {
+            //&& t[temp_var_num],second_to_last_operand,last_operand_from_vector
+            m.str("");
+            m.clear();                              //clearing string stream for conversion from int to str
+            m<<temp_var_count;                      //feeding int to stringstream
+            temp_var_count++;
+            string new_temp_var='t'+ m.str();       //creating temp variable name
+            sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+            sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+            string op2 = op.back();
+            op.pop_back();
+            string op1 =op.back();
+            op.pop_back();
+            stmnt_vctr.push_back("&& "+ new_temp_var + ", "+op1+", "+op2);    
+            op.push_back(new_temp_var); //pushing new temp variable
+        }
+#line 1841 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 335 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1818 "mini_l.tab.c" /* yacc.c:1646  */
+#line 461 "mini_l.y" /* yacc.c:1646  */
+    {
+            //! t[temp_var_num], first_unused_variable_from_stack
+            m.str("");
+            m.clear();                              //clearing string stream for conversion from int to str
+            m<<temp_var_count;                      //feeding int to stringstream
+            temp_var_count++;
+            string new_temp_var='t'+ m.str();       //creating temp variable name
+            sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+            sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+            string op1 = op.back();
+            op.pop_back();                          //removing last variable as it has already been used
+            stmnt_vctr.push_back("! "+new_temp_var+", "+op1);   //equating the the logical NOT of the last variable on the stack
+                                                                //to the new temporary variable that will be added to the stack
+            op.push_back(new_temp_var);
+
+        }
+#line 1862 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 336 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1824 "mini_l.tab.c" /* yacc.c:1646  */
+#line 480 "mini_l.y" /* yacc.c:1646  */
+    {
+            //== t[temp_var_num],second_to_last_operand,last_operand_from_vector
+            m.str("");
+            m.clear();                              //clearing string stream for conversion from int to str
+            m<<temp_var_count;                      //feeding int to stringstream
+            temp_var_count++;
+            string new_temp_var='t'+ m.str();       //creating temp variable name
+            sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+            sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+            string op2 = op.back();
+            op.pop_back();
+            string op1 =op.back();
+            op.pop_back();
+            stmnt_vctr.push_back("== "+ new_temp_var + ", "+op1+", "+op2);    
+            op.push_back(new_temp_var); //pushing new temp variable
+        }
+#line 1883 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 337 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1830 "mini_l.tab.c" /* yacc.c:1646  */
+#line 497 "mini_l.y" /* yacc.c:1646  */
+    {
+            //!= t[temp_var_num],second_to_last_operand,last_operand_from_vector
+            m.str("");
+            m.clear();                              //clearing string stream for conversion from int to str
+            m<<temp_var_count;                      //feeding int to stringstream
+            temp_var_count++;
+            string new_temp_var='t'+ m.str();       //creating temp variable name
+            sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+            sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+            string op2 = op.back();
+            op.pop_back();
+            string op1 =op.back();
+            op.pop_back();
+            stmnt_vctr.push_back("!= "+ new_temp_var + ", "+op1+", "+op2);    
+            op.push_back(new_temp_var); //pushing new temp variable
+        }
+#line 1904 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
-#line 338 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1836 "mini_l.tab.c" /* yacc.c:1646  */
+#line 515 "mini_l.y" /* yacc.c:1646  */
+    {
+            //< t[temp_var_num],second_to_last_operand,last_operand_from_vector
+            m.str("");
+            m.clear();                              //clearing string stream for conversion from int to str
+            m<<temp_var_count;                      //feeding int to stringstream
+            temp_var_count++;
+            string new_temp_var='t'+ m.str();       //creating temp variable name
+            sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+            sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+            string op2 = op.back();
+            op.pop_back();
+            string op1 =op.back();
+            op.pop_back();
+            stmnt_vctr.push_back("< "+ new_temp_var + ", "+op1+", "+op2);    
+            op.push_back(new_temp_var); //pushing new temp variable
+        }
+#line 1925 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
-#line 351 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1842 "mini_l.tab.c" /* yacc.c:1646  */
+#line 532 "mini_l.y" /* yacc.c:1646  */
+    {
+            //> t[temp_var_num],second_to_last_operand,last_operand_from_vector
+            m.str("");
+            m.clear();                              //clearing string stream for conversion from int to str
+            m<<temp_var_count;                      //feeding int to stringstream
+            temp_var_count++;
+            string new_temp_var='t'+ m.str();       //creating temp variable name
+            sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+            sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+            string op2 = op.back();
+            op.pop_back();
+            string op1 =op.back();
+            op.pop_back();
+            stmnt_vctr.push_back("> "+ new_temp_var + ", "+op1+", "+op2);    
+            op.push_back(new_temp_var); //pushing new temp variable
+        }
+#line 1946 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 352 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1848 "mini_l.tab.c" /* yacc.c:1646  */
+#line 549 "mini_l.y" /* yacc.c:1646  */
+    {
+            //<= t[temp_var_num],second_to_last_operand,last_operand_from_vector
+            m.str("");
+            m.clear();                              //clearing string stream for conversion from int to str
+            m<<temp_var_count;                      //feeding int to stringstream
+            temp_var_count++;
+            string new_temp_var='t'+ m.str();       //creating temp variable name
+            sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+            sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+            string op2 = op.back();
+            op.pop_back();
+            string op1 =op.back();
+            op.pop_back();
+            stmnt_vctr.push_back("<= "+ new_temp_var + ", "+op1+", "+op2);    
+            op.push_back(new_temp_var); //pushing new temp variable
+        }
+#line 1967 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 353 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1854 "mini_l.tab.c" /* yacc.c:1646  */
+#line 566 "mini_l.y" /* yacc.c:1646  */
+    {
+            //>= t[temp_var_num],second_to_last_operand,last_operand_from_vector
+            m.str("");
+            m.clear();                              //clearing string stream for conversion from int to str
+            m<<temp_var_count;                      //feeding int to stringstream
+            temp_var_count++;
+            string new_temp_var='t'+ m.str();       //creating temp variable name
+            sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+            sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+            string op2 = op.back();
+            op.pop_back();
+            string op1 =op.back();
+            op.pop_back();
+            stmnt_vctr.push_back(">= "+ new_temp_var + ", "+op1+", "+op2);    
+            op.push_back(new_temp_var); //pushing new temp variable
+        }
+#line 1988 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 60:
-#line 356 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1860 "mini_l.tab.c" /* yacc.c:1646  */
+#line 583 "mini_l.y" /* yacc.c:1646  */
+    {
+            //= t[temp_var_num], 1 [TRUE]
+            m.str("");
+            m.clear();                              //clearing string stream for conversion from int to str
+            m<<temp_var_count;                      //feeding int to stringstream
+            temp_var_count++;
+            string new_temp_var='t'+ m.str();       //creating temp variable name
+            sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+            sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+            stmnt_vctr.push_back("= "+new_temp_var+", 1"); //adding constant value TRUE via temporary variables on operand stack
+            op.push_back(new_temp_var);
+        }
+#line 2005 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 359 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1866 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 62:
-#line 361 "mini_l.y" /* yacc.c:1646  */
+#line 596 "mini_l.y" /* yacc.c:1646  */
     {
-					 m.str("");
-            				m.clear();                              //clearing string stream for conversion from int to str
-            				m<<temp_var_count;                      //feeding int to stringstream
-            				temp_var_count++;
-            				string new_temp_var='t'+ m.str();       //creating temp variable name
-            				sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
-            				sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
-            				string op2 = op.back();
-            				op.pop_back();
-            				string op1 =op.back();
-            				op.pop_back();
-            				stmnt_vctr.push_back("* "+ new_temp_var + ", "+op1+", "+op2);    
-            				op.push_back(new_temp_var); //pushing new temp variable
-				}
-#line 1886 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 63:
-#line 377 "mini_l.y" /* yacc.c:1646  */
-    {
-					m.str("");
-            				m.clear();                              //clearing string stream for conversion from int to str
-            				m<<temp_var_count;                      //feeding int to stringstream
-            				temp_var_count++;
-            				string new_temp_var='t'+ m.str();       //creating temp variable name
-            				sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
-            				sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
-            				string op2 = op.back();
-            				op.pop_back();
-            				string op1 =op.back();
-            				op.pop_back();
-            				stmnt_vctr.push_back("/ "+ new_temp_var + ", "+op1+", "+op2);    
-            				op.push_back(new_temp_var); //pushing new temp variable
-				}
-#line 1906 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 64:
-#line 393 "mini_l.y" /* yacc.c:1646  */
-    {
-					m.str("");
-            				m.clear();                              //clearing string stream for conversion from int to str
-            				m<<temp_var_count;                      //feeding int to stringstream
-            				temp_var_count++;
-            				string new_temp_var='t'+ m.str();       //creating temp variable name
-            				sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
-            				sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
-            				string op2 = op.back();
-            				op.pop_back();
-            				string op1 =op.back();
-            				op.pop_back();
-            				stmnt_vctr.push_back("% "+ new_temp_var + ", "+op1+", "+op2);    
-            				op.push_back(new_temp_var); //pushing new temp variable
-				}
-#line 1926 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 65:
-#line 410 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1932 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 66:
-#line 412 "mini_l.y" /* yacc.c:1646  */
-    {
-				m.str("");
-                    		m.clear();                              //clearing string stream for conversion from int to str
-                    		m<<temp_var_count;                      //feeding int to stringstream
-                    		temp_var_count++;
-                    		string new_temp_var='t'+ m.str();       //creating temp variable name
-                    		sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
-                    		sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table 
-                    		stmnt_vctr.push_back("- "+ new_temp_var + ", 0, " +op.back());    
-                    		op.pop_back();  //removing the old variable and replacing with new temp variable 
-                    		op.push_back(new_temp_var); //pushing new temp variable
-			}
-#line 1949 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 67:
-#line 425 "mini_l.y" /* yacc.c:1646  */
-    {
-				m.str("");
-                    		m.clear();                       //clearing string stream for conversion from int to str
-                    		m<<temp_var_count;                  //feeding int to stringstream
-                    		temp_var_count++;
-                    		string new_temp_var='t'+ m.str();       //creating temp variable name
-                    		sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
-                    		sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
-                    		stmnt_vctr.push_back(std::string("call ") + *((yyvsp[-1].sval)) + ", " + new_temp_var);
-                    		op.push_back(new_temp_var); 
-			}
-#line 1965 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 68:
-#line 439 "mini_l.y" /* yacc.c:1646  */
-    {
-				while(!param_queue.empty())
-                    		{
-                        		stmnt_vctr.push_back("param "+param_queue.top());
-                        		param_queue.pop();
-                    		}
-			}
-#line 1977 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 69:
-#line 446 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 1983 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 70:
-#line 451 "mini_l.y" /* yacc.c:1646  */
-    {
-				m.str("");
-                    		m.clear();                       
-                    		m<<temp_var_count;                  
-                    		temp_var_count++;
-                    		string new_temp_var='t'+ m.str();       
-                    		sym_table.push_back(new_temp_var);     
-                    		sym_type.push_back("INTEGER");          
-                    		string op1=op.back();       
-                    		if(op1.at(0)=='[')                  
-                        		stmnt_vctr.push_back("=[] "+new_temp_var+", "+op1.substr(3,op1.length()-3));
-                    		else                                    
-                        		stmnt_vctr.push_back("= "+ new_temp_var+", "+op.back());    
-                    		op.pop_back();  
-                    		op.push_back(new_temp_var); 
-			}
-#line 2004 "mini_l.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 71:
-#line 468 "mini_l.y" /* yacc.c:1646  */
-    {
-				  m.str("");
-                    		  m.clear();                          
-                    		  m<<temp_var_count;              
-                    		  temp_var_count++;                   
-                    		  string new_temp_var='t'+ m.str();       
-                    		  sym_table.push_back(new_temp_var);      
-                    		  sym_type.push_back("INTEGER");         
-                    		  stringstream ss;
-                    		  ss << (yyvsp[0].num_val);
-                    		  stmnt_vctr.push_back("= "+ new_temp_var +", "+ ss.str());
-                    		  op.push_back(new_temp_var);
-			}
+            //= t[temp_var_num], 0 [FALSE]
+            m.str("");
+            m.clear();                              //clearing string stream for conversion from int to str
+            m<<temp_var_count;                      //feeding int to stringstream
+            temp_var_count++;
+            string new_temp_var='t'+ m.str();       //creating temp variable name
+            sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+            sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+            stmnt_vctr.push_back("= "+new_temp_var+", 0"); //adding constant value FALSE via temporary variables on operand stack
+            op.push_back(new_temp_var);
+        }
 #line 2022 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
+  case 65:
+#line 617 "mini_l.y" /* yacc.c:1646  */
+    {
+            //+ t[temp_var_num],second_to_last_operand,last_operand_from_vector
+            m.str("");
+            m.clear();                              //clearing string stream for conversion from int to str
+            m<<temp_var_count;                      //feeding int to stringstream
+            temp_var_count++;
+            string new_temp_var='t'+ m.str();       //creating temp variable name
+            sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+            sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+            string op2 = op.back();
+            op.pop_back();
+            string op1 =op.back();
+            op.pop_back();
+            stmnt_vctr.push_back("+ "+ new_temp_var + ", "+op1+", "+op2);    
+            op.push_back(new_temp_var); //pushing new temp variable
+
+        }
+#line 2044 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 66:
+#line 635 "mini_l.y" /* yacc.c:1646  */
+    {
+            //- t[temp_var_num],second_to_last_operand,last_operand_from_vector
+            m.str("");
+            m.clear();                              //clearing string stream for conversion from int to str
+            m<<temp_var_count;                      //feeding int to stringstream
+            temp_var_count++;
+            string new_temp_var='t'+ m.str();       //creating temp variable name
+            sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+            sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+            string op2 = op.back();
+            op.pop_back();
+            string op1 =op.back();
+            op.pop_back();
+            stmnt_vctr.push_back("- "+ new_temp_var + ", "+op1+", "+op2);    
+            op.push_back(new_temp_var); //pushing new temp variable
+        }
+#line 2065 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 69:
+#line 658 "mini_l.y" /* yacc.c:1646  */
+    {
+            // t[temp_var_num],second_to_last_operand,last_operand_from_vector
+            m.str("");
+            m.clear();                              //clearing string stream for conversion from int to str
+            m<<temp_var_count;                      //feeding int to stringstream
+            temp_var_count++;
+            string new_temp_var='t'+ m.str();       //creating temp variable name
+            sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+            sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+            string op2 = op.back();
+            op.pop_back();
+            string op1 =op.back();
+            op.pop_back();
+            stmnt_vctr.push_back("* "+ new_temp_var + ", "+op1+", "+op2);    
+            op.push_back(new_temp_var); //pushing new temp variable
+        }
+#line 2086 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 70:
+#line 675 "mini_l.y" /* yacc.c:1646  */
+    {
+            // / t[temp_var_num],second_to_last_operand,last_operand_from_vector
+            m.str("");
+            m.clear();                              //clearing string stream for conversion from int to str
+            m<<temp_var_count;                      //feeding int to stringstream
+            temp_var_count++;
+            string new_temp_var='t'+ m.str();       //creating temp variable name
+            sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+            sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+            string op2 = op.back();
+            op.pop_back();
+            string op1 =op.back();
+            op.pop_back();
+            stmnt_vctr.push_back("/ "+ new_temp_var + ", "+op1+", "+op2);    
+            op.push_back(new_temp_var); //pushing new temp variable
+        }
+#line 2107 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 71:
+#line 693 "mini_l.y" /* yacc.c:1646  */
+    {
+            //% t[temp_var_num],second_to_last_operand,last_operand_from_vector
+            m.str("");
+            m.clear();                              //clearing string stream for conversion from int to str
+            m<<temp_var_count;                      //feeding int to stringstream
+            temp_var_count++;
+            string new_temp_var='t'+ m.str();       //creating temp variable name
+            sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+            sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+            string op2 = op.back();
+            op.pop_back();
+            string op1 =op.back();
+            op.pop_back();
+            stmnt_vctr.push_back("% "+ new_temp_var + ", "+op1+", "+op2);    
+            op.push_back(new_temp_var); //pushing new temp variable
+        }
+#line 2128 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
   case 72:
-#line 481 "mini_l.y" /* yacc.c:1646  */
-    {}
-#line 2028 "mini_l.tab.c" /* yacc.c:1646  */
+#line 713 "mini_l.y" /* yacc.c:1646  */
+    {
+                    //empty transition. Last operand on stack si still a valid part
+                }
+#line 2136 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 73:
-#line 485 "mini_l.y" /* yacc.c:1646  */
+#line 717 "mini_l.y" /* yacc.c:1646  */
     {
-				param_queue.push(op.back());
-                    		op.pop_back();
-			}
-#line 2037 "mini_l.tab.c" /* yacc.c:1646  */
+                    //UNARY MINUS: -value = 0 - value
+                    //- t[temp_var_num],0,[last_var in operand list]
+                    m.str("");
+                    m.clear();                              //clearing string stream for conversion from int to str
+                    m<<temp_var_count;                      //feeding int to stringstream
+                    temp_var_count++;
+                    string new_temp_var='t'+ m.str();       //creating temp variable name
+                    sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+                    sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table 
+                    stmnt_vctr.push_back("- "+ new_temp_var + ", 0, " +op.back());    
+                    op.pop_back();  //removing the old variable and replacing with new temp variable 
+                    op.push_back(new_temp_var); //pushing new temp variable
+
+                }
+#line 2156 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 74:
-#line 490 "mini_l.y" /* yacc.c:1646  */
-    {	
-				param_queue.push(op.back());
-                    		op.pop_back();
-			}
-#line 2046 "mini_l.tab.c" /* yacc.c:1646  */
+#line 733 "mini_l.y" /* yacc.c:1646  */
+    {
+                    //calling functions
+                    m.str("");
+                    m.clear();                       //clearing string stream for conversion from int to str
+                    m<<temp_var_count;                  //feeding int to stringstream
+                    temp_var_count++;
+                    string new_temp_var='t'+ m.str();       //creating temp variable name
+                    sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+                    sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+                    stmnt_vctr.push_back(std::string("call ") + strdup((yyvsp[-1].sval)) + ", " + new_temp_var);
+                    op.push_back(new_temp_var); 
+                }
+#line 2173 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 75:
-#line 498 "mini_l.y" /* yacc.c:1646  */
+#line 751 "mini_l.y" /* yacc.c:1646  */
     {
-		string var = "_" + *((yyvsp[0].sval));
-		op.push_back(var);  
-	}
-#line 2055 "mini_l.tab.c" /* yacc.c:1646  */
+                    //= t[temp_var_num], [var in operand list]
+                    m.str("");
+                    m.clear();                       //clearing string stream for conversion from int to str
+                    m<<temp_var_count;                  //feeding int to stringstream
+                    temp_var_count++;
+                    string new_temp_var='t'+ m.str();       //creating temp variable name
+                    sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+                    sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table 
+                    string op1=op.back();       
+                    if(op1.at(0)=='[')                  //Copy Statement for array elements
+                        stmnt_vctr.push_back("=[] "+new_temp_var+", "+op1.substr(3,op1.length()-3));
+                    else                                    //Copy statement for normal variables
+                        stmnt_vctr.push_back("= "+ new_temp_var+", "+op.back());    
+                    op.pop_back();  //removing the old variable and replacing with new temp variable 
+                    op.push_back(new_temp_var); //pushing new temp variable
+                }
+#line 2195 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 76:
-#line 503 "mini_l.y" /* yacc.c:1646  */
+#line 769 "mini_l.y" /* yacc.c:1646  */
     {
-		string op1 = op.back();
-                op.pop_back();
-                string var = "_"+*((yyvsp[-3].sval));
-                op.push_back("[] " + var + ", " + op1);
-	}
-#line 2066 "mini_l.tab.c" /* yacc.c:1646  */
+                    // t[temp_var_num] =39
+                    //.= t[temp_var_num],39 
+                    m.str("");
+                    m.clear();                          //clearing string stream for conversion from int to str
+                    m<<temp_var_count;                  //feeding int to stringstream
+                    temp_var_count++;                   //incrementing count of temp vars
+                    string new_temp_var='t'+ m.str();       //creating temp variable name
+                    sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
+                    sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
+                    stringstream ss;
+                    ss << (yyvsp[0].num_val);
+                    stmnt_vctr.push_back("= "+ new_temp_var +", "+ ss.str());
+                    op.push_back(new_temp_var);
+                }
+#line 2215 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 78:
+#line 788 "mini_l.y" /* yacc.c:1646  */
+    {
+                    //add parameters to the queue
+                    while(!param_queue.empty())
+                    {
+                        stmnt_vctr.push_back("param "+param_queue.top());
+                        param_queue.pop();
+                    }
+                }
+#line 2228 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 79:
+#line 797 "mini_l.y" /* yacc.c:1646  */
+    {
+                    //leave parameter queue empty
+                }
+#line 2236 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 80:
+#line 803 "mini_l.y" /* yacc.c:1646  */
+    {
+                    param_queue.push(op.back());
+                    op.pop_back();
+                }
+#line 2245 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 81:
+#line 808 "mini_l.y" /* yacc.c:1646  */
+    {
+                    param_queue.push(op.back());
+                    op.pop_back();
+                }
+#line 2254 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 82:
+#line 815 "mini_l.y" /* yacc.c:1646  */
+    {
+                    string var = std::string("_") + strdup((yyvsp[0].sval)); 
+                    //if (!in_sym_table(var))
+                    //    exit(0);
+                    op.push_back(var);
+                }
+#line 2265 "mini_l.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 83:
+#line 822 "mini_l.y" /* yacc.c:1646  */
+    {
+                    string op1 = op.back();
+                    op.pop_back();
+                    string var = std::string("_") + strdup((yyvsp[-3].sval));
+                    op.push_back("[] " + var + ", " + op1);
+                }
+#line 2276 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2070 "mini_l.tab.c" /* yacc.c:1646  */
+#line 2280 "mini_l.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2294,7 +2504,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 511 "mini_l.y" /* yacc.c:1906  */
+#line 830 "mini_l.y" /* yacc.c:1906  */
 
 void yyerror(const char* s)
 {

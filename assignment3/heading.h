@@ -1,4 +1,4 @@
-#define YY_NO_INPUT 
+#define YY_NO_UNPUT 
 
 using namespace std; 
 
