@@ -3,6 +3,10 @@ Terminals unused in grammar
    token
 
 
+State 83 conflicts: 1 shift/reduce
+State 114 conflicts: 1 shift/reduce
+
+
 Grammar
 
     0 $accept: Program $end
@@ -32,101 +36,88 @@ Grammar
    15 Type: INTEGER
    16     | ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER
 
-   17 Statement: Var1 ASSIGN Expression
-   18          | IF-STMT
-   19          | WHILE Bool-Expr BEGINLOOP Statement1 ENDLOOP
-   20          | DO BEGINLOOP Statement1 ENDLOOP WHILE Bool-Expr
+   17 Statement: Var ASSIGN Expression
+   18          | if_rule
+   19          | while_rule
+   20          | do_while_rule
+   21          | read_in
+   22          | WRITE comma_mult
+   23          | CONTINUE
+   24          | RETURN Expression
+   25          | error
 
-   21 $@2: %empty
+   26 if_rule: if_condition Statement1 ENDIF
+   27        | else_condition Statement1 ENDIF
 
-   22 Statement: READ $@2 Var1
+   28 if_condition: IF Bool-Expr THEN
 
-   23 $@3: %empty
+   29 else_condition: if_condition Statement1 ELSE
 
-   24 Statement: WRITE $@3 Var1
-   25          | CONTINUE
-   26          | RETURN Expression
-   27          | error
+   30 while_rule: while_condition Statement1 ENDLOOP
 
-   28 IF-STMT: IF Bool-Expr THEN Statement1 ENDIF
-   29        | IF Bool-Expr THEN Statement1 ELSE Statement1 ENDIF
+   31 while_condition: WHILE Bool-Expr BEGINLOOP
 
-   30 Var1: Var COMMA Var1
-   31     | Var
+   32 do_while_rule: DO BEGINLOOP Statement1 ENDLOOP WHILE Bool-Expr
 
-   32 Bool-Expr: Relation_And_Expr
+   33 read_in: READ comma_mult
 
-   33 $@4: %empty
+   34 comma_mult: Var
+   35           | Var COMMA comma_mult
 
-   34 Bool-Expr: Relation_And_Expr OR $@4 Bool-Expr
+   36 Bool-Expr: Relation_Exprs
+   37          | Bool-Expr OR Relation_And_Expr
 
-   35 Relation_And_Expr: Relation_Exprs
+   38 Relation_And_Expr: Relation_Exprs
+   39                  | Relation_Exprs AND Relation_And_Expr
 
-   36 $@5: %empty
+   40 Relation_Exprs: NOT Relation_Expr
+   41               | Relation_Expr
 
-   37 Relation_And_Expr: Relation_Exprs AND $@5 Relation_And_Expr
+   42 Relation_Expr: Expression Comp Expression
+   43              | TRUE
+   44              | FALSE
+   45              | L_PAREN Bool-Expr R_PAREN
 
-   38 $@6: %empty
+   46 Comp: EQ
+   47     | NEQ
+   48     | LT
+   49     | GT
+   50     | LTE
+   51     | GTE
 
-   39 Relation_Exprs: NOT $@6 Relation_Expr
-   40               | Relation_Expr
+   52 Expression: Multiplicative-Expr ADD Expression
+   53           | Multiplicative-Expr SUB Expression
+   54           | Multiplicative-Expr
 
-   41 Relation_Expr: Expression Comp Expression
-   42              | TRUE
-   43              | FALSE
-   44              | L_PAREN Bool-Expr R_PAREN
+   55 Term_Mult-Expr: Term Multiplicative-Expr
 
-   45 Comp: EQ
-   46     | NEQ
-   47     | LT
-   48     | GT
-   49     | LTE
-   50     | GTE
+   56 Multiplicative-Expr: %empty
+   57                    | MULT Term Term_Mult-Expr
+   58                    | DIV Term Term_Mult-Expr
+   59                    | MOD Term Term_Mult-Expr
 
-   51 $@7: %empty
+   60 Term: Normal
+   61     | SUB Normal
+   62     | IDENT Term_1
 
-   52 Expression: Multiplicative-Expr ADD $@7 Expression
+   63 Term_1: L_PAREN Expression1 R_PAREN
+   64       | L_PAREN R_PAREN
 
-   53 $@8: %empty
+   65 Normal: Var
+   66       | NUMBER
+   67       | L_PAREN Expression1 R_PAREN
 
-   54 Expression: Multiplicative-Expr SUB $@8 Expression
-   55           | Multiplicative-Expr
+   68 Expression1: Expression
+   69            | Expression COMMA Expression1
 
-   56 $@9: %empty
-
-   57 Multiplicative-Expr: Term MULT $@9 Term
-
-   58 $@10: %empty
-
-   59 Multiplicative-Expr: Term DIV $@10 Term
-
-   60 $@11: %empty
-
-   61 Multiplicative-Expr: Term MOD $@11 Term
-   62                    | Term
-
-   63 Term: Normal
-   64     | SUB Var
-   65     | SUB NUMBER
-   66     | SUB L_PAREN Expression R_PAREN
-   67     | IDENT L_PAREN Expression1 R_PAREN
-
-   68 Normal: Var
-   69       | NUMBER
-   70       | L_PAREN Expression1 R_PAREN
-
-   71 Expression1: Expression COMMA Expression1
-   72            | Expression
-   73            | %empty
-
-   74 Var: IDENT
-   75    | IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET
+   70 Var: IDENT
+   71    | IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
-error (256) 6 10 27
+error (256) 6 10 25
 FUNCTION (258) 5
 BEGIN_PARAMS (259) 5
 END_PARAMS (260) 5
@@ -138,44 +129,44 @@ END_LOCALS (265) 5
 INTEGER (266) 15 16
 ARRAY (267) 16
 OF (268) 16
-IF (269) 28 29
-THEN (270) 28 29
-ENDIF (271) 28 29
+IF (269) 28
+THEN (270) 28
+ENDIF (271) 26 27
 ELSE (272) 29
-WHILE (273) 19 20
-DO (274) 20
-BEGINLOOP (275) 19 20
-ENDLOOP (276) 19 20
-CONTINUE (277) 25
-READ (278) 22
-WRITE (279) 24
-TRUE (280) 42
-FALSE (281) 43
-AND (282) 37
-OR (283) 34
-NOT (284) 39
+WHILE (273) 31 32
+DO (274) 32
+BEGINLOOP (275) 31 32
+ENDLOOP (276) 30 32
+CONTINUE (277) 23
+READ (278) 33
+WRITE (279) 22
+TRUE (280) 43
+FALSE (281) 44
+AND (282) 39
+OR (283) 37
+NOT (284) 40
 SEMICOLON (285) 5 8 11 12
 COLON (286) 9
-COMMA (287) 14 30 71
-L_PAREN (288) 44 66 67 70
-R_PAREN (289) 44 66 67 70
-L_SQUARE_BRACKET (290) 16 75
-R_SQUARE_BRACKET (291) 16 75
+COMMA (287) 14 35 69
+L_PAREN (288) 45 63 64 67
+R_PAREN (289) 45 63 64 67
+L_SQUARE_BRACKET (290) 16 71
+R_SQUARE_BRACKET (291) 16 71
 ASSIGN (292) 17
-RETURN (293) 26
-NUMBER (294) 16 65 69
-IDENT (295) 5 13 14 67 74 75
+RETURN (293) 24
+NUMBER (294) 16 66
+IDENT (295) 5 13 14 62 70 71
 MULT (296) 57
-DIV (297) 59
-MOD (298) 61
+DIV (297) 58
+MOD (298) 59
 ADD (299) 52
-SUB (300) 54 64 65 66
-LT (301) 47
-LTE (302) 49
-GT (303) 48
-GTE (304) 50
-EQ (305) 45
-NEQ (306) 46
+SUB (300) 53 61
+LT (301) 48
+LTE (302) 50
+GT (303) 49
+GTE (304) 51
+EQ (305) 46
+NEQ (306) 47
 
 
 Nonterminals, with rules where they appear
@@ -195,59 +186,55 @@ Declaration1 (57)
 Declaration (58)
     on left: 9 10, on right: 8
 Statement1 (59)
-    on left: 11 12, on right: 5 11 19 20 28 29
+    on left: 11 12, on right: 5 11 26 27 29 30 32
 Identifier (60)
     on left: 13 14, on right: 9 14
 Type (61)
     on left: 15 16, on right: 9
 Statement (62)
-    on left: 17 18 19 20 22 24 25 26 27, on right: 11 12
-$@2 (63)
-    on left: 21, on right: 22
-$@3 (64)
-    on left: 23, on right: 24
-IF-STMT (65)
-    on left: 28 29, on right: 18
-Var1 (66)
-    on left: 30 31, on right: 17 22 24 30
-Bool-Expr (67)
-    on left: 32 34, on right: 19 20 28 29 34 44
-$@4 (68)
-    on left: 33, on right: 34
-Relation_And_Expr (69)
-    on left: 35 37, on right: 32 34 37
-$@5 (70)
-    on left: 36, on right: 37
-Relation_Exprs (71)
-    on left: 39 40, on right: 35 37
-$@6 (72)
-    on left: 38, on right: 39
-Relation_Expr (73)
-    on left: 41 42 43 44, on right: 39 40
-Comp (74)
-    on left: 45 46 47 48 49 50, on right: 41
-Expression (75)
-    on left: 52 54 55, on right: 17 26 41 52 54 66 71 72 75
-$@7 (76)
-    on left: 51, on right: 52
-$@8 (77)
-    on left: 53, on right: 54
+    on left: 17 18 19 20 21 22 23 24 25, on right: 11 12
+if_rule (63)
+    on left: 26 27, on right: 18
+if_condition (64)
+    on left: 28, on right: 26 29
+else_condition (65)
+    on left: 29, on right: 27
+while_rule (66)
+    on left: 30, on right: 19
+while_condition (67)
+    on left: 31, on right: 30
+do_while_rule (68)
+    on left: 32, on right: 20
+read_in (69)
+    on left: 33, on right: 21
+comma_mult (70)
+    on left: 34 35, on right: 22 33 35
+Bool-Expr (71)
+    on left: 36 37, on right: 28 31 32 37 45
+Relation_And_Expr (72)
+    on left: 38 39, on right: 37 39
+Relation_Exprs (73)
+    on left: 40 41, on right: 36 38 39
+Relation_Expr (74)
+    on left: 42 43 44 45, on right: 40 41
+Comp (75)
+    on left: 46 47 48 49 50 51, on right: 42
+Expression (76)
+    on left: 52 53 54, on right: 17 24 42 52 53 68 69 71
+Term_Mult-Expr (77)
+    on left: 55, on right: 57 58 59
 Multiplicative-Expr (78)
-    on left: 57 59 61 62, on right: 52 54 55
-$@9 (79)
-    on left: 56, on right: 57
-$@10 (80)
-    on left: 58, on right: 59
-$@11 (81)
-    on left: 60, on right: 61
-Term (82)
-    on left: 63 64 65 66 67, on right: 57 59 61 62
-Normal (83)
-    on left: 68 69 70, on right: 63
-Expression1 (84)
-    on left: 71 72 73, on right: 67 70 71
-Var (85)
-    on left: 74 75, on right: 30 31 64 68
+    on left: 56 57 58 59, on right: 52 53 54 55
+Term (79)
+    on left: 60 61 62, on right: 55 57 58 59
+Term_1 (80)
+    on left: 63 64, on right: 62
+Normal (81)
+    on left: 65 66 67, on right: 60 61
+Expression1 (82)
+    on left: 68 69, on right: 63 67 69
+Var (83)
+    on left: 70 71, on right: 17 34 35 65
 
 
 State 0
@@ -526,137 +513,137 @@ State 31
     RETURN    shift, and go to state 40
     IDENT     shift, and go to state 41
 
-    Statement1  go to state 42
-    Statement   go to state 43
-    IF-STMT     go to state 44
-    Var1        go to state 45
-    Var         go to state 46
+    Statement1       go to state 42
+    Statement        go to state 43
+    if_rule          go to state 44
+    if_condition     go to state 45
+    else_condition   go to state 46
+    while_rule       go to state 47
+    while_condition  go to state 48
+    do_while_rule    go to state 49
+    read_in          go to state 50
+    Var              go to state 51
 
 
 State 32
 
    16 Type: ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET . OF INTEGER
 
-    OF  shift, and go to state 47
+    OF  shift, and go to state 52
 
 
 State 33
 
-   27 Statement: error .
-
-    $default  reduce using rule 27 (Statement)
-
-
-State 34
-
-   28 IF-STMT: IF . Bool-Expr THEN Statement1 ENDIF
-   29        | IF . Bool-Expr THEN Statement1 ELSE Statement1 ENDIF
-
-    TRUE     shift, and go to state 48
-    FALSE    shift, and go to state 49
-    NOT      shift, and go to state 50
-    L_PAREN  shift, and go to state 51
-    NUMBER   shift, and go to state 52
-    IDENT    shift, and go to state 53
-    SUB      shift, and go to state 54
-
-    Bool-Expr            go to state 55
-    Relation_And_Expr    go to state 56
-    Relation_Exprs       go to state 57
-    Relation_Expr        go to state 58
-    Expression           go to state 59
-    Multiplicative-Expr  go to state 60
-    Term                 go to state 61
-    Normal               go to state 62
-    Var                  go to state 63
-
-
-State 35
-
-   19 Statement: WHILE . Bool-Expr BEGINLOOP Statement1 ENDLOOP
-
-    TRUE     shift, and go to state 48
-    FALSE    shift, and go to state 49
-    NOT      shift, and go to state 50
-    L_PAREN  shift, and go to state 51
-    NUMBER   shift, and go to state 52
-    IDENT    shift, and go to state 53
-    SUB      shift, and go to state 54
-
-    Bool-Expr            go to state 64
-    Relation_And_Expr    go to state 56
-    Relation_Exprs       go to state 57
-    Relation_Expr        go to state 58
-    Expression           go to state 59
-    Multiplicative-Expr  go to state 60
-    Term                 go to state 61
-    Normal               go to state 62
-    Var                  go to state 63
-
-
-State 36
-
-   20 Statement: DO . BEGINLOOP Statement1 ENDLOOP WHILE Bool-Expr
-
-    BEGINLOOP  shift, and go to state 65
-
-
-State 37
-
-   25 Statement: CONTINUE .
+   25 Statement: error .
 
     $default  reduce using rule 25 (Statement)
 
 
+State 34
+
+   28 if_condition: IF . Bool-Expr THEN
+
+    TRUE     shift, and go to state 53
+    FALSE    shift, and go to state 54
+    NOT      shift, and go to state 55
+    L_PAREN  shift, and go to state 56
+    MULT     shift, and go to state 57
+    DIV      shift, and go to state 58
+    MOD      shift, and go to state 59
+
+    $default  reduce using rule 56 (Multiplicative-Expr)
+
+    Bool-Expr            go to state 60
+    Relation_Exprs       go to state 61
+    Relation_Expr        go to state 62
+    Expression           go to state 63
+    Multiplicative-Expr  go to state 64
+
+
+State 35
+
+   31 while_condition: WHILE . Bool-Expr BEGINLOOP
+
+    TRUE     shift, and go to state 53
+    FALSE    shift, and go to state 54
+    NOT      shift, and go to state 55
+    L_PAREN  shift, and go to state 56
+    MULT     shift, and go to state 57
+    DIV      shift, and go to state 58
+    MOD      shift, and go to state 59
+
+    $default  reduce using rule 56 (Multiplicative-Expr)
+
+    Bool-Expr            go to state 65
+    Relation_Exprs       go to state 61
+    Relation_Expr        go to state 62
+    Expression           go to state 63
+    Multiplicative-Expr  go to state 64
+
+
+State 36
+
+   32 do_while_rule: DO . BEGINLOOP Statement1 ENDLOOP WHILE Bool-Expr
+
+    BEGINLOOP  shift, and go to state 66
+
+
+State 37
+
+   23 Statement: CONTINUE .
+
+    $default  reduce using rule 23 (Statement)
+
+
 State 38
 
-   22 Statement: READ . $@2 Var1
+   33 read_in: READ . comma_mult
 
-    $default  reduce using rule 21 ($@2)
+    IDENT  shift, and go to state 41
 
-    $@2  go to state 66
+    comma_mult  go to state 67
+    Var         go to state 68
 
 
 State 39
 
-   24 Statement: WRITE . $@3 Var1
+   22 Statement: WRITE . comma_mult
 
-    $default  reduce using rule 23 ($@3)
+    IDENT  shift, and go to state 41
 
-    $@3  go to state 67
+    comma_mult  go to state 69
+    Var         go to state 68
 
 
 State 40
 
-   26 Statement: RETURN . Expression
+   24 Statement: RETURN . Expression
 
-    L_PAREN  shift, and go to state 68
-    NUMBER   shift, and go to state 52
-    IDENT    shift, and go to state 53
-    SUB      shift, and go to state 54
+    MULT  shift, and go to state 57
+    DIV   shift, and go to state 58
+    MOD   shift, and go to state 59
 
-    Expression           go to state 69
-    Multiplicative-Expr  go to state 60
-    Term                 go to state 61
-    Normal               go to state 62
-    Var                  go to state 63
+    $default  reduce using rule 56 (Multiplicative-Expr)
+
+    Expression           go to state 70
+    Multiplicative-Expr  go to state 64
 
 
 State 41
 
-   74 Var: IDENT .
-   75    | IDENT . L_SQUARE_BRACKET Expression R_SQUARE_BRACKET
+   70 Var: IDENT .
+   71    | IDENT . L_SQUARE_BRACKET Expression R_SQUARE_BRACKET
 
-    L_SQUARE_BRACKET  shift, and go to state 70
+    L_SQUARE_BRACKET  shift, and go to state 71
 
-    $default  reduce using rule 74 (Var)
+    $default  reduce using rule 70 (Var)
 
 
 State 42
 
     5 Function: FUNCTION IDENT $@1 SEMICOLON BEGIN_PARAMS Declaration1 END_PARAMS BEGIN_LOCALS Declaration1 END_LOCALS BEGIN_BODY Statement1 . END_BODY
 
-    END_BODY  shift, and go to state 71
+    END_BODY  shift, and go to state 72
 
 
 State 43
@@ -664,221 +651,20 @@ State 43
    11 Statement1: Statement . SEMICOLON Statement1
    12           | Statement . SEMICOLON
 
-    SEMICOLON  shift, and go to state 72
+    SEMICOLON  shift, and go to state 73
 
 
 State 44
 
-   18 Statement: IF-STMT .
+   18 Statement: if_rule .
 
     $default  reduce using rule 18 (Statement)
 
 
 State 45
 
-   17 Statement: Var1 . ASSIGN Expression
-
-    ASSIGN  shift, and go to state 73
-
-
-State 46
-
-   30 Var1: Var . COMMA Var1
-   31     | Var .
-
-    COMMA  shift, and go to state 74
-
-    $default  reduce using rule 31 (Var1)
-
-
-State 47
-
-   16 Type: ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF . INTEGER
-
-    INTEGER  shift, and go to state 75
-
-
-State 48
-
-   42 Relation_Expr: TRUE .
-
-    $default  reduce using rule 42 (Relation_Expr)
-
-
-State 49
-
-   43 Relation_Expr: FALSE .
-
-    $default  reduce using rule 43 (Relation_Expr)
-
-
-State 50
-
-   39 Relation_Exprs: NOT . $@6 Relation_Expr
-
-    $default  reduce using rule 38 ($@6)
-
-    $@6  go to state 76
-
-
-State 51
-
-   44 Relation_Expr: L_PAREN . Bool-Expr R_PAREN
-   70 Normal: L_PAREN . Expression1 R_PAREN
-
-    TRUE     shift, and go to state 48
-    FALSE    shift, and go to state 49
-    NOT      shift, and go to state 50
-    L_PAREN  shift, and go to state 51
-    NUMBER   shift, and go to state 52
-    IDENT    shift, and go to state 53
-    SUB      shift, and go to state 54
-
-    $default  reduce using rule 73 (Expression1)
-
-    Bool-Expr            go to state 77
-    Relation_And_Expr    go to state 56
-    Relation_Exprs       go to state 57
-    Relation_Expr        go to state 58
-    Expression           go to state 78
-    Multiplicative-Expr  go to state 60
-    Term                 go to state 61
-    Normal               go to state 62
-    Expression1          go to state 79
-    Var                  go to state 63
-
-
-State 52
-
-   69 Normal: NUMBER .
-
-    $default  reduce using rule 69 (Normal)
-
-
-State 53
-
-   67 Term: IDENT . L_PAREN Expression1 R_PAREN
-   74 Var: IDENT .
-   75    | IDENT . L_SQUARE_BRACKET Expression R_SQUARE_BRACKET
-
-    L_PAREN           shift, and go to state 80
-    L_SQUARE_BRACKET  shift, and go to state 70
-
-    $default  reduce using rule 74 (Var)
-
-
-State 54
-
-   64 Term: SUB . Var
-   65     | SUB . NUMBER
-   66     | SUB . L_PAREN Expression R_PAREN
-
-    L_PAREN  shift, and go to state 81
-    NUMBER   shift, and go to state 82
-    IDENT    shift, and go to state 41
-
-    Var  go to state 83
-
-
-State 55
-
-   28 IF-STMT: IF Bool-Expr . THEN Statement1 ENDIF
-   29        | IF Bool-Expr . THEN Statement1 ELSE Statement1 ENDIF
-
-    THEN  shift, and go to state 84
-
-
-State 56
-
-   32 Bool-Expr: Relation_And_Expr .
-   34          | Relation_And_Expr . OR $@4 Bool-Expr
-
-    OR  shift, and go to state 85
-
-    $default  reduce using rule 32 (Bool-Expr)
-
-
-State 57
-
-   35 Relation_And_Expr: Relation_Exprs .
-   37                  | Relation_Exprs . AND $@5 Relation_And_Expr
-
-    AND  shift, and go to state 86
-
-    $default  reduce using rule 35 (Relation_And_Expr)
-
-
-State 58
-
-   40 Relation_Exprs: Relation_Expr .
-
-    $default  reduce using rule 40 (Relation_Exprs)
-
-
-State 59
-
-   41 Relation_Expr: Expression . Comp Expression
-
-    LT   shift, and go to state 87
-    LTE  shift, and go to state 88
-    GT   shift, and go to state 89
-    GTE  shift, and go to state 90
-    EQ   shift, and go to state 91
-    NEQ  shift, and go to state 92
-
-    Comp  go to state 93
-
-
-State 60
-
-   52 Expression: Multiplicative-Expr . ADD $@7 Expression
-   54           | Multiplicative-Expr . SUB $@8 Expression
-   55           | Multiplicative-Expr .
-
-    ADD  shift, and go to state 94
-    SUB  shift, and go to state 95
-
-    $default  reduce using rule 55 (Expression)
-
-
-State 61
-
-   57 Multiplicative-Expr: Term . MULT $@9 Term
-   59                    | Term . DIV $@10 Term
-   61                    | Term . MOD $@11 Term
-   62                    | Term .
-
-    MULT  shift, and go to state 96
-    DIV   shift, and go to state 97
-    MOD   shift, and go to state 98
-
-    $default  reduce using rule 62 (Multiplicative-Expr)
-
-
-State 62
-
-   63 Term: Normal .
-
-    $default  reduce using rule 63 (Term)
-
-
-State 63
-
-   68 Normal: Var .
-
-    $default  reduce using rule 68 (Normal)
-
-
-State 64
-
-   19 Statement: WHILE Bool-Expr . BEGINLOOP Statement1 ENDLOOP
-
-    BEGINLOOP  shift, and go to state 99
-
-
-State 65
-
-   20 Statement: DO BEGINLOOP . Statement1 ENDLOOP WHILE Bool-Expr
+   26 if_rule: if_condition . Statement1 ENDIF
+   29 else_condition: if_condition . Statement1 ELSE
 
     error     shift, and go to state 33
     IF        shift, and go to state 34
@@ -890,83 +676,337 @@ State 65
     RETURN    shift, and go to state 40
     IDENT     shift, and go to state 41
 
-    Statement1  go to state 100
-    Statement   go to state 43
-    IF-STMT     go to state 44
-    Var1        go to state 45
-    Var         go to state 46
+    Statement1       go to state 74
+    Statement        go to state 43
+    if_rule          go to state 44
+    if_condition     go to state 45
+    else_condition   go to state 46
+    while_rule       go to state 47
+    while_condition  go to state 48
+    do_while_rule    go to state 49
+    read_in          go to state 50
+    Var              go to state 51
+
+
+State 46
+
+   27 if_rule: else_condition . Statement1 ENDIF
+
+    error     shift, and go to state 33
+    IF        shift, and go to state 34
+    WHILE     shift, and go to state 35
+    DO        shift, and go to state 36
+    CONTINUE  shift, and go to state 37
+    READ      shift, and go to state 38
+    WRITE     shift, and go to state 39
+    RETURN    shift, and go to state 40
+    IDENT     shift, and go to state 41
+
+    Statement1       go to state 75
+    Statement        go to state 43
+    if_rule          go to state 44
+    if_condition     go to state 45
+    else_condition   go to state 46
+    while_rule       go to state 47
+    while_condition  go to state 48
+    do_while_rule    go to state 49
+    read_in          go to state 50
+    Var              go to state 51
+
+
+State 47
+
+   19 Statement: while_rule .
+
+    $default  reduce using rule 19 (Statement)
+
+
+State 48
+
+   30 while_rule: while_condition . Statement1 ENDLOOP
+
+    error     shift, and go to state 33
+    IF        shift, and go to state 34
+    WHILE     shift, and go to state 35
+    DO        shift, and go to state 36
+    CONTINUE  shift, and go to state 37
+    READ      shift, and go to state 38
+    WRITE     shift, and go to state 39
+    RETURN    shift, and go to state 40
+    IDENT     shift, and go to state 41
+
+    Statement1       go to state 76
+    Statement        go to state 43
+    if_rule          go to state 44
+    if_condition     go to state 45
+    else_condition   go to state 46
+    while_rule       go to state 47
+    while_condition  go to state 48
+    do_while_rule    go to state 49
+    read_in          go to state 50
+    Var              go to state 51
+
+
+State 49
+
+   20 Statement: do_while_rule .
+
+    $default  reduce using rule 20 (Statement)
+
+
+State 50
+
+   21 Statement: read_in .
+
+    $default  reduce using rule 21 (Statement)
+
+
+State 51
+
+   17 Statement: Var . ASSIGN Expression
+
+    ASSIGN  shift, and go to state 77
+
+
+State 52
+
+   16 Type: ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF . INTEGER
+
+    INTEGER  shift, and go to state 78
+
+
+State 53
+
+   43 Relation_Expr: TRUE .
+
+    $default  reduce using rule 43 (Relation_Expr)
+
+
+State 54
+
+   44 Relation_Expr: FALSE .
+
+    $default  reduce using rule 44 (Relation_Expr)
+
+
+State 55
+
+   40 Relation_Exprs: NOT . Relation_Expr
+
+    TRUE     shift, and go to state 53
+    FALSE    shift, and go to state 54
+    L_PAREN  shift, and go to state 56
+    MULT     shift, and go to state 57
+    DIV      shift, and go to state 58
+    MOD      shift, and go to state 59
+
+    $default  reduce using rule 56 (Multiplicative-Expr)
+
+    Relation_Expr        go to state 79
+    Expression           go to state 63
+    Multiplicative-Expr  go to state 64
+
+
+State 56
+
+   45 Relation_Expr: L_PAREN . Bool-Expr R_PAREN
+
+    TRUE     shift, and go to state 53
+    FALSE    shift, and go to state 54
+    NOT      shift, and go to state 55
+    L_PAREN  shift, and go to state 56
+    MULT     shift, and go to state 57
+    DIV      shift, and go to state 58
+    MOD      shift, and go to state 59
+
+    $default  reduce using rule 56 (Multiplicative-Expr)
+
+    Bool-Expr            go to state 80
+    Relation_Exprs       go to state 61
+    Relation_Expr        go to state 62
+    Expression           go to state 63
+    Multiplicative-Expr  go to state 64
+
+
+State 57
+
+   57 Multiplicative-Expr: MULT . Term Term_Mult-Expr
+
+    L_PAREN  shift, and go to state 81
+    NUMBER   shift, and go to state 82
+    IDENT    shift, and go to state 83
+    SUB      shift, and go to state 84
+
+    Term    go to state 85
+    Normal  go to state 86
+    Var     go to state 87
+
+
+State 58
+
+   58 Multiplicative-Expr: DIV . Term Term_Mult-Expr
+
+    L_PAREN  shift, and go to state 81
+    NUMBER   shift, and go to state 82
+    IDENT    shift, and go to state 83
+    SUB      shift, and go to state 84
+
+    Term    go to state 88
+    Normal  go to state 86
+    Var     go to state 87
+
+
+State 59
+
+   59 Multiplicative-Expr: MOD . Term Term_Mult-Expr
+
+    L_PAREN  shift, and go to state 81
+    NUMBER   shift, and go to state 82
+    IDENT    shift, and go to state 83
+    SUB      shift, and go to state 84
+
+    Term    go to state 89
+    Normal  go to state 86
+    Var     go to state 87
+
+
+State 60
+
+   28 if_condition: IF Bool-Expr . THEN
+   37 Bool-Expr: Bool-Expr . OR Relation_And_Expr
+
+    THEN  shift, and go to state 90
+    OR    shift, and go to state 91
+
+
+State 61
+
+   36 Bool-Expr: Relation_Exprs .
+
+    $default  reduce using rule 36 (Bool-Expr)
+
+
+State 62
+
+   41 Relation_Exprs: Relation_Expr .
+
+    $default  reduce using rule 41 (Relation_Exprs)
+
+
+State 63
+
+   42 Relation_Expr: Expression . Comp Expression
+
+    LT   shift, and go to state 92
+    LTE  shift, and go to state 93
+    GT   shift, and go to state 94
+    GTE  shift, and go to state 95
+    EQ   shift, and go to state 96
+    NEQ  shift, and go to state 97
+
+    Comp  go to state 98
+
+
+State 64
+
+   52 Expression: Multiplicative-Expr . ADD Expression
+   53           | Multiplicative-Expr . SUB Expression
+   54           | Multiplicative-Expr .
+
+    ADD  shift, and go to state 99
+    SUB  shift, and go to state 100
+
+    $default  reduce using rule 54 (Expression)
+
+
+State 65
+
+   31 while_condition: WHILE Bool-Expr . BEGINLOOP
+   37 Bool-Expr: Bool-Expr . OR Relation_And_Expr
+
+    BEGINLOOP  shift, and go to state 101
+    OR         shift, and go to state 91
 
 
 State 66
 
-   22 Statement: READ $@2 . Var1
+   32 do_while_rule: DO BEGINLOOP . Statement1 ENDLOOP WHILE Bool-Expr
 
-    IDENT  shift, and go to state 41
+    error     shift, and go to state 33
+    IF        shift, and go to state 34
+    WHILE     shift, and go to state 35
+    DO        shift, and go to state 36
+    CONTINUE  shift, and go to state 37
+    READ      shift, and go to state 38
+    WRITE     shift, and go to state 39
+    RETURN    shift, and go to state 40
+    IDENT     shift, and go to state 41
 
-    Var1  go to state 101
-    Var   go to state 46
+    Statement1       go to state 102
+    Statement        go to state 43
+    if_rule          go to state 44
+    if_condition     go to state 45
+    else_condition   go to state 46
+    while_rule       go to state 47
+    while_condition  go to state 48
+    do_while_rule    go to state 49
+    read_in          go to state 50
+    Var              go to state 51
 
 
 State 67
 
-   24 Statement: WRITE $@3 . Var1
+   33 read_in: READ comma_mult .
 
-    IDENT  shift, and go to state 41
-
-    Var1  go to state 102
-    Var   go to state 46
+    $default  reduce using rule 33 (read_in)
 
 
 State 68
 
-   70 Normal: L_PAREN . Expression1 R_PAREN
+   34 comma_mult: Var .
+   35           | Var . COMMA comma_mult
 
-    L_PAREN  shift, and go to state 68
-    NUMBER   shift, and go to state 52
-    IDENT    shift, and go to state 53
-    SUB      shift, and go to state 54
+    COMMA  shift, and go to state 103
 
-    $default  reduce using rule 73 (Expression1)
-
-    Expression           go to state 103
-    Multiplicative-Expr  go to state 60
-    Term                 go to state 61
-    Normal               go to state 62
-    Expression1          go to state 79
-    Var                  go to state 63
+    $default  reduce using rule 34 (comma_mult)
 
 
 State 69
 
-   26 Statement: RETURN Expression .
+   22 Statement: WRITE comma_mult .
 
-    $default  reduce using rule 26 (Statement)
+    $default  reduce using rule 22 (Statement)
 
 
 State 70
 
-   75 Var: IDENT L_SQUARE_BRACKET . Expression R_SQUARE_BRACKET
+   24 Statement: RETURN Expression .
 
-    L_PAREN  shift, and go to state 68
-    NUMBER   shift, and go to state 52
-    IDENT    shift, and go to state 53
-    SUB      shift, and go to state 54
-
-    Expression           go to state 104
-    Multiplicative-Expr  go to state 60
-    Term                 go to state 61
-    Normal               go to state 62
-    Var                  go to state 63
+    $default  reduce using rule 24 (Statement)
 
 
 State 71
+
+   71 Var: IDENT L_SQUARE_BRACKET . Expression R_SQUARE_BRACKET
+
+    MULT  shift, and go to state 57
+    DIV   shift, and go to state 58
+    MOD   shift, and go to state 59
+
+    $default  reduce using rule 56 (Multiplicative-Expr)
+
+    Expression           go to state 104
+    Multiplicative-Expr  go to state 64
+
+
+State 72
 
     5 Function: FUNCTION IDENT $@1 SEMICOLON BEGIN_PARAMS Declaration1 END_PARAMS BEGIN_LOCALS Declaration1 END_LOCALS BEGIN_BODY Statement1 END_BODY .
 
     $default  reduce using rule 5 (Function)
 
 
-State 72
+State 73
 
    11 Statement1: Statement SEMICOLON . Statement1
    12           | Statement SEMICOLON .
@@ -986,347 +1026,327 @@ State 72
     ELSE      reduce using rule 12 (Statement1)
     ENDLOOP   reduce using rule 12 (Statement1)
 
-    Statement1  go to state 105
-    Statement   go to state 43
-    IF-STMT     go to state 44
-    Var1        go to state 45
-    Var         go to state 46
-
-
-State 73
-
-   17 Statement: Var1 ASSIGN . Expression
-
-    L_PAREN  shift, and go to state 68
-    NUMBER   shift, and go to state 52
-    IDENT    shift, and go to state 53
-    SUB      shift, and go to state 54
-
-    Expression           go to state 106
-    Multiplicative-Expr  go to state 60
-    Term                 go to state 61
-    Normal               go to state 62
-    Var                  go to state 63
+    Statement1       go to state 105
+    Statement        go to state 43
+    if_rule          go to state 44
+    if_condition     go to state 45
+    else_condition   go to state 46
+    while_rule       go to state 47
+    while_condition  go to state 48
+    do_while_rule    go to state 49
+    read_in          go to state 50
+    Var              go to state 51
 
 
 State 74
 
-   30 Var1: Var COMMA . Var1
+   26 if_rule: if_condition Statement1 . ENDIF
+   29 else_condition: if_condition Statement1 . ELSE
 
-    IDENT  shift, and go to state 41
-
-    Var1  go to state 107
-    Var   go to state 46
+    ENDIF  shift, and go to state 106
+    ELSE   shift, and go to state 107
 
 
 State 75
+
+   27 if_rule: else_condition Statement1 . ENDIF
+
+    ENDIF  shift, and go to state 108
+
+
+State 76
+
+   30 while_rule: while_condition Statement1 . ENDLOOP
+
+    ENDLOOP  shift, and go to state 109
+
+
+State 77
+
+   17 Statement: Var ASSIGN . Expression
+
+    MULT  shift, and go to state 57
+    DIV   shift, and go to state 58
+    MOD   shift, and go to state 59
+
+    $default  reduce using rule 56 (Multiplicative-Expr)
+
+    Expression           go to state 110
+    Multiplicative-Expr  go to state 64
+
+
+State 78
 
    16 Type: ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER .
 
     $default  reduce using rule 16 (Type)
 
 
-State 76
-
-   39 Relation_Exprs: NOT $@6 . Relation_Expr
-
-    TRUE     shift, and go to state 48
-    FALSE    shift, and go to state 49
-    L_PAREN  shift, and go to state 51
-    NUMBER   shift, and go to state 52
-    IDENT    shift, and go to state 53
-    SUB      shift, and go to state 54
-
-    Relation_Expr        go to state 108
-    Expression           go to state 59
-    Multiplicative-Expr  go to state 60
-    Term                 go to state 61
-    Normal               go to state 62
-    Var                  go to state 63
-
-
-State 77
-
-   44 Relation_Expr: L_PAREN Bool-Expr . R_PAREN
-
-    R_PAREN  shift, and go to state 109
-
-
-State 78
-
-   41 Relation_Expr: Expression . Comp Expression
-   71 Expression1: Expression . COMMA Expression1
-   72            | Expression .
-
-    COMMA  shift, and go to state 110
-    LT     shift, and go to state 87
-    LTE    shift, and go to state 88
-    GT     shift, and go to state 89
-    GTE    shift, and go to state 90
-    EQ     shift, and go to state 91
-    NEQ    shift, and go to state 92
-
-    $default  reduce using rule 72 (Expression1)
-
-    Comp  go to state 93
-
-
 State 79
 
-   70 Normal: L_PAREN Expression1 . R_PAREN
+   40 Relation_Exprs: NOT Relation_Expr .
 
-    R_PAREN  shift, and go to state 111
+    $default  reduce using rule 40 (Relation_Exprs)
 
 
 State 80
 
-   67 Term: IDENT L_PAREN . Expression1 R_PAREN
+   37 Bool-Expr: Bool-Expr . OR Relation_And_Expr
+   45 Relation_Expr: L_PAREN Bool-Expr . R_PAREN
 
-    L_PAREN  shift, and go to state 68
-    NUMBER   shift, and go to state 52
-    IDENT    shift, and go to state 53
-    SUB      shift, and go to state 54
-
-    $default  reduce using rule 73 (Expression1)
-
-    Expression           go to state 103
-    Multiplicative-Expr  go to state 60
-    Term                 go to state 61
-    Normal               go to state 62
-    Expression1          go to state 112
-    Var                  go to state 63
+    OR       shift, and go to state 91
+    R_PAREN  shift, and go to state 111
 
 
 State 81
 
-   66 Term: SUB L_PAREN . Expression R_PAREN
+   67 Normal: L_PAREN . Expression1 R_PAREN
 
-    L_PAREN  shift, and go to state 68
-    NUMBER   shift, and go to state 52
-    IDENT    shift, and go to state 53
-    SUB      shift, and go to state 54
+    MULT  shift, and go to state 57
+    DIV   shift, and go to state 58
+    MOD   shift, and go to state 59
 
-    Expression           go to state 113
-    Multiplicative-Expr  go to state 60
-    Term                 go to state 61
-    Normal               go to state 62
-    Var                  go to state 63
+    $default  reduce using rule 56 (Multiplicative-Expr)
+
+    Expression           go to state 112
+    Multiplicative-Expr  go to state 64
+    Expression1          go to state 113
 
 
 State 82
 
-   65 Term: SUB NUMBER .
+   66 Normal: NUMBER .
 
-    $default  reduce using rule 65 (Term)
+    $default  reduce using rule 66 (Normal)
 
 
 State 83
 
-   64 Term: SUB Var .
+   62 Term: IDENT . Term_1
+   70 Var: IDENT .
+   71    | IDENT . L_SQUARE_BRACKET Expression R_SQUARE_BRACKET
 
-    $default  reduce using rule 64 (Term)
+    L_PAREN           shift, and go to state 114
+    L_SQUARE_BRACKET  shift, and go to state 71
+
+    L_PAREN   [reduce using rule 70 (Var)]
+    $default  reduce using rule 70 (Var)
+
+    Term_1  go to state 115
 
 
 State 84
 
-   28 IF-STMT: IF Bool-Expr THEN . Statement1 ENDIF
-   29        | IF Bool-Expr THEN . Statement1 ELSE Statement1 ENDIF
+   61 Term: SUB . Normal
 
-    error     shift, and go to state 33
-    IF        shift, and go to state 34
-    WHILE     shift, and go to state 35
-    DO        shift, and go to state 36
-    CONTINUE  shift, and go to state 37
-    READ      shift, and go to state 38
-    WRITE     shift, and go to state 39
-    RETURN    shift, and go to state 40
-    IDENT     shift, and go to state 41
+    L_PAREN  shift, and go to state 81
+    NUMBER   shift, and go to state 82
+    IDENT    shift, and go to state 41
 
-    Statement1  go to state 114
-    Statement   go to state 43
-    IF-STMT     go to state 44
-    Var1        go to state 45
-    Var         go to state 46
+    Normal  go to state 116
+    Var     go to state 87
 
 
 State 85
 
-   34 Bool-Expr: Relation_And_Expr OR . $@4 Bool-Expr
+   57 Multiplicative-Expr: MULT Term . Term_Mult-Expr
 
-    $default  reduce using rule 33 ($@4)
+    L_PAREN  shift, and go to state 81
+    NUMBER   shift, and go to state 82
+    IDENT    shift, and go to state 83
+    SUB      shift, and go to state 84
 
-    $@4  go to state 115
+    Term_Mult-Expr  go to state 117
+    Term            go to state 118
+    Normal          go to state 86
+    Var             go to state 87
 
 
 State 86
 
-   37 Relation_And_Expr: Relation_Exprs AND . $@5 Relation_And_Expr
+   60 Term: Normal .
 
-    $default  reduce using rule 36 ($@5)
-
-    $@5  go to state 116
+    $default  reduce using rule 60 (Term)
 
 
 State 87
 
-   47 Comp: LT .
+   65 Normal: Var .
 
-    $default  reduce using rule 47 (Comp)
+    $default  reduce using rule 65 (Normal)
 
 
 State 88
 
-   49 Comp: LTE .
+   58 Multiplicative-Expr: DIV Term . Term_Mult-Expr
 
-    $default  reduce using rule 49 (Comp)
+    L_PAREN  shift, and go to state 81
+    NUMBER   shift, and go to state 82
+    IDENT    shift, and go to state 83
+    SUB      shift, and go to state 84
+
+    Term_Mult-Expr  go to state 119
+    Term            go to state 118
+    Normal          go to state 86
+    Var             go to state 87
 
 
 State 89
 
-   48 Comp: GT .
+   59 Multiplicative-Expr: MOD Term . Term_Mult-Expr
 
-    $default  reduce using rule 48 (Comp)
+    L_PAREN  shift, and go to state 81
+    NUMBER   shift, and go to state 82
+    IDENT    shift, and go to state 83
+    SUB      shift, and go to state 84
+
+    Term_Mult-Expr  go to state 120
+    Term            go to state 118
+    Normal          go to state 86
+    Var             go to state 87
 
 
 State 90
 
-   50 Comp: GTE .
+   28 if_condition: IF Bool-Expr THEN .
 
-    $default  reduce using rule 50 (Comp)
+    $default  reduce using rule 28 (if_condition)
 
 
 State 91
 
-   45 Comp: EQ .
+   37 Bool-Expr: Bool-Expr OR . Relation_And_Expr
 
-    $default  reduce using rule 45 (Comp)
+    TRUE     shift, and go to state 53
+    FALSE    shift, and go to state 54
+    NOT      shift, and go to state 55
+    L_PAREN  shift, and go to state 56
+    MULT     shift, and go to state 57
+    DIV      shift, and go to state 58
+    MOD      shift, and go to state 59
+
+    $default  reduce using rule 56 (Multiplicative-Expr)
+
+    Relation_And_Expr    go to state 121
+    Relation_Exprs       go to state 122
+    Relation_Expr        go to state 62
+    Expression           go to state 63
+    Multiplicative-Expr  go to state 64
 
 
 State 92
 
-   46 Comp: NEQ .
+   48 Comp: LT .
 
-    $default  reduce using rule 46 (Comp)
+    $default  reduce using rule 48 (Comp)
 
 
 State 93
 
-   41 Relation_Expr: Expression Comp . Expression
+   50 Comp: LTE .
 
-    L_PAREN  shift, and go to state 68
-    NUMBER   shift, and go to state 52
-    IDENT    shift, and go to state 53
-    SUB      shift, and go to state 54
-
-    Expression           go to state 117
-    Multiplicative-Expr  go to state 60
-    Term                 go to state 61
-    Normal               go to state 62
-    Var                  go to state 63
+    $default  reduce using rule 50 (Comp)
 
 
 State 94
 
-   52 Expression: Multiplicative-Expr ADD . $@7 Expression
+   49 Comp: GT .
 
-    $default  reduce using rule 51 ($@7)
-
-    $@7  go to state 118
+    $default  reduce using rule 49 (Comp)
 
 
 State 95
 
-   54 Expression: Multiplicative-Expr SUB . $@8 Expression
+   51 Comp: GTE .
 
-    $default  reduce using rule 53 ($@8)
-
-    $@8  go to state 119
+    $default  reduce using rule 51 (Comp)
 
 
 State 96
 
-   57 Multiplicative-Expr: Term MULT . $@9 Term
+   46 Comp: EQ .
 
-    $default  reduce using rule 56 ($@9)
-
-    $@9  go to state 120
+    $default  reduce using rule 46 (Comp)
 
 
 State 97
 
-   59 Multiplicative-Expr: Term DIV . $@10 Term
+   47 Comp: NEQ .
 
-    $default  reduce using rule 58 ($@10)
-
-    $@10  go to state 121
+    $default  reduce using rule 47 (Comp)
 
 
 State 98
 
-   61 Multiplicative-Expr: Term MOD . $@11 Term
+   42 Relation_Expr: Expression Comp . Expression
 
-    $default  reduce using rule 60 ($@11)
+    MULT  shift, and go to state 57
+    DIV   shift, and go to state 58
+    MOD   shift, and go to state 59
 
-    $@11  go to state 122
+    $default  reduce using rule 56 (Multiplicative-Expr)
+
+    Expression           go to state 123
+    Multiplicative-Expr  go to state 64
 
 
 State 99
 
-   19 Statement: WHILE Bool-Expr BEGINLOOP . Statement1 ENDLOOP
+   52 Expression: Multiplicative-Expr ADD . Expression
 
-    error     shift, and go to state 33
-    IF        shift, and go to state 34
-    WHILE     shift, and go to state 35
-    DO        shift, and go to state 36
-    CONTINUE  shift, and go to state 37
-    READ      shift, and go to state 38
-    WRITE     shift, and go to state 39
-    RETURN    shift, and go to state 40
-    IDENT     shift, and go to state 41
+    MULT  shift, and go to state 57
+    DIV   shift, and go to state 58
+    MOD   shift, and go to state 59
 
-    Statement1  go to state 123
-    Statement   go to state 43
-    IF-STMT     go to state 44
-    Var1        go to state 45
-    Var         go to state 46
+    $default  reduce using rule 56 (Multiplicative-Expr)
+
+    Expression           go to state 124
+    Multiplicative-Expr  go to state 64
 
 
 State 100
 
-   20 Statement: DO BEGINLOOP Statement1 . ENDLOOP WHILE Bool-Expr
+   53 Expression: Multiplicative-Expr SUB . Expression
 
-    ENDLOOP  shift, and go to state 124
+    MULT  shift, and go to state 57
+    DIV   shift, and go to state 58
+    MOD   shift, and go to state 59
+
+    $default  reduce using rule 56 (Multiplicative-Expr)
+
+    Expression           go to state 125
+    Multiplicative-Expr  go to state 64
 
 
 State 101
 
-   22 Statement: READ $@2 Var1 .
+   31 while_condition: WHILE Bool-Expr BEGINLOOP .
 
-    $default  reduce using rule 22 (Statement)
+    $default  reduce using rule 31 (while_condition)
 
 
 State 102
 
-   24 Statement: WRITE $@3 Var1 .
+   32 do_while_rule: DO BEGINLOOP Statement1 . ENDLOOP WHILE Bool-Expr
 
-    $default  reduce using rule 24 (Statement)
+    ENDLOOP  shift, and go to state 126
 
 
 State 103
 
-   71 Expression1: Expression . COMMA Expression1
-   72            | Expression .
+   35 comma_mult: Var COMMA . comma_mult
 
-    COMMA  shift, and go to state 110
+    IDENT  shift, and go to state 41
 
-    $default  reduce using rule 72 (Expression1)
+    comma_mult  go to state 127
+    Var         go to state 68
 
 
 State 104
 
-   75 Var: IDENT L_SQUARE_BRACKET Expression . R_SQUARE_BRACKET
+   71 Var: IDENT L_SQUARE_BRACKET Expression . R_SQUARE_BRACKET
 
-    R_SQUARE_BRACKET  shift, and go to state 125
+    R_SQUARE_BRACKET  shift, and go to state 128
 
 
 State 105
@@ -1338,372 +1358,299 @@ State 105
 
 State 106
 
-   17 Statement: Var1 ASSIGN Expression .
+   26 if_rule: if_condition Statement1 ENDIF .
 
-    $default  reduce using rule 17 (Statement)
+    $default  reduce using rule 26 (if_rule)
 
 
 State 107
 
-   30 Var1: Var COMMA Var1 .
+   29 else_condition: if_condition Statement1 ELSE .
 
-    $default  reduce using rule 30 (Var1)
+    $default  reduce using rule 29 (else_condition)
 
 
 State 108
 
-   39 Relation_Exprs: NOT $@6 Relation_Expr .
+   27 if_rule: else_condition Statement1 ENDIF .
 
-    $default  reduce using rule 39 (Relation_Exprs)
+    $default  reduce using rule 27 (if_rule)
 
 
 State 109
 
-   44 Relation_Expr: L_PAREN Bool-Expr R_PAREN .
+   30 while_rule: while_condition Statement1 ENDLOOP .
 
-    $default  reduce using rule 44 (Relation_Expr)
+    $default  reduce using rule 30 (while_rule)
 
 
 State 110
 
-   71 Expression1: Expression COMMA . Expression1
+   17 Statement: Var ASSIGN Expression .
 
-    L_PAREN  shift, and go to state 68
-    NUMBER   shift, and go to state 52
-    IDENT    shift, and go to state 53
-    SUB      shift, and go to state 54
-
-    $default  reduce using rule 73 (Expression1)
-
-    Expression           go to state 103
-    Multiplicative-Expr  go to state 60
-    Term                 go to state 61
-    Normal               go to state 62
-    Expression1          go to state 126
-    Var                  go to state 63
+    $default  reduce using rule 17 (Statement)
 
 
 State 111
 
-   70 Normal: L_PAREN Expression1 R_PAREN .
+   45 Relation_Expr: L_PAREN Bool-Expr R_PAREN .
 
-    $default  reduce using rule 70 (Normal)
+    $default  reduce using rule 45 (Relation_Expr)
 
 
 State 112
 
-   67 Term: IDENT L_PAREN Expression1 . R_PAREN
+   68 Expression1: Expression .
+   69            | Expression . COMMA Expression1
 
-    R_PAREN  shift, and go to state 127
+    COMMA  shift, and go to state 129
+
+    $default  reduce using rule 68 (Expression1)
 
 
 State 113
 
-   66 Term: SUB L_PAREN Expression . R_PAREN
+   67 Normal: L_PAREN Expression1 . R_PAREN
 
-    R_PAREN  shift, and go to state 128
+    R_PAREN  shift, and go to state 130
 
 
 State 114
 
-   28 IF-STMT: IF Bool-Expr THEN Statement1 . ENDIF
-   29        | IF Bool-Expr THEN Statement1 . ELSE Statement1 ENDIF
+   63 Term_1: L_PAREN . Expression1 R_PAREN
+   64       | L_PAREN . R_PAREN
 
-    ENDIF  shift, and go to state 129
-    ELSE   shift, and go to state 130
+    R_PAREN  shift, and go to state 131
+    MULT     shift, and go to state 57
+    DIV      shift, and go to state 58
+    MOD      shift, and go to state 59
+
+    R_PAREN   [reduce using rule 56 (Multiplicative-Expr)]
+    $default  reduce using rule 56 (Multiplicative-Expr)
+
+    Expression           go to state 112
+    Multiplicative-Expr  go to state 64
+    Expression1          go to state 132
 
 
 State 115
 
-   34 Bool-Expr: Relation_And_Expr OR $@4 . Bool-Expr
+   62 Term: IDENT Term_1 .
 
-    TRUE     shift, and go to state 48
-    FALSE    shift, and go to state 49
-    NOT      shift, and go to state 50
-    L_PAREN  shift, and go to state 51
-    NUMBER   shift, and go to state 52
-    IDENT    shift, and go to state 53
-    SUB      shift, and go to state 54
-
-    Bool-Expr            go to state 131
-    Relation_And_Expr    go to state 56
-    Relation_Exprs       go to state 57
-    Relation_Expr        go to state 58
-    Expression           go to state 59
-    Multiplicative-Expr  go to state 60
-    Term                 go to state 61
-    Normal               go to state 62
-    Var                  go to state 63
+    $default  reduce using rule 62 (Term)
 
 
 State 116
 
-   37 Relation_And_Expr: Relation_Exprs AND $@5 . Relation_And_Expr
+   61 Term: SUB Normal .
 
-    TRUE     shift, and go to state 48
-    FALSE    shift, and go to state 49
-    NOT      shift, and go to state 50
-    L_PAREN  shift, and go to state 51
-    NUMBER   shift, and go to state 52
-    IDENT    shift, and go to state 53
-    SUB      shift, and go to state 54
-
-    Relation_And_Expr    go to state 132
-    Relation_Exprs       go to state 57
-    Relation_Expr        go to state 58
-    Expression           go to state 59
-    Multiplicative-Expr  go to state 60
-    Term                 go to state 61
-    Normal               go to state 62
-    Var                  go to state 63
+    $default  reduce using rule 61 (Term)
 
 
 State 117
 
-   41 Relation_Expr: Expression Comp Expression .
-
-    $default  reduce using rule 41 (Relation_Expr)
-
-
-State 118
-
-   52 Expression: Multiplicative-Expr ADD $@7 . Expression
-
-    L_PAREN  shift, and go to state 68
-    NUMBER   shift, and go to state 52
-    IDENT    shift, and go to state 53
-    SUB      shift, and go to state 54
-
-    Expression           go to state 133
-    Multiplicative-Expr  go to state 60
-    Term                 go to state 61
-    Normal               go to state 62
-    Var                  go to state 63
-
-
-State 119
-
-   54 Expression: Multiplicative-Expr SUB $@8 . Expression
-
-    L_PAREN  shift, and go to state 68
-    NUMBER   shift, and go to state 52
-    IDENT    shift, and go to state 53
-    SUB      shift, and go to state 54
-
-    Expression           go to state 134
-    Multiplicative-Expr  go to state 60
-    Term                 go to state 61
-    Normal               go to state 62
-    Var                  go to state 63
-
-
-State 120
-
-   57 Multiplicative-Expr: Term MULT $@9 . Term
-
-    L_PAREN  shift, and go to state 68
-    NUMBER   shift, and go to state 52
-    IDENT    shift, and go to state 53
-    SUB      shift, and go to state 54
-
-    Term    go to state 135
-    Normal  go to state 62
-    Var     go to state 63
-
-
-State 121
-
-   59 Multiplicative-Expr: Term DIV $@10 . Term
-
-    L_PAREN  shift, and go to state 68
-    NUMBER   shift, and go to state 52
-    IDENT    shift, and go to state 53
-    SUB      shift, and go to state 54
-
-    Term    go to state 136
-    Normal  go to state 62
-    Var     go to state 63
-
-
-State 122
-
-   61 Multiplicative-Expr: Term MOD $@11 . Term
-
-    L_PAREN  shift, and go to state 68
-    NUMBER   shift, and go to state 52
-    IDENT    shift, and go to state 53
-    SUB      shift, and go to state 54
-
-    Term    go to state 137
-    Normal  go to state 62
-    Var     go to state 63
-
-
-State 123
-
-   19 Statement: WHILE Bool-Expr BEGINLOOP Statement1 . ENDLOOP
-
-    ENDLOOP  shift, and go to state 138
-
-
-State 124
-
-   20 Statement: DO BEGINLOOP Statement1 ENDLOOP . WHILE Bool-Expr
-
-    WHILE  shift, and go to state 139
-
-
-State 125
-
-   75 Var: IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET .
-
-    $default  reduce using rule 75 (Var)
-
-
-State 126
-
-   71 Expression1: Expression COMMA Expression1 .
-
-    $default  reduce using rule 71 (Expression1)
-
-
-State 127
-
-   67 Term: IDENT L_PAREN Expression1 R_PAREN .
-
-    $default  reduce using rule 67 (Term)
-
-
-State 128
-
-   66 Term: SUB L_PAREN Expression R_PAREN .
-
-    $default  reduce using rule 66 (Term)
-
-
-State 129
-
-   28 IF-STMT: IF Bool-Expr THEN Statement1 ENDIF .
-
-    $default  reduce using rule 28 (IF-STMT)
-
-
-State 130
-
-   29 IF-STMT: IF Bool-Expr THEN Statement1 ELSE . Statement1 ENDIF
-
-    error     shift, and go to state 33
-    IF        shift, and go to state 34
-    WHILE     shift, and go to state 35
-    DO        shift, and go to state 36
-    CONTINUE  shift, and go to state 37
-    READ      shift, and go to state 38
-    WRITE     shift, and go to state 39
-    RETURN    shift, and go to state 40
-    IDENT     shift, and go to state 41
-
-    Statement1  go to state 140
-    Statement   go to state 43
-    IF-STMT     go to state 44
-    Var1        go to state 45
-    Var         go to state 46
-
-
-State 131
-
-   34 Bool-Expr: Relation_And_Expr OR $@4 Bool-Expr .
-
-    $default  reduce using rule 34 (Bool-Expr)
-
-
-State 132
-
-   37 Relation_And_Expr: Relation_Exprs AND $@5 Relation_And_Expr .
-
-    $default  reduce using rule 37 (Relation_And_Expr)
-
-
-State 133
-
-   52 Expression: Multiplicative-Expr ADD $@7 Expression .
-
-    $default  reduce using rule 52 (Expression)
-
-
-State 134
-
-   54 Expression: Multiplicative-Expr SUB $@8 Expression .
-
-    $default  reduce using rule 54 (Expression)
-
-
-State 135
-
-   57 Multiplicative-Expr: Term MULT $@9 Term .
+   57 Multiplicative-Expr: MULT Term Term_Mult-Expr .
 
     $default  reduce using rule 57 (Multiplicative-Expr)
 
 
-State 136
+State 118
 
-   59 Multiplicative-Expr: Term DIV $@10 Term .
+   55 Term_Mult-Expr: Term . Multiplicative-Expr
+
+    MULT  shift, and go to state 57
+    DIV   shift, and go to state 58
+    MOD   shift, and go to state 59
+
+    $default  reduce using rule 56 (Multiplicative-Expr)
+
+    Multiplicative-Expr  go to state 133
+
+
+State 119
+
+   58 Multiplicative-Expr: DIV Term Term_Mult-Expr .
+
+    $default  reduce using rule 58 (Multiplicative-Expr)
+
+
+State 120
+
+   59 Multiplicative-Expr: MOD Term Term_Mult-Expr .
 
     $default  reduce using rule 59 (Multiplicative-Expr)
 
 
+State 121
+
+   37 Bool-Expr: Bool-Expr OR Relation_And_Expr .
+
+    $default  reduce using rule 37 (Bool-Expr)
+
+
+State 122
+
+   38 Relation_And_Expr: Relation_Exprs .
+   39                  | Relation_Exprs . AND Relation_And_Expr
+
+    AND  shift, and go to state 134
+
+    $default  reduce using rule 38 (Relation_And_Expr)
+
+
+State 123
+
+   42 Relation_Expr: Expression Comp Expression .
+
+    $default  reduce using rule 42 (Relation_Expr)
+
+
+State 124
+
+   52 Expression: Multiplicative-Expr ADD Expression .
+
+    $default  reduce using rule 52 (Expression)
+
+
+State 125
+
+   53 Expression: Multiplicative-Expr SUB Expression .
+
+    $default  reduce using rule 53 (Expression)
+
+
+State 126
+
+   32 do_while_rule: DO BEGINLOOP Statement1 ENDLOOP . WHILE Bool-Expr
+
+    WHILE  shift, and go to state 135
+
+
+State 127
+
+   35 comma_mult: Var COMMA comma_mult .
+
+    $default  reduce using rule 35 (comma_mult)
+
+
+State 128
+
+   71 Var: IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET .
+
+    $default  reduce using rule 71 (Var)
+
+
+State 129
+
+   69 Expression1: Expression COMMA . Expression1
+
+    MULT  shift, and go to state 57
+    DIV   shift, and go to state 58
+    MOD   shift, and go to state 59
+
+    $default  reduce using rule 56 (Multiplicative-Expr)
+
+    Expression           go to state 112
+    Multiplicative-Expr  go to state 64
+    Expression1          go to state 136
+
+
+State 130
+
+   67 Normal: L_PAREN Expression1 R_PAREN .
+
+    $default  reduce using rule 67 (Normal)
+
+
+State 131
+
+   64 Term_1: L_PAREN R_PAREN .
+
+    $default  reduce using rule 64 (Term_1)
+
+
+State 132
+
+   63 Term_1: L_PAREN Expression1 . R_PAREN
+
+    R_PAREN  shift, and go to state 137
+
+
+State 133
+
+   55 Term_Mult-Expr: Term Multiplicative-Expr .
+
+    $default  reduce using rule 55 (Term_Mult-Expr)
+
+
+State 134
+
+   39 Relation_And_Expr: Relation_Exprs AND . Relation_And_Expr
+
+    TRUE     shift, and go to state 53
+    FALSE    shift, and go to state 54
+    NOT      shift, and go to state 55
+    L_PAREN  shift, and go to state 56
+    MULT     shift, and go to state 57
+    DIV      shift, and go to state 58
+    MOD      shift, and go to state 59
+
+    $default  reduce using rule 56 (Multiplicative-Expr)
+
+    Relation_And_Expr    go to state 138
+    Relation_Exprs       go to state 122
+    Relation_Expr        go to state 62
+    Expression           go to state 63
+    Multiplicative-Expr  go to state 64
+
+
+State 135
+
+   32 do_while_rule: DO BEGINLOOP Statement1 ENDLOOP WHILE . Bool-Expr
+
+    TRUE     shift, and go to state 53
+    FALSE    shift, and go to state 54
+    NOT      shift, and go to state 55
+    L_PAREN  shift, and go to state 56
+    MULT     shift, and go to state 57
+    DIV      shift, and go to state 58
+    MOD      shift, and go to state 59
+
+    $default  reduce using rule 56 (Multiplicative-Expr)
+
+    Bool-Expr            go to state 139
+    Relation_Exprs       go to state 61
+    Relation_Expr        go to state 62
+    Expression           go to state 63
+    Multiplicative-Expr  go to state 64
+
+
+State 136
+
+   69 Expression1: Expression COMMA Expression1 .
+
+    $default  reduce using rule 69 (Expression1)
+
+
 State 137
 
-   61 Multiplicative-Expr: Term MOD $@11 Term .
+   63 Term_1: L_PAREN Expression1 R_PAREN .
 
-    $default  reduce using rule 61 (Multiplicative-Expr)
+    $default  reduce using rule 63 (Term_1)
 
 
 State 138
 
-   19 Statement: WHILE Bool-Expr BEGINLOOP Statement1 ENDLOOP .
+   39 Relation_And_Expr: Relation_Exprs AND Relation_And_Expr .
 
-    $default  reduce using rule 19 (Statement)
+    $default  reduce using rule 39 (Relation_And_Expr)
 
 
 State 139
 
-   20 Statement: DO BEGINLOOP Statement1 ENDLOOP WHILE . Bool-Expr
+   32 do_while_rule: DO BEGINLOOP Statement1 ENDLOOP WHILE Bool-Expr .
+   37 Bool-Expr: Bool-Expr . OR Relation_And_Expr
 
-    TRUE     shift, and go to state 48
-    FALSE    shift, and go to state 49
-    NOT      shift, and go to state 50
-    L_PAREN  shift, and go to state 51
-    NUMBER   shift, and go to state 52
-    IDENT    shift, and go to state 53
-    SUB      shift, and go to state 54
+    OR  shift, and go to state 91
 
-    Bool-Expr            go to state 141
-    Relation_And_Expr    go to state 56
-    Relation_Exprs       go to state 57
-    Relation_Expr        go to state 58
-    Expression           go to state 59
-    Multiplicative-Expr  go to state 60
-    Term                 go to state 61
-    Normal               go to state 62
-    Var                  go to state 63
-
-
-State 140
-
-   29 IF-STMT: IF Bool-Expr THEN Statement1 ELSE Statement1 . ENDIF
-
-    ENDIF  shift, and go to state 142
-
-
-State 141
-
-   20 Statement: DO BEGINLOOP Statement1 ENDLOOP WHILE Bool-Expr .
-
-    $default  reduce using rule 20 (Statement)
-
-
-State 142
-
-   29 IF-STMT: IF Bool-Expr THEN Statement1 ELSE Statement1 ENDIF .
-
-    $default  reduce using rule 29 (IF-STMT)
+    $default  reduce using rule 32 (do_while_rule)

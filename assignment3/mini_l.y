@@ -10,6 +10,7 @@ std::vector <string> sym_table;
 std::vector <string> sym_type; 
 std::vector <string> param_table; 
 bool add_to_param_table = false; 
+std::vector <string> op;
 //FILE *yyin;  
 %}
 
@@ -159,11 +160,11 @@ Var1: Var COMMA Var1
      ;
 */ 
 Bool-Expr:	Relation_Exprs {}
-         	| Bool-Expr OR Relation_Exprs {} 
+         	| Bool-Expr OR Relation_And_Expr {} 
          	; 
 
 Relation_And_Expr:	Relation_Exprs {}
-                  	| Relation_And_Expr AND Relation-Exprs {} 
+                  	| Relation_Exprs AND Relation_And_Expr {} 
                   	;
 
 Relation_Exprs:		NOT Relation_Expr {}
@@ -213,11 +214,16 @@ Normal:		Var {}
 		| L_PAREN Expression1 R_PAREN {}
 		;
 
-Expression1:	Expression COMMA Expression1 {}
-             	| Expression {}
-             	| /*empty*/ {}
+Expression1:	Expression {} 
+		| Expression COMMA Expression1 {}
+		; 
 
-Var:	/*identifier*/IDENT {}
+Var:	/*identifier*/
+	IDENT 
+	{
+		string var = "_" + *($1);
+		op.push_back(var);  
+	}
      	| /*identifier*/ IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET {}
      	;
             
