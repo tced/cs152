@@ -66,7 +66,7 @@ Functions:	/*empty*/ {}
 		{}
          	;
 
-Function:	FUNCTION IDENT {cout << "func " << strdup($2) << endl;} SEMICOLON BEGIN_PARAMS Declaration1 END_PARAMS BEGIN_LOCALS Declaration1  END_LOCALS BEGIN_BODY Statement1  END_BODY 
+Function:	FUNCTION IDENT {cout << "func " << $2 << endl;} SEMICOLON BEGIN_PARAMS Declaration1 END_PARAMS BEGIN_LOCALS Declaration1  END_LOCALS BEGIN_BODY Statement1  END_BODY 
 		 {
 			for (unsigned int j=0; j<sym_table.size(); ++j){
 				if(sym_type.at(j) == "INTEGER") {
@@ -286,7 +286,7 @@ Bool-Expr:	Relation_Exprs {}
          	; 
 
 Relation_And_Expr:	Relation_Exprs {}
-                  	| Relation_Exprs AND Relation_And_Expr 
+                  	| Relation_Exprs AND Relation_Exprs 
 				{
 					 m.str("");
             				m.clear();                              //clearing string stream for conversion from int to str
@@ -420,7 +420,7 @@ Term:		Normal{} /*can call Normal aka Term2 to reduce conflit/reduce*/
                     		string new_temp_var='t'+ m.str();       //creating temp variable name
                     		sym_table.push_back(new_temp_var);      //adding temporary variable to symbol table
                     		sym_type.push_back("INTEGER");          //adding datatype for the temp var to symbol table
-                    		stmnt_vctr.push_back("call " + *($1) + ", " +new_temp_var);
+                    		stmnt_vctr.push_back("call " + *($1) + ", " + new_temp_var);
                     		op.push_back(new_temp_var); 
 			}
       		;

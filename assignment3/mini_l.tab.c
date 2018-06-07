@@ -89,7 +89,7 @@ stack <string> read_queue;
 stringstream m; 
 //FILE *yyin;  
 
-#line 93 "y.tab.c" /* yacc.c:339  */
+#line 93 "mini_l.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -108,9 +108,9 @@ stringstream m;
 #endif
 
 /* In a future release of Bison, this section will be replaced
-   by #include "y.tab.h".  */
-#ifndef YY_YY_Y_TAB_H_INCLUDED
-# define YY_YY_Y_TAB_H_INCLUDED
+   by #include "mini_l.tab.h".  */
+#ifndef YY_YY_MINI_L_TAB_H_INCLUDED
+# define YY_YY_MINI_L_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -186,7 +186,7 @@ union YYSTYPE
    int num_val;
    char* sval; 
 
-#line 190 "y.tab.c" /* yacc.c:355  */
+#line 190 "mini_l.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -199,11 +199,11 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_Y_TAB_H_INCLUDED  */
+#endif /* !YY_YY_MINI_L_TAB_H_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
 
-#line 207 "y.tab.c" /* yacc.c:358  */
+#line 207 "mini_l.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -1386,25 +1386,25 @@ yyreduce:
         case 2:
 #line 61 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1390 "y.tab.c" /* yacc.c:1646  */
+#line 1390 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
 #line 64 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1396 "y.tab.c" /* yacc.c:1646  */
+#line 1396 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
 #line 66 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1402 "y.tab.c" /* yacc.c:1646  */
+#line 1402 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
 #line 69 "mini_l.y" /* yacc.c:1646  */
     {cout << "func " << (yyvsp[0].sval) << endl;}
-#line 1408 "y.tab.c" /* yacc.c:1646  */
+#line 1408 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
@@ -1434,49 +1434,49 @@ yyreduce:
             	   	param_table.clear();
             	   	param_val=0;
 		 }
-#line 1438 "y.tab.c" /* yacc.c:1646  */
+#line 1438 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
 #line 95 "mini_l.y" /* yacc.c:1646  */
     { yyerrok; yyclearin;}
-#line 1444 "y.tab.c" /* yacc.c:1646  */
+#line 1444 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
 #line 98 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1450 "y.tab.c" /* yacc.c:1646  */
+#line 1450 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
 #line 99 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1456 "y.tab.c" /* yacc.c:1646  */
+#line 1456 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
 #line 102 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1462 "y.tab.c" /* yacc.c:1646  */
+#line 1462 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
 #line 103 "mini_l.y" /* yacc.c:1646  */
     {yyerrok; yyclearin;}
-#line 1468 "y.tab.c" /* yacc.c:1646  */
+#line 1468 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
 #line 106 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1474 "y.tab.c" /* yacc.c:1646  */
+#line 1474 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
 #line 107 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1480 "y.tab.c" /* yacc.c:1646  */
+#line 1480 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
@@ -1486,7 +1486,7 @@ yyreduce:
 	        if(add_to_param_table) 
 		   param_table.push_back("_"+*((yyvsp[0].sval))); 
 	    }
-#line 1490 "y.tab.c" /* yacc.c:1646  */
+#line 1490 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
@@ -1494,7 +1494,7 @@ yyreduce:
     { sym_table.push_back("_" + *((yyvsp[-2].sval)));
 		sym_type.push_back("INTEGER");
 	      }
-#line 1498 "y.tab.c" /* yacc.c:1646  */
+#line 1498 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
@@ -1502,7 +1502,7 @@ yyreduce:
     {
 			sym_type.push_back("INTEGER"); 
 	     	}
-#line 1506 "y.tab.c" /* yacc.c:1646  */
+#line 1506 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
@@ -1513,7 +1513,7 @@ yyreduce:
                		string s = ss.str(); 
                		sym_type.push_back(s); 
 	    	}
-#line 1517 "y.tab.c" /* yacc.c:1646  */
+#line 1517 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
@@ -1521,7 +1521,7 @@ yyreduce:
     {
 			
 		}
-#line 1525 "y.tab.c" /* yacc.c:1646  */
+#line 1525 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
@@ -1535,7 +1535,7 @@ yyreduce:
                 		}
             			op.clear();
 		  	}
-#line 1539 "y.tab.c" /* yacc.c:1646  */
+#line 1539 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
@@ -1549,7 +1549,7 @@ yyreduce:
                     				stmnt_vctr.push_back(":= "+ loop_label.back().at(0));
             			  }
 			}
-#line 1553 "y.tab.c" /* yacc.c:1646  */
+#line 1553 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
@@ -1558,13 +1558,13 @@ yyreduce:
 				stmnt_vctr.push_back("ret "+op.back());
             			op.pop_back();
 			}
-#line 1562 "y.tab.c" /* yacc.c:1646  */
+#line 1562 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
 #line 179 "mini_l.y" /* yacc.c:1646  */
     {yyerrok; yyclearin;}
-#line 1568 "y.tab.c" /* yacc.c:1646  */
+#line 1568 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
@@ -1573,7 +1573,7 @@ yyreduce:
 				stmnt_vctr.push_back(": "+if_label.back().at(1));
             			if_label.pop_back(); 
 			}
-#line 1577 "y.tab.c" /* yacc.c:1646  */
+#line 1577 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
@@ -1582,7 +1582,7 @@ yyreduce:
 				stmnt_vctr.push_back(": "+if_label.back().at(2));
            			if_label.pop_back();             
 			}
-#line 1586 "y.tab.c" /* yacc.c:1646  */
+#line 1586 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
@@ -1605,7 +1605,7 @@ yyreduce:
             			stmnt_vctr.push_back(":= "+if_label.back().at(1));  
             			stmnt_vctr.push_back(": "+if_label.back().at(0));      
 			}
-#line 1609 "y.tab.c" /* yacc.c:1646  */
+#line 1609 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
@@ -1614,7 +1614,7 @@ yyreduce:
 				stmnt_vctr.push_back(":= "+if_label.back().at(2));
                 		stmnt_vctr.push_back(": "+if_label.back().at(1));
 			}
-#line 1618 "y.tab.c" /* yacc.c:1646  */
+#line 1618 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
@@ -1624,7 +1624,7 @@ yyreduce:
             			  stmnt_vctr.push_back(": "+loop_label.back().at(2));
             			  loop_label.pop_back();
 			}
-#line 1628 "y.tab.c" /* yacc.c:1646  */
+#line 1628 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
@@ -1649,13 +1649,13 @@ yyreduce:
                 		stmnt_vctr.push_back(":= "+loop_label.back().at(2));
                 		stmnt_vctr.push_back(": "+loop_label.back().at(1));
 			}
-#line 1653 "y.tab.c" /* yacc.c:1646  */
+#line 1653 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
 #line 269 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1659 "y.tab.c" /* yacc.c:1646  */
+#line 1659 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
@@ -1675,13 +1675,13 @@ yyreduce:
             			stmnt_vctr.push_back("|| "+ new_temp_var + ", "+op1+", "+op2);    
             			op.push_back(new_temp_var); //pushing new temp variable
 			}
-#line 1679 "y.tab.c" /* yacc.c:1646  */
+#line 1679 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
 #line 288 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1685 "y.tab.c" /* yacc.c:1646  */
+#line 1685 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
@@ -1701,7 +1701,7 @@ yyreduce:
             				stmnt_vctr.push_back("&& "+ new_temp_var + ", "+op1+", "+op2);    
             				op.push_back(new_temp_var); //pushing new temp variable
 				}
-#line 1705 "y.tab.c" /* yacc.c:1646  */
+#line 1705 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
@@ -1720,67 +1720,67 @@ yyreduce:
                                                                 //to the new temporary variable that will be added to the stack
             				op.push_back(new_temp_var);
 				}
-#line 1724 "y.tab.c" /* yacc.c:1646  */
+#line 1724 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
 #line 322 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1730 "y.tab.c" /* yacc.c:1646  */
+#line 1730 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
 #line 325 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1736 "y.tab.c" /* yacc.c:1646  */
+#line 1736 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
 #line 326 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1742 "y.tab.c" /* yacc.c:1646  */
+#line 1742 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
 #line 327 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1748 "y.tab.c" /* yacc.c:1646  */
+#line 1748 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
 #line 328 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1754 "y.tab.c" /* yacc.c:1646  */
+#line 1754 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
 #line 341 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1760 "y.tab.c" /* yacc.c:1646  */
+#line 1760 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
 #line 342 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1766 "y.tab.c" /* yacc.c:1646  */
+#line 1766 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
 #line 343 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1772 "y.tab.c" /* yacc.c:1646  */
+#line 1772 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
 #line 346 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1778 "y.tab.c" /* yacc.c:1646  */
+#line 1778 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
 #line 349 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1784 "y.tab.c" /* yacc.c:1646  */
+#line 1784 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
@@ -1800,7 +1800,7 @@ yyreduce:
             				stmnt_vctr.push_back("* "+ new_temp_var + ", "+op1+", "+op2);    
             				op.push_back(new_temp_var); //pushing new temp variable
 				}
-#line 1804 "y.tab.c" /* yacc.c:1646  */
+#line 1804 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
@@ -1820,7 +1820,7 @@ yyreduce:
             				stmnt_vctr.push_back("/ "+ new_temp_var + ", "+op1+", "+op2);    
             				op.push_back(new_temp_var); //pushing new temp variable
 				}
-#line 1824 "y.tab.c" /* yacc.c:1646  */
+#line 1824 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 60:
@@ -1840,13 +1840,13 @@ yyreduce:
             				stmnt_vctr.push_back("% "+ new_temp_var + ", "+op1+", "+op2);    
             				op.push_back(new_temp_var); //pushing new temp variable
 				}
-#line 1844 "y.tab.c" /* yacc.c:1646  */
+#line 1844 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
 #line 400 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1850 "y.tab.c" /* yacc.c:1646  */
+#line 1850 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 62:
@@ -1863,7 +1863,7 @@ yyreduce:
                     		op.pop_back();  //removing the old variable and replacing with new temp variable 
                     		op.push_back(new_temp_var); //pushing new temp variable
 			}
-#line 1867 "y.tab.c" /* yacc.c:1646  */
+#line 1867 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 63:
@@ -1879,7 +1879,7 @@ yyreduce:
                     		stmnt_vctr.push_back("call " + *((yyvsp[-1].sval)) + ", " + new_temp_var);
                     		op.push_back(new_temp_var); 
 			}
-#line 1883 "y.tab.c" /* yacc.c:1646  */
+#line 1883 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 64:
@@ -1891,13 +1891,13 @@ yyreduce:
                         		param_queue.pop();
                     		}
 			}
-#line 1895 "y.tab.c" /* yacc.c:1646  */
+#line 1895 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 65:
 #line 436 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1901 "y.tab.c" /* yacc.c:1646  */
+#line 1901 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 66:
@@ -1918,7 +1918,7 @@ yyreduce:
                     		op.pop_back();  
                     		op.push_back(new_temp_var); 
 			}
-#line 1922 "y.tab.c" /* yacc.c:1646  */
+#line 1922 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 67:
@@ -1936,13 +1936,13 @@ yyreduce:
                     		  stmnt_vctr.push_back("= "+ new_temp_var +", "+ ss.str());
                     		  op.push_back(new_temp_var);
 			}
-#line 1940 "y.tab.c" /* yacc.c:1646  */
+#line 1940 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 68:
 #line 471 "mini_l.y" /* yacc.c:1646  */
     {}
-#line 1946 "y.tab.c" /* yacc.c:1646  */
+#line 1946 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 69:
@@ -1951,7 +1951,7 @@ yyreduce:
 				param_queue.push(op.back());
                     		op.pop_back();
 			}
-#line 1955 "y.tab.c" /* yacc.c:1646  */
+#line 1955 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 70:
@@ -1960,7 +1960,7 @@ yyreduce:
 				param_queue.push(op.back());
                     		op.pop_back();
 			}
-#line 1964 "y.tab.c" /* yacc.c:1646  */
+#line 1964 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 71:
@@ -1969,7 +1969,7 @@ yyreduce:
 		string var = "_" + *((yyvsp[0].sval));
 		op.push_back(var);  
 	}
-#line 1973 "y.tab.c" /* yacc.c:1646  */
+#line 1973 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 72:
@@ -1980,11 +1980,11 @@ yyreduce:
                 string var = "_"+*((yyvsp[-3].sval));
                 op.push_back("[] " + var + ", " + op1);
 	}
-#line 1984 "y.tab.c" /* yacc.c:1646  */
+#line 1984 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1988 "y.tab.c" /* yacc.c:1646  */
+#line 1988 "mini_l.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
