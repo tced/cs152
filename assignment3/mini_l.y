@@ -147,9 +147,25 @@ Statement:	assign_rule
 		| do_while_rule
 	       	| Read_in
             	| write_rule
-            	| gg
-        	| hh
-            	;
+            	| CONTINUE
+		{
+			if (!loop_label.empty())
+            		{
+				if(loop_label.back().at(0).at(0)=='d')
+                    			stmnt_vctr.push_back(":= "+ loop_label.back().at(1)); 
+                		else
+                    			stmnt_vctr.push_back(":= "+ loop_label.back().at(0));
+            		}
+        	}
+		;
+
+        	| RETURN Expression
+        	{
+            		stmnt_vctr.push_back("ret "+op.back());
+            		op.pop_back();
+        	}
+		;
+
 
 assign_rule:	IDENT ASSIGN Expression
         	{
@@ -314,26 +330,9 @@ write_rule:	WRITE Normal comma_mult
             		op.clear();
         	}
 		;
+        	
 
-gg:		CONTINUE 
-        	{
-            		if (!loop_label.empty())
-            		{
-                		if(loop_label.back().at(0).at(0)=='d')
-                    			stmnt_vctr.push_back(":= "+ loop_label.back().at(1)); 
-                		else
-                    			stmnt_vctr.push_back(":= "+ loop_label.back().at(0));
-            		}
-        	}
-		;
-
-hh:		RETURN Expression
-        	{
-            		stmnt_vctr.push_back("ret "+op.back());
-            		op.pop_back();
-        	}
-		;
-
+	
 Bool-Expr:	Relation_And_Expr
 		| Bool-Expr OR Relation_And_Expr 
 		{
