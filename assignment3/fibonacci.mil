@@ -1,5 +1,5 @@
 func fibonacci
-. k
+. _k
 . _temp_0
 . _temp_1
 . _temp_2
@@ -14,8 +14,8 @@ func fibonacci
 . _temp_11
 . _temp_12
 . _temp_13
-= k, $0
-= _temp_0, k
+= _k, $0
+= _temp_0, _k
 = _temp_1, 1
 <= _temp_2, _temp_0, _temp_1
 ?:= if_condition_true_1, _temp_2
@@ -24,32 +24,32 @@ func fibonacci
 = _temp_3, 1
 ret _temp_3
 : if_condition_false_1
-= _temp_4, k
+= _temp_4, _k
 = _temp_5, 1
 - _temp_6, _temp_4, _temp_5
 param _temp_6
 call fibonacci, _temp_7
-= _temp_8, k
+= _temp_8, _k
 = _temp_9, 2
 - _temp_10, _temp_8, _temp_9
 param _temp_10
 call fibonacci, _temp_11
 + _temp_12, _temp_7, _temp_11
 ret _temp_12
-= _temp_13, k
+= _temp_13, _k
 ret _temp_13
 endfunc
 func main
-. n
-. fib_n
+. _n
+. _fib_n
 . _temp_14
 . _temp_15
 . _temp_16
-.< n
-= _temp_14, n
+.< _n
+= _temp_14, _n
 param _temp_14
 call fibonacci, _temp_15
-= fib_n, _temp_15
-= _temp_16, fib_n
+= _fib_n, _temp_15
+= _temp_16, _fib_n
 .> _temp_16
 endfunc

@@ -8,13 +8,7 @@ void grab_operators_frm_vector();
 extern int linenum;
 extern int col;
 
-<<<<<<< HEAD
-int param_val = 0; 
-vector <string> function_table; 
-=======
-
 std::vector <string> function_table; 
->>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
 std::vector <string> symbol_table; 
 std::vector <string> symbol_type; 
 std::vector <string> parameter_table; 
@@ -84,15 +78,6 @@ endparam:	END_PARAMS{ go_to_param_table=false;}
 
 Function:	FUNCTION IDENT {function_table.push_back(strdup($2)); cout << "func " << strdup($2) << endl;} SEMICOLON beginparam Declaration1 endparam BEGIN_LOCALS Declaration1 END_LOCALS BEGIN_BODY Statement1 END_BODY 
 		{
-<<<<<<< HEAD
-			for(unsigned int j=0;j<symbol_table.size();j++)
-			{
-				if(symbol_type.at(j)=="INTEGER")
-					cout<<". "<<symbol_table.at(j)<<endl;
-
-				else
-					cout<<".[] "<<symbol_table.at(j)<<", "<<symbol_type.at(j)<<endl;
-=======
 			for(unsigned int i=0;i<symbol_table.size();i++)
 			{
 				if(symbol_type.at(i)=="INTEGER")
@@ -100,7 +85,6 @@ Function:	FUNCTION IDENT {function_table.push_back(strdup($2)); cout << "func " 
 
 				else
 					cout<<".[] "<<symbol_table.at(i)<<", "<<symbol_type.at(i)<<endl;
->>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
 			}
             		while(!parameter_table.empty())
             		{
@@ -116,11 +100,7 @@ Function:	FUNCTION IDENT {function_table.push_back(strdup($2)); cout << "func " 
             		symbol_table.clear();
             		symbol_type.clear();
             		parameter_table.clear();
-<<<<<<< HEAD
            		param_val=0;
-=======
-           			param_val=0;
->>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
 		}
 		; 
 
@@ -138,7 +118,6 @@ Statement1:	Statement SEMICOLON Statement1
 
 identifier:		IDENT 
 				{
-<<<<<<< HEAD
 					symbol_table.push_back(std::string("_") + strdup($1));
             			if(go_to_param_table)
                 			parameter_table.push_back(std::string("_") + strdup($1));
@@ -146,15 +125,6 @@ identifier:		IDENT
 				| IDENT COMMA identifier
 				{
 					symbol_table.push_back(std::string("_") + strdup($1));
-=======
-					symbol_table.push_back( strdup($1));
-            			if(go_to_param_table)
-                			parameter_table.push_back(strdup($1));
-				}
-				| IDENT COMMA identifier
-				{
-					symbol_table.push_back(strdup($1));
->>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
 					symbol_type.push_back("INTEGER");
 				}
 				;
@@ -199,30 +169,18 @@ Statement:  	assign_rule
 
 assign_rule:	IDENT ASSIGN expression
         		{
-<<<<<<< HEAD
             		string var = std::string("_") + strdup($1);
-=======
-            		string var = strdup($1);
->>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
             		mil_vector.push_back("= " + var + ", " + oper_vector.back() );
             		oper_vector.pop_back();
         		}
        			| IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression
         		{
-<<<<<<< HEAD
             		string var = std::string("_") + strdup($1);
-=======
-            		string var = strdup($1);
->>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
             		string array_result_expression = oper_vector.back();
             		oper_vector.pop_back();
             		string array_expression = oper_vector.back();
             		oper_vector.pop_back();
-<<<<<<< HEAD
             		mil_vector.push_back(std::string("[]= _") + strdup($1)+", " + array_expression + ", " + array_result_expression); 
-=======
-            		mil_vector.push_back(std::string("[]= ") + strdup($1)+", " + array_expression + ", " + array_result_expression); 
->>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
         		}
         		;
 
@@ -334,22 +292,17 @@ do_while_rule:	     do_check WHILE Bool-Expr
 
 read_mult:  COMMA IDENT read_mult
             {
-                string var = strdup($2);
-                read_queue.push(strdup($2));
+                string var = std::string("_") + strdup($2);
+                read_queue.push(std::string(".< _") + strdup($2));
 
             }; 
 
             | COMMA IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET read_mult
             {
-                string var = strdup($2);
+                string var = std::string("_") + strdup($2);
                 grab_variables();  
-<<<<<<< HEAD
-                read_queue.push(".< "+new_temp_var);
-                read_queue.push(std::string("[]= _") + strdup($2) + ", " + oper_vector.back() + ", " + new_temp_var);
-=======
                 read_queue.push(".< "+new_temp_variable);
-                read_queue.push(std::string("[]= ") + strdup($2) + ", " + oper_vector.back() + ", " + new_temp_variable);
->>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
+                read_queue.push(std::string("[]= _") + strdup($2) + ", " + oper_vector.back() + ", " + new_temp_variable);
                 oper_vector.pop_back();
             }
             | /*empty*/
@@ -357,8 +310,8 @@ read_mult:  COMMA IDENT read_mult
                                                     
 Read_in:	READ IDENT read_mult
         	{                                      
-            	string var = strdup($2);            
-            	mil_vector.push_back(std::string(".< ") + strdup($2));
+            	string var = std::string("_") + strdup($2);            
+            	mil_vector.push_back(std::string(".< _") + strdup($2));
             	while(!read_queue.empty())
             	{
                 	mil_vector.push_back(read_queue.top());
@@ -367,15 +320,10 @@ Read_in:	READ IDENT read_mult
         	}; 
         	|READ IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET read_mult
         	{
-            	string var = strdup($2);
+            	string var = std::string("_") + strdup($2);
             	grab_variables();      
-<<<<<<< HEAD
-            	mil_vector.push_back(std::string(".< ") +new_temp_var);
-            	mil_vector.push_back(std::string("[]= _") + strdup($2)+ ", " + oper_vector.back() + ", " + new_temp_var);
-=======
             	mil_vector.push_back(std::string(".< ") +new_temp_variable);
-            	mil_vector.push_back(std::string("[]= ") + strdup($2)+ ", " + oper_vector.back() + ", " + new_temp_variable);
->>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
+            	mil_vector.push_back(std::string("[]= _") + strdup($2)+ ", " + oper_vector.back() + ", " + new_temp_variable);
             	oper_vector.pop_back();
             	while(!read_queue.empty())
             	{
@@ -425,13 +373,8 @@ relation_expr:	Relation_Expr
 	    			grab_variables(); 
             		string op1 = oper_vector.back();
             		oper_vector.pop_back();        
-<<<<<<< HEAD
-           	        mil_vector.push_back("! "+new_temp_var+", "+op1); 
-            		oper_vector.push_back(new_temp_var);
-=======
            	        mil_vector.push_back("! "+new_temp_variable+", "+op1); 
             		oper_vector.push_back(new_temp_variable);
->>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
 				}
 				;
 
@@ -444,25 +387,15 @@ Relation_Expr:	expression Comp expression
 				| TRUE
 				{
 					grab_variables();             
-<<<<<<< HEAD
-	    			mil_vector.push_back("= "+new_temp_var+", 1");
-            		oper_vector.push_back(new_temp_var);
-=======
 	    			mil_vector.push_back("= "+new_temp_variable+", 1");
             		oper_vector.push_back(new_temp_variable);
->>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
 				};
 
 				| FALSE 
 				{
 					grab_variables();             
-<<<<<<< HEAD
-	    			mil_vector.push_back("= "+new_temp_var+", 0"); 
-            		oper_vector.push_back(new_temp_var);
-=======
 	    			mil_vector.push_back("= "+new_temp_variable+", 0"); 
             		oper_vector.push_back(new_temp_variable);
->>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
 				};	
 				| L_PAREN Bool-Expr R_PAREN 
 				; 
@@ -526,27 +459,16 @@ term:           Normal  { }
                 | SUB Normal
                 {
  		    		grab_variables();                    
-<<<<<<< HEAD
-                    mil_vector.push_back("- "+ new_temp_var + ", 0, " +oper_vector.back());    
-                    oper_vector.pop_back(); 
-                    oper_vector.push_back(new_temp_var); 
-=======
-                    mil_vector.push_back("- "+ new_temp_variable + ", 0, " +oper_vector.back());    
+                   mil_vector.push_back("- "+ new_temp_variable + ", 0, " +oper_vector.back());    
                     oper_vector.pop_back(); 
                     oper_vector.push_back(new_temp_variable); 
->>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
 
                 }
                 | IDENT Term_1
                 {
                     grab_variables();                     
-<<<<<<< HEAD
-		    		mil_vector.push_back(std::string("call ") + strdup($1) + ", " + new_temp_var);
-                    oper_vector.push_back(new_temp_var); 
-=======
-		    		mil_vector.push_back(std::string("call ") + strdup($1) + ", " + new_temp_variable);
+	    		mil_vector.push_back(std::string("call ") + strdup($1) + ", " + new_temp_variable);
                     oper_vector.push_back(new_temp_variable); 
->>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
                 }
                 ;
 
@@ -569,28 +491,17 @@ Normal:		var
                     if(op1.at(0)=='[') 
                         mil_vector.push_back("=[] "+new_temp_variable+", "+op1.substr(3,op1.length()-3));
                     else 
-<<<<<<< HEAD
-                        mil_vector.push_back("= "+ new_temp_var+", "+oper_vector.back());    
-                    oper_vector.pop_back(); 
-                    oper_vector.push_back(new_temp_var);
-=======
-                        mil_vector.push_back("= "+ new_temp_variable+", "+oper_vector.back());    
+                       mil_vector.push_back("= "+ new_temp_variable+", "+oper_vector.back());    
                     oper_vector.pop_back(); 
                     oper_vector.push_back(new_temp_variable);
->>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
                 }
                 | NUMBER
                 {
                     grab_variables();  
                     stringstream ss;
                     ss << $1;
-<<<<<<< HEAD
-                    mil_vector.push_back("= "+ new_temp_var +", "+ ss.str());
-                    oper_vector.push_back(new_temp_var);
-=======
                     mil_vector.push_back("= "+ new_temp_variable +", "+ ss.str());
                     oper_vector.push_back(new_temp_variable);
->>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
                 }
                 | L_PAREN expression R_PAREN
                 ;
@@ -609,22 +520,14 @@ Expression1:    expression
 
 var:            IDENT
                 {
-<<<<<<< HEAD
                     string var = std::string("_") + strdup($1); 
-=======
-                    string var = strdup($1); 
->>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
                     oper_vector.push_back(var);
                 }
                 | IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET
                 {
                     string op1 = oper_vector.back();
                     oper_vector.pop_back();
-<<<<<<< HEAD
                     string var = std::string("_") + strdup($1);
-=======
-                    string var = strdup($1);
->>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
                     oper_vector.push_back("[] " + var + ", " + op1);
                 }
                 ;
@@ -635,32 +538,18 @@ void grab_variables() {
             my_string.clear();   
             my_string<<temp_count;   
             temp_count++;
-<<<<<<< HEAD
-            new_temp_var=std::string("_temp_")+ m.str();  
-            symbol_table.push_back(new_temp_var);  
-=======
-            new_temp_variable=std::string("_temp_")+ my_string.str();  
+           new_temp_variable=std::string("_temp_")+ my_string.str();  
             symbol_table.push_back(new_temp_variable);  
->>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
             symbol_type.push_back("INTEGER"); 
 }
 
 void grab_operators_frm_vector(){
-<<<<<<< HEAD
-	    string op2 = oper_vector.back();
-            oper_vector.pop_back();
-            string op1 = oper_vector.back();
-            oper_vector.pop_back();
-            mil_vector.push_back(grab_operation + new_temp_var + ", "+op1+", "+op2);    
-            oper_vector.push_back(new_temp_var);
-=======
-	    	string temp_oper_value = oper_vector.back();
+    	string temp_oper_value = oper_vector.back();
             oper_vector.pop_back();
             string temp_nextoper_value = oper_vector.back();
             oper_vector.pop_back();
             mil_vector.push_back(grab_operation + new_temp_variable + ", "+temp_nextoper_value+", "+ temp_oper_value);    
             oper_vector.push_back(new_temp_variable);
->>>>>>> 3d03fab7db0c6058763e0ee4819b4afa2d395034
 }
 
 void yyerror(const char* s)
